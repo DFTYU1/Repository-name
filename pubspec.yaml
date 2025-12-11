@@ -1,23 +1,21 @@
 name: qr_asset_tracker
-description: Simple QR/Barcode scanner + duplicate alert + local storage
+description: A new Flutter project.
+
 publish_to: "none"
-version: 0.1.0
+
+version: 1.0.0+1
 
 environment:
-  sdk: ">=2.18.0 <4.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  qr_code_scanner: ^1.0.1
 
-  qr_code_scanner: ^1.1.2
-  sqflite: ^2.2.8+4
-  path_provider: ^2.0.14
-  path: ^1.8.3
-  vibration: ^1.7.4
-  intl: ^0.18.1
-  permission_handler: ^10.4.2
-  share_plus: ^8.0.10
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
 flutter:
   uses-material-design: true
