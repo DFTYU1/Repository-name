@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- 应用主题 -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <!-- 展示 Flutter 启动画面 -->
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="NormalTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+</resources>
