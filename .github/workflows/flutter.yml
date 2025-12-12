@@ -1,7 +1,6 @@
 name: Flutter Android Build
 
 on:
-  workflow_dispatch:
   push:
     branches: [ main ]
 
@@ -10,22 +9,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 拉取代码
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 安装 Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.0"
 
+      # 清理缓存（**关键一步！修复 embedding V2 报错**）
+      - name: Flutter Clean
+        run: flutter clean
+
+      # 获取依赖
       - name: Get dependencies
         run: flutter pub get
 
+      # 构建 release APK
       - name: Build release APK
         run: flutter build apk --release
 
+      # 上传构建产物
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4   # ← 修复点！必须用 v4
+        uses: actions/upload-artifact@v3
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
