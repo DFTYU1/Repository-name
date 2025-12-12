@@ -1,2 +1,0 @@
-include ':app'
-rootProject.name = "qr_asset_tracker"
