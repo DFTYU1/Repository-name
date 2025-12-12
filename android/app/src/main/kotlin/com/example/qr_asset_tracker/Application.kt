@@ -1,19 +1,17 @@
 package com.example.qr_asset_tracker
 
-import android.app.Application
 import io.flutter.app.FlutterApplication
-import io.flutter.plugin.common.PluginRegistry
-import io.flutter.plugins.GeneratedPluginRegistrant
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
 
-class Application : FlutterApplication(), PluginRegistry.PluginRegistrantCallback {
-
+class Application : FlutterApplication() {
     override fun onCreate() {
         super.onCreate()
-    }
 
-    override fun registerWith(registry: PluginRegistry?) {
-        if (registry != null) {
-            GeneratedPluginRegistrant.registerWith(registry)
-        }
+        // 初始化 Flutter 引擎（可选，但推荐）
+        val engine = FlutterEngine(this)
+        FlutterEngineCache
+            .getInstance()
+            .put("my_engine_id", engine)
     }
 }
