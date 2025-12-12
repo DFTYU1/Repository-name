@@ -9,29 +9,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 检出代码
+      # 1. 拉取代码
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 安装 Flutter
+      # 2. 安装 Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.0"
 
-      # 清理旧缓存（保证 embedding V2 不再报错）
+      # 3. 清理（保证不再触发 V2 embedding 旧缓存）
       - name: Flutter Clean
         run: flutter clean
 
-      # 获取依赖
+      # 4. 获取依赖
       - name: Get dependencies
         run: flutter pub get
 
-      # 构建 release APK
+      # 5. 构建 APK
       - name: Build release APK
         run: flutter build apk --release
 
-      # 上传构建产物（注意：使用 v4 版本！）
+      # 6. 上传构建结果（必须使用 v4）
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
