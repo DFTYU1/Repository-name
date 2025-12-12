@@ -1,39 +1,46 @@
-name: Flutter Android Build
+name: Flutter CI - build apk
 
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  build:
+  setup-and-build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
 
     steps:
-      # 1. 拉取代码
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. 安装 Flutter
-      - name: Set up Flutter
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.19.0"
+          flutter-version: '3.10.5' # or remove to use default/latest
 
-      # 3. 清理（保证不再触发 V2 embedding 旧缓存）
-      - name: Flutter Clean
-        run: flutter clean
+      - name: Flutter -- version
+        run: flutter --version
 
-      # 4. 获取依赖
-      - name: Get dependencies
+      - name: Install dependencies
         run: flutter pub get
 
-      # 5. 构建 APK
-      - name: Build release APK
-        run: flutter build apk --release
+      - name: Build APK (release)
+        run: flutter build apk --release --no-shrink
 
-      # 6. 上传构建结果（必须使用 v4）
-      - name: Upload Artifact
+      - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
+          name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
