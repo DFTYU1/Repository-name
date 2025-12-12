@@ -1,20 +1,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.qr_asset_tracker">
 
-    <!-- 相机权限（二维码扫描必需） -->
+    <!-- 摄像头权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:label="qr_asset_tracker"
-        android:name="${applicationName}"
+        android:name=".Application"
         android:icon="@mipmap/ic_launcher">
 
-        <!-- Flutter 主 Activity -->
+        <!-- Flutter V2 必需配置 -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/LaunchTheme"
             android:hardwareAccelerated="true"
+            android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
@@ -24,10 +28,6 @@
 
         </activity>
 
-        <!-- Flutter V2 必须使用 -->
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
     </application>
 
 </manifest>
