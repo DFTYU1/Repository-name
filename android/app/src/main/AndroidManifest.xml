@@ -1,11 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.qr_asset_tracker">
 
-    <!-- 相机权限 -->
+    <!-- 摄像头权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".FlutterApplication"
         android:label="qr_asset_tracker"
         android:icon="@mipmap/ic_launcher">
 
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Flutter V2 Embedding（必须要有） -->
+        <!-- 强制使用 Flutter V2 embedding -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
