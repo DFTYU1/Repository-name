@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 拉取代码
+      # 检出代码
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -19,7 +19,7 @@ jobs:
         with:
           flutter-version: "3.19.0"
 
-      # 清理缓存（**关键一步！修复 embedding V2 报错**）
+      # 清理旧缓存（保证 embedding V2 不再报错）
       - name: Flutter Clean
         run: flutter clean
 
@@ -31,9 +31,9 @@ jobs:
       - name: Build release APK
         run: flutter build apk --release
 
-      # 上传构建产物
+      # 上传构建产物（注意：使用 v4 版本！）
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
