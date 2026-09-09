@@ -11,6 +11,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,9 +21,9 @@ TEST_PACKAGE = PACKAGE + '.test'
 LOCK = json.loads((ROOT / 'ci/toolchain-lock.json').read_text())
 
 
-def run(command, timeout=60, check=True, input_text=None):
+def run(command, timeout=60, check=True, input_text=None, env=None):
     result = subprocess.run([str(x) for x in command], input=input_text, text=True,
-                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=timeout)
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=timeout, env=env)
     if check and result.returncode:
         raise RuntimeError(Path(str(command[0])).name + ' exited ' + str(result.returncode) + '\n' + result.stdout[-5000:])
     return result.stdout
@@ -132,9 +133,19 @@ def test():
             # Ephemeral Linux runner access only; never ROOT or change Android security.
             run(['sudo', 'setfacl', '-m', 'u:' + getpass.getuser() + ':rw', '/dev/kvm'])
         avd_name = 'aicenter_ci_' + str(os.getpid())
+        # Both SDK tools must resolve the same isolated AVD registry. Runner defaults
+        # can give avdmanager and emulator different Android user directories.
+        avd_home = Path(tempfile.mkdtemp(prefix='aicenter-avd-', dir=os.environ.get('RUNNER_TEMP')))
+        emulator_env = dict(os.environ, ANDROID_AVD_HOME=str(avd_home))
         manager = cli_tool('avdmanager')
-        run([manager, 'create', 'avd', '--name', avd_name, '--package', LOCK['emulator_image'],
-             '--device', 'pixel_6'], timeout=120, input_text='no\n')
+        created = run([manager, 'create', 'avd', '--name', avd_name, '--package', LOCK['emulator_image'],
+             '--device', 'pixel_6', '--path', str(avd_home / (avd_name + '.avd'))],
+             timeout=120, input_text='no\n', env=emulator_env)
+        (OUT / 'avd-create.log').write_text(created)
+        available = run([sdk / 'emulator/emulator', '-list-avds'], env=emulator_env)
+        (OUT / 'avd-list.log').write_text(available)
+        if avd_name not in available.splitlines():
+            raise RuntimeError('Created AVD is not visible to emulator; inspect avd-create.log and avd-list.log')
         # Refuse to use any pre-existing device on the selected port.
         devices = run([sdk / 'platform-tools/adb', 'devices'])
         if 'emulator-5554' in devices:
@@ -143,7 +154,7 @@ def test():
         process = subprocess.Popen([str(sdk / 'emulator/emulator'), '-avd', avd_name,
             '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot',
             '-gpu', 'swiftshader_indirect', '-accel', 'on', '-memory', '3072', '-cores', '2'],
-            stdout=emulator_log, stderr=subprocess.STDOUT)
+            stdout=emulator_log, stderr=subprocess.STDOUT, env=emulator_env)
         deadline = time.monotonic() + 300
         while True:
             if process.poll() is not None:
