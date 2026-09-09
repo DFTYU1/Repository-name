@@ -1,0 +1,21 @@
+{
+  "project_id": "personal-ai-center-20260909",
+  "gradle_version": "8.13",
+  "gradle_distribution_sha256": "20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78",
+  "gradle_wrapper_sha256": "81a82aaea5abcc8ff68b3dfcb58b3c3c429378efd98e7433460610fecd7ae45f",
+  "gradle_source": "https://github.com/gradle/gradle/tree/v8.13.0",
+  "checksum_source": "https://gradle.org/release-checksums/",
+  "jdk_major": 17,
+  "agp": "8.11.1",
+  "compile_sdk": 36,
+  "build_tools": "35.0.0",
+  "emulator_image": "system-images;android-35;google_apis;x86_64",
+  "runner": "ubuntu-24.04",
+  "actions": {
+    "actions/checkout": "11d5960a326750d5838078e36cf38b85af677262",
+    "actions/setup-java": "cf277c60eb25467037889841efdb72551f06f6c3",
+    "gradle/actions/setup-gradle": "017a9effdb900e5b5b2fddfb590a105619dca3c3",
+    "actions/upload-artifact": "ea165f8d65b6e75b540449e92b4886f43607fa02"
+  },
+  "runtime_version_policy": "Record actual JDK patch, emulator and image revisions in each build report. Do not infer device performance from an emulator."
+}

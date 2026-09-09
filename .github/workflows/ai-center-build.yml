@@ -1,0 +1,54 @@
+name: AI-Center Android build and startup
+
+on:
+  push:
+    branches: ['ai-center-build']
+    paths: ['AI-Center/**', '.github/workflows/ai-center-build.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-center-android-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  foundation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    defaults:
+      run:
+        working-directory: AI-Center
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@017a9effdb900e5b5b2fddfb590a105619dca3c3
+        with:
+          cache-read-only: false
+          dependency-graph: disabled
+      - name: Install official Android SDK components
+        run: python3 scripts/android_ci.py prepare
+      - name: Compile and test Java core
+        run: python3 scripts/test_core.py
+      - name: Build signed debug APK and instrumentation APK, run lint
+        run: python3 scripts/build_android.py
+      - name: Launch fresh emulator and verify phone and tablet layouts
+        run: python3 scripts/android_ci.py test
+      - name: Preserve APK and diagnostic evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-foundation-${{ github.run_number }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            AI-Center/app/build/outputs/apk/
+            AI-Center/app/build/reports/lint-results-debug.*
+            AI-Center/Tests/
+            AI-Center/ci/toolchain-lock.json
