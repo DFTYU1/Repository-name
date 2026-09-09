@@ -110,7 +110,7 @@ def test():
                   'real_external_SAF_grant_expiry': 'NOT_RUN',
                   'actual_network_and_voice_cancellation': 'NOT_IMPLEMENTED',
                   'physical_vivo_X300_Pro_and_Y900': 'NOT_RUN',
-                  'visual_screenshot_review': 'NOT_RUN; app keeps FLAG_SECURE'
+                  'visual_screenshot_review': 'CI View renders captured when available; requires visual review; FLAG_SECURE retained'
               }}
     process = None
     emulator_log = None
@@ -196,6 +196,15 @@ def test():
                     TEST_PACKAGE + '/local.aicenter.app.FoundationInstrumentation', timeout=540)
                 (OUT / (profile + '-instrumentation.log')).write_text(output)
                 profile_result = parse_instrumentation(output, profile)
+                rendered = subprocess.run([str(x) for x in adb_command] +
+                    ['exec-out', 'run-as', PACKAGE, 'cat', 'files/ci-home.png'],
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                if rendered.returncode == 0 and rendered.stdout.startswith(b'\x89PNG\r\n\x1a\n'):
+                    (OUT / (profile + '-home.png')).write_bytes(rendered.stdout)
+                    profile_result['view_render_sha256'] = hashlib.sha256(rendered.stdout).hexdigest()
+                else:
+                    profile_result['status'] = 'FAIL'
+                    profile_result['view_render_error'] = 'Real CI View render unavailable'
                 crash = adb('logcat', '-d', '-b', 'crash', check=False)
                 (OUT / (profile + '-crash.log')).write_text(crash)
                 if 'Process: ' + PACKAGE in crash:
@@ -205,6 +214,12 @@ def test():
                 print(profile + ': ' + profile_result['status'], flush=True)
             except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:
                 report['profiles'][profile] = {'status': 'FAIL', 'error': str(error)}
+                try:
+                    (OUT / (profile + '-crash.log')).write_text(adb('logcat', '-d', '-b', 'crash', check=False))
+                    (OUT / (profile + '-runtime-errors.log')).write_text(
+                        adb('logcat', '-d', '-s', 'AndroidRuntime:E', 'ActivityManager:W', '*:S', check=False))
+                except (OSError, subprocess.TimeoutExpired):
+                    report['profiles'][profile]['diagnostic_collection_failed'] = True
                 print(profile + ': FAIL', flush=True)
         if len(report['profiles']) == 2 and all(p['status'] == 'PASS' for p in report['profiles'].values()):
             report['status'] = 'PASS'

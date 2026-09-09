@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +66,18 @@ public final class FoundationInstrumentation extends Instrumentation {
                 require(hasText("立即断开AI"),"Disconnect button is missing");
                 require(hasText("我的空间")==tablet,"Sidebar does not match requested form factor");
                 require((screen.getResources().getConfiguration().screenWidthDp>=840)==tablet,"Display configuration did not apply");
+                // Render only the fresh CI fixture's real View tree; keep FLAG_SECURE.
+                // This code is packaged solely in the instrumentation APK.
+                waitForIdleSync();
+                runOnMainSync(()->{
+                    View root=screen.getWindow().getDecorView();
+                    Bitmap bitmap=Bitmap.createBitmap(root.getWidth(),root.getHeight(),Bitmap.Config.ARGB_8888);
+                    try(FileOutputStream output=new FileOutputStream(new File(getTargetContext().getFilesDir(),"ci-home.png"))){
+                        root.draw(new Canvas(bitmap));
+                        require(bitmap.compress(Bitmap.CompressFormat.PNG,100,output),"CI View rendering failed");
+                    }catch(java.io.IOException error){throw new IllegalStateException(error);}
+                    finally{bitmap.recycle();}
+                });
             });
             test("android_sqlite_and_keystore_message_persistence",()->{
                 String fixture="CI-generated 中文 English message "+UUID.randomUUID();
@@ -127,7 +143,11 @@ public final class FoundationInstrumentation extends Instrumentation {
         catch(Throwable error){failures++;addResult(name,false,error.getClass().getSimpleName()+": "+error.getMessage());}
     }
     private void addResult(String name,boolean passed,String detail){
-        try{results.put(new JSONObject().put("test",name).put("status",passed?"PASS":"FAIL").put("detail",detail));}
+        try{
+            JSONObject result=new JSONObject().put("test",name).put("status",passed?"PASS":"FAIL").put("detail",detail);
+            results.put(result);
+            Bundle progress=new Bundle();progress.putString("aicenter_test",result.toString());sendStatus(0,progress);
+        }
         catch(Exception error){throw new IllegalStateException(error);}
     }
     private static void require(boolean value,String message){if(!value)throw new AssertionError(message);}

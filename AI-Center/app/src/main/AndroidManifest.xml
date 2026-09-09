@@ -5,6 +5,9 @@
     <application
         android:name=".CenterApplication"
         android:allowBackup="false"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@drawable/ic_center"
         android:label="个人 AI 中枢"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="false"
