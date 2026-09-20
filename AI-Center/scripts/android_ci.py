@@ -154,7 +154,7 @@ def test():
         emulator_log = (OUT / 'emulator.log').open('w')
         process = subprocess.Popen([str(sdk / 'emulator/emulator'), '-avd', avd_name,
             '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot',
-            '-gpu', 'swiftshader_indirect', '-accel', 'on', '-memory', '3072', '-cores', '2'],
+            '-gpu', 'swiftshader_indirect', '-accel', 'on', '-memory', '4096', '-cores', '2'],
             stdout=emulator_log, stderr=subprocess.STDOUT, env=emulator_env)
         deadline = time.monotonic() + 300
         while True:

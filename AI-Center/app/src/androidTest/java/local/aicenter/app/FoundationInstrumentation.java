@@ -124,7 +124,7 @@ public final class FoundationInstrumentation extends Instrumentation {
             if("true".equals(options.getString("offline_model","false"))){
                 test("real_model_verified_and_network_permission_absent",()->{
                     require(app.localModel!=null&&app.localModel.ready(),"Verified model unavailable");
-                    require(app.localModel.id().equals("Qwen3.5-0.8B-Q4_K_M"),"Unexpected model");
+                    require(app.localModel.id().equals("Qwen3.5-2B-Q4_K_M"),"Unexpected model");
                     require(getTargetContext().checkSelfPermission("android.permission.INTERNET")!=android.content.pm.PackageManager.PERMISSION_GRANTED,"Network permission must be absent");
                     require(android.provider.Settings.Global.getInt(getTargetContext().getContentResolver(),"airplane_mode_on",0)==1,"Emulator must be in airplane mode");
                 });

@@ -49,7 +49,7 @@ jobs:
           set -euo pipefail
           mkdir -p transfer
           rm -f transfer/AI-Center.apk.part-* transfer/AI-Center.apk.sha256 transfer/AI-Center.apk.bytes
-          split --bytes=180MiB --numeric-suffixes=0 --suffix-length=2             app/build/outputs/apk/debug/app-debug.apk transfer/AI-Center.apk.part-
+          split --bytes=350MiB --numeric-suffixes=0 --suffix-length=2             app/build/outputs/apk/debug/app-debug.apk transfer/AI-Center.apk.part-
           sha256sum app/build/outputs/apk/debug/app-debug.apk > transfer/AI-Center.apk.sha256
           stat -c '%s' app/build/outputs/apk/debug/app-debug.apk > transfer/AI-Center.apk.bytes
           count=$(find transfer -maxdepth 1 -type f -name 'AI-Center.apk.part-*' | wc -l)

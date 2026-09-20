@@ -55,7 +55,7 @@ def main():
     licenses=ASSETS/'licenses';licenses.mkdir(exist_ok=True)
     (licenses/'llama.cpp-MIT.txt').write_bytes((engine/'LICENSE').read_bytes())
     # Apache text is included in the project's license bundle, fetched from model author at build time.
-    with urllib.request.urlopen('https://huggingface.co/Qwen/Qwen3.5-0.8B/resolve/main/LICENSE',timeout=60) as response:
+    with urllib.request.urlopen('https://huggingface.co/Qwen/Qwen3.5-2B/resolve/main/LICENSE',timeout=60) as response:
         license_text=response.read(100000)
     if b'Apache License' not in license_text: raise ValueError('Model license unavailable')
     (licenses/'Qwen-Apache-2.0.txt').write_bytes(license_text)
