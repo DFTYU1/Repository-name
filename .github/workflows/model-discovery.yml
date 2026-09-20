@@ -1,0 +1,38 @@
+name: Inspect stronger offline model metadata
+
+on:
+  push:
+    branches: ['ai-center-build']
+    paths: ['.github/workflows/model-discovery.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Read official public model metadata
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request
+          repo = 'unsloth/Qwen3.5-2B-GGUF'
+          with urllib.request.urlopen('https://huggingface.co/api/models/' + repo, timeout=60) as response:
+              model = json.load(response)
+          wanted = 'Qwen3.5-2B-Q4_K_M.gguf'
+          matches = [item for item in model.get('siblings', []) if item.get('rfilename') == wanted]
+          if len(matches) != 1 or 'lfs' not in matches[0]:
+              raise SystemExit('Pinned candidate was not found with LFS metadata')
+          lfs = matches[0]['lfs']
+          result = {
+              'repository': repo,
+              'revision': model['sha'],
+              'filename': wanted,
+              'sha256': lfs['sha256'],
+              'bytes': lfs['size'],
+              'license': model.get('cardData', {}).get('license'),
+          }
+          if result['license'] != 'apache-2.0':
+              raise SystemExit('Unexpected model license')
+          print(json.dumps(result, sort_keys=True))
+          PY
