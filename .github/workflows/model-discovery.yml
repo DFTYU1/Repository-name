@@ -19,8 +19,11 @@ jobs:
           repo = 'unsloth/Qwen3.5-2B-GGUF'
           with urllib.request.urlopen('https://huggingface.co/api/models/' + repo, timeout=60) as response:
               model = json.load(response)
+          tree_url = 'https://huggingface.co/api/models/' + repo + '/tree/' + model['sha'] + '?recursive=true&expand=true'
+          with urllib.request.urlopen(tree_url, timeout=60) as response:
+              tree = json.load(response)
           wanted = 'Qwen3.5-2B-Q4_K_M.gguf'
-          matches = [item for item in model.get('siblings', []) if item.get('rfilename') == wanted]
+          matches = [item for item in tree if item.get('path') == wanted]
           if len(matches) != 1 or 'lfs' not in matches[0]:
               raise SystemExit('Pinned candidate was not found with LFS metadata')
           lfs = matches[0]['lfs']
