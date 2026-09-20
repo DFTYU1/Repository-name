@@ -31,11 +31,13 @@ jobs:
               'repository': repo,
               'revision': model['sha'],
               'filename': wanted,
-              'sha256': lfs['sha256'],
+              'sha256': lfs.get('sha256', lfs.get('oid', '')).removeprefix('sha256:'),
               'bytes': lfs['size'],
               'license': model.get('cardData', {}).get('license'),
           }
           if result['license'] != 'apache-2.0':
               raise SystemExit('Unexpected model license')
+          if len(result['sha256']) != 64:
+              raise SystemExit('Missing SHA-256 in public LFS metadata')
           print(json.dumps(result, sort_keys=True))
           PY
