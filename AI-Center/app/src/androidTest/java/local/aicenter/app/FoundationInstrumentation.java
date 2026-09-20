@@ -130,7 +130,9 @@ public final class FoundationInstrumentation extends Instrumentation {
                 });
                 test("real_offline_chinese",()->infer("用中文简短说明水为什么会结冰。",160,"[\\s\\S]*[\\u4e00-\\u9fff][\\s\\S]*"));
                 test("real_offline_english",()->infer("What is the opposite of hot? Answer in one English sentence.",64,"(?is).*cold.*"));
-                test("real_offline_qe",()->infer("质量工程中，PDCA四个字母分别代表什么？简短回答。",192,"(?is).*([Pp]lan|计划).*"));
+                // All four terms must be correct. Merely mentioning Plan let
+                // the incorrect answer 'C = Control' pass in run #5.
+                test("real_offline_qe",()->infer("质量工程中，PDCA四个字母分别代表什么？简短回答。",192,"(?is)(?=.*\\bPlan\\b)(?=.*\\bDo\\b)(?=.*\\bCheck\\b)(?=.*\\bAct\\b)(?!.*\\bControl\\b).*"));
                 test("real_offline_excel",()->infer("Give only the Excel formula to add all numbers from A1 to A10.",64,"(?is).*SUM\\s*\\(\\s*A1\\s*:\\s*A10\\s*\\).*"));
                 test("real_model_agent_tool_call",()->{
                     StopController.Token token=app.stop.begin();
