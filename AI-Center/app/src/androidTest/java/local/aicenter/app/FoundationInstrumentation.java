@@ -169,13 +169,17 @@ public final class FoundationInstrumentation extends Instrumentation {
     }
     private void infer(String prompt,int budget,String expected)throws Exception{
         String output=app.localModel.generate(prompt,"",budget,app.stop.begin());
+        // Models commonly emphasize individual acronym letters (for example
+        // "**C**heck").  Match the semantic text after removing Markdown
+        // emphasis markers so a correct answer is not rejected for styling.
+        String semanticOutput=output.replaceAll("[*_`]","");
         double[] metrics=app.localModel.lastMetrics();
         String details=new JSONObject().put("prompt",prompt).put("output",output)
             .put("ttft_ms",metrics[0]).put("tokens",metrics[1]).put("total_ms",metrics[2])
             .put("tokens_per_second",metrics[3]).put("pss_kb",android.os.Debug.getPss()).toString();
         // Only synthetic CI questions/answers are included; never run this on a user's installation.
-        addResult("inference_observation",output.matches(expected),details);
-        require(output.matches(expected),"Model answer did not meet this smoke-test criterion");
+        addResult("inference_observation",semanticOutput.matches(expected),details);
+        require(semanticOutput.matches(expected),"Model answer did not meet this smoke-test criterion");
         require(metrics[1]>0&&metrics[2]>0,"No real native generation metrics");
     }
     private interface Checked { void run()throws Exception; }
