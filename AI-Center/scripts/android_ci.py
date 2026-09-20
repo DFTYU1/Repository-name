@@ -64,7 +64,7 @@ def prepare():
         log.flush()
         log.write(run([manager, '--sdk_root=' + str(sdk), '--install',
                        'platform-tools', 'platforms;android-36', 'build-tools;35.0.0',
-                       'emulator', LOCK['emulator_image']], timeout=900, input_text='y\n' * 150))
+                       'emulator', LOCK['emulator_image'], 'ndk;' + LOCK['ndk'], 'cmake;' + LOCK['cmake']], timeout=900, input_text='y\n' * 150))
     observed = {'time_utc': datetime.now(timezone.utc).isoformat(),
                 'java': run(['java', '-version']), 'sdkmanager': run([manager, '--version']),
                 'emulator': run([sdk / 'emulator/emulator', '-version'], check=False),
@@ -89,6 +89,7 @@ def parse_instrumentation(output, profile):
                 'interrupted_task_journal_recovery', 'disconnect_button_revokes_token_lease_and_close_hook'}
     if profile == 'phone':
         expected.add('lease_expires_after_real_five_minutes')
+    expected.update({'real_model_verified_and_network_permission_absent','real_offline_chinese','real_offline_english','real_offline_qe','real_offline_excel','real_model_agent_tool_call','real_native_cancel_and_resume'})
     names = {item['test'] for item in tests}
     passed = (int(failed.group(1)) == 0 and expected <= names and
               all(item['status'] == 'PASS' for item in tests))
@@ -104,7 +105,7 @@ def test():
     report = {'started_utc': datetime.now(timezone.utc).isoformat(), 'status': 'FAIL',
               'profiles': {}, 'errors': [], 'scope': 'Fresh API-35 emulator; not physical vivo/Y900 acceptance',
               'remaining_gates': {
-                  'offline_llm_and_model_benchmarks': 'NOT_INTEGRATED',
+                  'physical_device_model_benchmarks': 'NOT_RUN',
                   'ai_long_term_memory_manager': 'NOT_IMPLEMENTED',
                   'learning_progress': 'NOT_IMPLEMENTED',
                   'real_external_SAF_grant_expiry': 'NOT_RUN',
@@ -184,16 +185,21 @@ def test():
                 adb('shell', 'wm', 'size', size)
                 adb('shell', 'wm', 'density', density)
                 time.sleep(2)
-                adb('install', '--no-streaming', ROOT / build['apk']['path'], timeout=90)
+                adb('install', '--no-streaming', ROOT / build['apk']['path'], timeout=300)
                 adb('install', '--no-streaming', ROOT / build['instrumentation_apk']['path'], timeout=90)
+                adb('shell', 'cmd', 'connectivity', 'airplane-mode', 'enable')
+                adb('shell', 'svc', 'wifi', 'disable')
+                adb('shell', 'svc', 'data', 'disable')
+                if adb('shell','settings','get','global','airplane_mode_on').strip()!='1':
+                    raise RuntimeError('Failed to disconnect emulator')
                 adb('logcat', '-c')
                 started = adb('shell', 'am', 'start', '-W', '-n', PACKAGE + '/local.aicenter.app.MainActivity')
                 (OUT / (profile + '-launch.log')).write_text(started)
                 if not re.search(r'^Status: ok$', started, re.M):
                     raise RuntimeError('Activity launch did not report success')
                 output = adb('shell', 'am', 'instrument', '-w', '-r', '-e', 'profile', profile,
-                    '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
-                    TEST_PACKAGE + '/local.aicenter.app.FoundationInstrumentation', timeout=540)
+                    '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
+                    TEST_PACKAGE + '/local.aicenter.app.FoundationInstrumentation', timeout=1800)
                 (OUT / (profile + '-instrumentation.log')).write_text(output)
                 profile_result = parse_instrumentation(output, profile)
                 rendered = subprocess.run([str(x) for x in adb_command] +

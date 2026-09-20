@@ -22,22 +22,33 @@ public final class CenterApplication extends Application {
     public SafImporter importer;
     public AgentRuntime agent;
     public ModelRouter models;
+    public LocalModelEngine localModel;
+    public volatile String modelError;
     public volatile boolean initialized;
     public volatile String startupError;
     @Override public void onCreate(){
         super.onCreate();
         secrets=new SecretStore();admin=new AdminStore(this,secrets);db=new CenterDatabase(this,secrets);
-        models=new ModelRouter(Collections.singletonList(new PendingLocalEngine()));
         worker.execute(()->{
             try{
                 vault=new FileVault(new File(getFilesDir(),"vault").toPath());
                 importer=new SafImporter(this,vault,leases,stop,db);
                 db.getWritableDatabase();db.recoverInterruptedTasks();
+                try {
+                    localModel=new LocalModelEngine(this,stop);
+                    localModel.installBundled();
+                    models=new ModelRouter(Collections.singletonList(localModel));
+                } catch(Exception | LinkageError error) {
+                    modelError="本地模型初始化失败，请检查可用空间或安装包完整性。";
+                }
                 agent=new AgentRuntime(db,ApprovalPolicy.DENY);
                 register("storage",input->StorageManager.summary(this,activeToken.get()));
                 register("files",input->db.documentSummary());
                 register("tasks",input->db.taskSummary());
-                register("chat",input->models.answer(input,false,false,(provider,paid,privateContent)->false,activeToken.get()).text);
+                register("chat",input->{
+                    if(models==null)throw new IllegalStateException(modelError);
+                    return models.answer(input,false,false,(provider,paid,privateContent)->false,activeToken.get()).text;
+                });
                 register("search",input->{
                     StopController.Token token=activeToken.get();
                     java.util.List<KnowledgeIndex.Hit> hits=new KnowledgeIndex().search(input,db.chunks(token),5);
@@ -61,6 +72,18 @@ public final class CenterApplication extends Application {
                 try{return action.run(input);}finally{activeToken.remove();}
             }
         });
+    }
+    /** A real model selects one bounded, read-only tool; arguments remain the user's original input. */
+    public String planTool(String input,StopController.Token token)throws Exception{
+        admin.require();token.check();
+        if(localModel==null||!localModel.ready())throw new IllegalStateException("Local model unavailable");
+        String selected=localModel.generate("Select exactly one tool for this user request. "
+            +"storage: inspect device disk usage and free space; files: list imported documents; "
+            +"tasks: inspect task history; search: find text in imported documents; "
+            +"chat: answer all other questions without executing actions. Output only the tool name. Request: "+input,
+            "root ::= \"storage\" | \"files\" | \"tasks\" | \"search\" | \"chat\"",16,token);
+        if(!agent.availableTools().contains(selected))throw new IllegalStateException("Invalid model tool selection");
+        return selected;
     }
     public void disconnect(){stop.stop();leases.revokeAll();}
 }

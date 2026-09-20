@@ -48,7 +48,7 @@ public final class MainActivity extends Activity {
         public void run(){
             if(isFinishing()||isDestroyed())return;
             if(foreground&&app.initialized&&activityStatus!=null&&!app.admin.unlocked()&&!selectingFile){app.disconnect();showLogin();}
-            if(activityStatus!=null)activityStatus.setText(app.busy.get()?"正在处理…":app.stop.enabled()?"本地资料就绪 · 模型待接入":"AI 已断开");
+            if(activityStatus!=null)activityStatus.setText(app.busy.get()?"正在处理…":app.stop.enabled()?(app.localModel!=null&&app.localModel.ready()?"本地 AI 就绪 · 离线运行":"本地资料就绪 · 模型不可用"):"AI 已断开");
             handler.postDelayed(this,500);
         }
     };
@@ -115,7 +115,7 @@ public final class MainActivity extends Activity {
         LinearLayout root=column();root.setPadding(dp(18),dp(8),dp(18),dp(12));
         LinearLayout header=row();header.setGravity(Gravity.CENTER_VERTICAL);
         LinearLayout heading=column();heading.addView(label("个人 AI 中枢",25,INK));
-        activityStatus=label("本地资料就绪 · 模型待接入",13,MUTED);heading.addView(activityStatus);
+        activityStatus=label((app.localModel!=null&&app.localModel.ready()?"本地 AI 就绪 · 离线运行":"本地资料就绪 · 模型不可用"),13,MUTED);heading.addView(activityStatus);
         header.addView(heading,new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1));
         header.addView(button("立即断开AI",false,()->{app.disconnect();append("assistant","AI 已断开，当前任务和临时文件访问已停止。");}));root.addView(header);
         LinearLayout body=row();boolean wide=getResources().getConfiguration().screenWidthDp>=840;
@@ -142,7 +142,7 @@ public final class MainActivity extends Activity {
             try{List<String[]> messages=app.db.recentMessages();runOnUiThread(()->{
                 if(isFinishing()||isDestroyed()||conversation==null)return;
                 conversation.removeAllViews();
-                if(messages.isEmpty())append("assistant","这是开发中的基础版本，可导入 TXT / Markdown、检索资料、查看文件、存储及任务记录。\n\n本地模型尚未接入，AI 对话暂未开放。");
+                if(messages.isEmpty())append("assistant","这是开发中的基础版本，可导入 TXT / Markdown、检索资料、查看文件、存储及任务记录。\n\n内置本地模型可在断网时对话。当前为小模型验证版本，回答需核实。");
                 else for(String[] message:messages)append(message[0],message[1]);
             });}catch(Exception e){runOnUiThread(()->showFatal("历史记录暂时无法读取，原数据保留。"));}
         });
@@ -166,6 +166,7 @@ public final class MainActivity extends Activity {
                 else if(text.equals("查看空间")||text.equals("查看存储"))tool="storage";
                 else if(text.equals("查看任务"))tool="tasks";
                 else if(text.startsWith("查找：")||text.startsWith("查找:")){tool="search";arg=text.substring(3).trim();}
+                else tool=app.planTool(text,token);
                 stage="执行任务";answer=app.agent.execute(Collections.singletonList(new AgentRuntime.Step(tool,arg)),token).output;
                 stage="保存结果";token.check();app.db.message("assistant",answer);
             }catch(StopController.Stopped e){answer="任务已停止，已有内容保留。";}

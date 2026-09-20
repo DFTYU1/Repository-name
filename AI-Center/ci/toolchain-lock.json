@@ -17,5 +17,7 @@
     "gradle/actions/setup-gradle": "017a9effdb900e5b5b2fddfb590a105619dca3c3",
     "actions/upload-artifact": "ea165f8d65b6e75b540449e92b4886f43607fa02"
   },
-  "runtime_version_policy": "Record actual JDK patch, emulator and image revisions in each build report. Do not infer device performance from an emulator."
+  "runtime_version_policy": "Record actual JDK patch, emulator and image revisions in each build report. Do not infer device performance from an emulator.",
+  "ndk": "28.2.13676358",
+  "cmake": "3.22.1"
 }

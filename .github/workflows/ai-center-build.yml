@@ -16,7 +16,7 @@ concurrency:
 jobs:
   foundation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 55
+    timeout-minutes: 90
     defaults:
       run:
         working-directory: AI-Center
@@ -34,6 +34,8 @@ jobs:
           dependency-graph: disabled
       - name: Install official Android SDK components
         run: python3 scripts/android_ci.py prepare
+      - name: Prepare pinned native engine and verified model assets
+        run: python3 scripts/prepare_native.py
       - name: Compile and test Java core
         run: python3 scripts/test_core.py
       - name: Build signed debug APK and instrumentation APK, run lint
@@ -44,7 +46,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: AI-Center-foundation-${{ github.run_number }}
+          name: AI-Center-offline-${{ github.run_number }}
           retention-days: 14
           if-no-files-found: warn
           path: |
@@ -52,3 +54,4 @@ jobs:
             AI-Center/app/build/reports/lint-results-debug.*
             AI-Center/Tests/
             AI-Center/ci/toolchain-lock.json
+            AI-Center/ci/native-lock.json

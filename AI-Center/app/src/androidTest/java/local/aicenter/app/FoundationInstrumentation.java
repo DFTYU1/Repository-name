@@ -44,7 +44,7 @@ public final class FoundationInstrumentation extends Instrumentation {
             screen=startActivitySync(intent);
             app=(CenterApplication)screen.getApplication();
             test("application_initialization",()->{
-                until(()->app.initialized||app.startupError!=null,30_000);
+                until(()->app.initialized||app.startupError!=null,180_000);
                 require(app.initialized&&app.startupError==null,"Application initialization failed");
             });
             if(!app.initialized)throw new IllegalStateException("Cannot test an uninitialized application");
@@ -121,6 +121,35 @@ public final class FoundationInstrumentation extends Instrumentation {
                 }
                 app.stop.resume();require(!token.valid(),"Resume revived an old token");
             });
+            if("true".equals(options.getString("offline_model","false"))){
+                test("real_model_verified_and_network_permission_absent",()->{
+                    require(app.localModel!=null&&app.localModel.ready(),"Verified model unavailable");
+                    require(app.localModel.id().equals("Qwen3.5-0.8B-Q4_K_M"),"Unexpected model");
+                    require(getTargetContext().checkSelfPermission("android.permission.INTERNET")!=android.content.pm.PackageManager.PERMISSION_GRANTED,"Network permission must be absent");
+                    require(android.provider.Settings.Global.getInt(getTargetContext().getContentResolver(),"airplane_mode_on",0)==1,"Emulator must be in airplane mode");
+                });
+                test("real_offline_chinese",()->infer("用中文简短说明水为什么会结冰。",160,"[\\s\\S]*[\\u4e00-\\u9fff][\\s\\S]*"));
+                test("real_offline_english",()->infer("What is the opposite of hot? Answer in one English sentence.",64,"(?is).*cold.*"));
+                test("real_offline_qe",()->infer("质量工程中，PDCA四个字母分别代表什么？简短回答。",192,"(?is).*([Pp]lan|计划).*"));
+                test("real_offline_excel",()->infer("Give only the Excel formula to add all numbers from A1 to A10.",64,"(?is).*SUM\\s*\\(\\s*A1\\s*:\\s*A10\\s*\\).*"));
+                test("real_model_agent_tool_call",()->{
+                    StopController.Token token=app.stop.begin();
+                    String tool=app.planTool("请检查设备磁盘还有多少可用存储空间",token);
+                    require("storage".equals(tool),"Model selected incorrect tool: "+tool);
+                    AgentRuntime.Result result=app.agent.execute(java.util.Collections.singletonList(new AgentRuntime.Step(tool,"")),token);
+                    require(result.state==AgentRuntime.State.SUCCEEDED&&!result.output.isEmpty(),"Real selected tool did not execute");
+                });
+                test("real_native_cancel_and_resume",()->{
+                    StopController.Token token=app.stop.begin();
+                    java.util.concurrent.atomic.AtomicReference<Throwable> outcome=new java.util.concurrent.atomic.AtomicReference<>();
+                    Thread thread=new Thread(()->{try{app.localModel.generate("Write an extremely long detailed story about a city.","",1024,token);}catch(Throwable e){outcome.set(e);}});
+                    thread.start();SystemClock.sleep(300);long start=SystemClock.elapsedRealtime();app.disconnect();thread.join(10_000);
+                    require(!thread.isAlive(),"Native cancellation exceeded 10 seconds");
+                    require(outcome.get() instanceof StopController.Stopped,"Cancelled inference returned an answer or unexpected exception");
+                    addResult("native_cancel_latency",true,"elapsed_ms="+(SystemClock.elapsedRealtime()-start));
+                    app.stop.resume();infer("What is 3 plus 4? Answer with the number only.",16,"(?s).*7.*");
+                });
+            }
             if("true".equals(options.getString("long_lease","false")))test("lease_expires_after_real_five_minutes",()->{
                 String uri="content://ci-lease/single-file";String task="ci-five-minute";
                 String lease=app.leases.grant(task,uri,app.stop.begin());
@@ -135,6 +164,17 @@ public final class FoundationInstrumentation extends Instrumentation {
         output.putString("aicenter_results",results.toString());output.putInt("aicenter_failures",failures);
         output.putString("stream",failures==0?"OK: foundation Android checks\n":"FAIL: foundation Android checks\n");
         finish(Activity.RESULT_OK,output);
+    }
+    private void infer(String prompt,int budget,String expected)throws Exception{
+        String output=app.localModel.generate(prompt,"",budget,app.stop.begin());
+        double[] metrics=app.localModel.lastMetrics();
+        String details=new JSONObject().put("prompt",prompt).put("output",output)
+            .put("ttft_ms",metrics[0]).put("tokens",metrics[1]).put("total_ms",metrics[2])
+            .put("tokens_per_second",metrics[3]).put("pss_kb",android.os.Debug.getPss()).toString();
+        // Only synthetic CI questions/answers are included; never run this on a user's installation.
+        addResult("inference_observation",output.matches(expected),details);
+        require(output.matches(expected),"Model answer did not meet this smoke-test criterion");
+        require(metrics[1]>0&&metrics[2]>0,"No real native generation metrics");
     }
     private interface Checked { void run()throws Exception; }
     private void test(String name,Checked action) {

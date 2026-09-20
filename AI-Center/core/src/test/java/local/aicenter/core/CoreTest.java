@@ -53,6 +53,14 @@ public final class CoreTest {
             throwsType(StopController.Stopped.class, stop::begin);
             stop.resume(); check(stop.begin().valid() && !old.valid(), "old work resurrected");
         });
+        test("token cancellation closes only its own resources once", () -> {
+            StopController stop=new StopController(); StopController.Token a=stop.begin(), b=stop.begin();
+            AtomicInteger x=new AtomicInteger(), y=new AtomicInteger();
+            stop.onStop(a,x::incrementAndGet); stop.onStop(b,y::incrementAndGet);
+            a.cancel(); a.cancel(); check(x.get()==1 && y.get()==0 && b.valid(),"Cancellation scope failed");
+            throwsType(StopController.Stopped.class,()->stop.onStop(a,()->{}));
+            stop.stop(); check(x.get()==1 && y.get()==1,"Duplicate or missing close");
+        });
         test("all stop resources close even when one hook fails", () -> {
             StopController stop = new StopController(); AtomicInteger closed = new AtomicInteger();
             stop.onStop(stop.begin(), () -> { throw new IllegalStateException(); });
