@@ -40,18 +40,102 @@ jobs:
         run: python3 scripts/test_core.py
       - name: Build signed debug APK and instrumentation APK, run lint
         run: python3 scripts/build_android.py
+
+      # Connector downloads have a 512 MiB artifact ceiling. The real offline APK
+      # is larger because it contains the verified GGUF, so create deterministic
+      # transport chunks without changing the APK bytes.
+      - name: Prepare retrievable APK transport chunks
+        run: |
+          set -euo pipefail
+          mkdir -p transfer
+          rm -f transfer/AI-Center.apk.part-* transfer/AI-Center.apk.sha256 transfer/AI-Center.apk.bytes
+          split --bytes=180MiB --numeric-suffixes=0 --suffix-length=2             app/build/outputs/apk/debug/app-debug.apk transfer/AI-Center.apk.part-
+          sha256sum app/build/outputs/apk/debug/app-debug.apk > transfer/AI-Center.apk.sha256
+          stat -c '%s' app/build/outputs/apk/debug/app-debug.apk > transfer/AI-Center.apk.bytes
+          count=$(find transfer -maxdepth 1 -type f -name 'AI-Center.apk.part-*' | wc -l)
+          test "$count" -ge 1
+          test "$count" -le 4
+          cat > transfer/README.txt <<EOF
+          Reconstruct with:
+            cat AI-Center.apk.part-* > AI-Center.apk
+          Then verify against AI-Center.apk.sha256.
+          Original APK bytes: $(cat transfer/AI-Center.apk.bytes)
+          Chunk count: $count
+          EOF
+
       - name: Launch fresh emulator and verify phone and tablet layouts
         run: python3 scripts/android_ci.py test
-      - name: Preserve APK and diagnostic evidence even on failure
+
+      - name: Print runtime diagnostics on failure
+        if: failure()
+        run: |
+          echo '===== android-runtime.json ====='
+          cat Tests/android-runtime.json 2>/dev/null || true
+          echo '===== phone instrumentation tail ====='
+          tail -n 250 Tests/phone-instrumentation.log 2>/dev/null || true
+          echo '===== tablet instrumentation tail ====='
+          tail -n 250 Tests/tablet-instrumentation.log 2>/dev/null || true
+          echo '===== phone runtime errors ====='
+          cat Tests/phone-runtime-errors.log 2>/dev/null || true
+          echo '===== tablet runtime errors ====='
+          cat Tests/tablet-runtime-errors.log 2>/dev/null || true
+          echo '===== emulator tail ====='
+          tail -n 250 Tests/emulator.log 2>/dev/null || true
+
+      - name: Preserve small diagnostic evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: AI-Center-offline-${{ github.run_number }}
+          name: AI-Center-diagnostics-${{ github.run_number }}
           retention-days: 14
           if-no-files-found: warn
+          compression-level: 6
           path: |
-            AI-Center/app/build/outputs/apk/
-            AI-Center/app/build/reports/lint-results-debug.*
             AI-Center/Tests/
             AI-Center/ci/toolchain-lock.json
             AI-Center/ci/native-lock.json
+            AI-Center/transfer/AI-Center.apk.sha256
+            AI-Center/transfer/AI-Center.apk.bytes
+            AI-Center/transfer/README.txt
+            AI-Center/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+            AI-Center/app/build/reports/lint-results-debug.*
+
+      - name: Preserve APK chunk 00
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-apk-part00-${{ github.run_number }}
+          retention-days: 14
+          if-no-files-found: warn
+          compression-level: 0
+          path: AI-Center/transfer/AI-Center.apk.part-00
+
+      - name: Preserve APK chunk 01
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-apk-part01-${{ github.run_number }}
+          retention-days: 14
+          if-no-files-found: warn
+          compression-level: 0
+          path: AI-Center/transfer/AI-Center.apk.part-01
+
+      - name: Preserve APK chunk 02
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-apk-part02-${{ github.run_number }}
+          retention-days: 14
+          if-no-files-found: warn
+          compression-level: 0
+          path: AI-Center/transfer/AI-Center.apk.part-02
+
+      - name: Preserve APK chunk 03
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-apk-part03-${{ github.run_number }}
+          retention-days: 14
+          if-no-files-found: warn
+          compression-level: 0
+          path: AI-Center/transfer/AI-Center.apk.part-03
