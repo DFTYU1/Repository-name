@@ -10,7 +10,7 @@ from pathlib import Path
 import re
 import shutil
 import secrets
-from professional_report import summarize
+from professional_report import is_accepted,summarize
 import subprocess
 import sys
 import tempfile
@@ -24,8 +24,13 @@ LOCK = json.loads((ROOT / 'ci/toolchain-lock.json').read_text())
 
 
 def run(command, timeout=60, check=True, input_text=None, env=None):
-    result = subprocess.run([str(x) for x in command], input=input_text, text=True,
-                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=timeout, env=env)
+    try:
+        result = subprocess.run([str(x) for x in command], input=input_text, text=True,
+                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=timeout, env=env)
+    except subprocess.TimeoutExpired:
+        # Instrumentation arguments contain an ephemeral fixture credential.
+        # Never serialize TimeoutExpired, which embeds the full command line.
+        raise RuntimeError(Path(str(command[0])).name + ' timed out after ' + str(timeout) + ' seconds') from None
     if check and result.returncode:
         raise RuntimeError(Path(str(command[0])).name + ' exited ' + str(result.returncode) + '\n' + result.stdout[-5000:])
     return result.stdout
@@ -237,7 +242,8 @@ def test():
                     summary=summarize(ROOT/'app/src/androidTest/assets/professional-100.json',batches,os.environ.get('GITHUB_SHA','UNKNOWN'))
                     (OUT/f'{profile}-professional-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
                     profile_result['professional_counts']=summary['counts']
-                    if not summary['execution_complete']: profile_result['status']='FAIL'
+                    profile_result['professional_status']=summary['status']
+                    if not is_accepted(summary): profile_result['status']='FAIL'
                 report['profiles'][profile] = profile_result
                 print(profile + ': ' + profile_result['status'], flush=True)
             except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:

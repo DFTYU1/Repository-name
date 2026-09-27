@@ -2,7 +2,7 @@
 """Evidence integrity tests: do not execute or simulate an AI model."""
 import copy,hashlib,json,tempfile,unittest
 from pathlib import Path
-from professional_report import summarize
+from professional_report import is_accepted,summarize
 ROOT=Path(__file__).resolve().parents[1]
 class EvidenceTests(unittest.TestCase):
  def setUp(self):
@@ -27,6 +27,22 @@ class EvidenceTests(unittest.TestCase):
  def test_manual_completion_is_not_acceptance(self):
   b=copy.deepcopy(self.base);b['results']=[{'id':q['id'],'input':q['prompt'],'status':'MANUAL_REVIEW' if q['kind']=='manual' else 'FAIL'} for q in self.questions]
   r=self.run_report([b]);self.assertTrue(r['execution_complete']);self.assertEqual(r['status'],'NOT_ACCEPTED');self.assertGreater(r['counts']['MANUAL_REVIEW'],0)
+ def test_unknown_metrics_not_reported_as_zero(self):
+  b=copy.deepcopy(self.base);q=self.questions[0];b['results']=[{'id':q['id'],'input':q['prompt'],'status':'MANUAL_REVIEW'}]
+  r=self.run_report([b]);self.assertIsNone(r['performance']['crashes']['rate']);self.assertEqual(r['performance']['crashes']['unknown'],1);self.assertIsNone(r['performance']['ttft_ms']['mean'])
+ def test_manual_excluded_from_automatic_denominator(self):
+  b=copy.deepcopy(self.base);a=self.questions[0];q=next(q for q in self.questions if q['kind']=='number')
+  b['results']=[{'id':a['id'],'input':a['prompt'],'status':'MANUAL_REVIEW'},{'id':q['id'],'input':q['prompt'],'status':'PASS','ttft_ms':12,'elapsed_ms':30,'crash':False,'timeout':False}]
+  r=self.run_report([b]);self.assertEqual(r['automatic_eligible_executed'],1);self.assertEqual(r['automatic_pass_rate'],1);self.assertEqual(r['performance']['ttft_ms']['mean'],12);self.assertEqual(r['performance']['crashes']['observed'],1)
+ def test_pending_manual_review_blocks_formal_acceptance(self):
+  b=copy.deepcopy(self.base);b['results']=[{'id':q['id'],'input':q['prompt'],'status':'MANUAL_REVIEW' if q['kind']=='manual' else 'PASS'} for q in self.questions]
+  r=self.run_report([b]);self.assertEqual(r['status'],'PENDING_MANUAL_REVIEW');self.assertFalse(is_accepted(r));self.assertEqual(r['automatic_pass_rate'],1)
+ def test_ci_gate_rejects_failure_even_with_forged_pass_status(self):
+  self.assertFalse(is_accepted({'status':'PASS','execution_complete':True,'counts':{'PASS':30,'FAIL':50,'MANUAL_REVIEW':20,'NOT_RUN':0}}))
+ def test_automatic_case_cannot_be_marked_manual(self):
+  q=next(q for q in self.questions if q['kind']=='number');b=copy.deepcopy(self.base)
+  b['results']=[{'id':q['id'],'input':q['prompt'],'status':'MANUAL_REVIEW'}]
+  with self.assertRaises(ValueError):self.run_report([b])
  def test_coverage_and_frozen_contracts(self):
   self.assertEqual(len(self.questions),100);self.assertEqual(len({q['prompt'] for q in self.questions}),100)
   self.assertTrue({'tool','cancel','conversation','number','formula','manual'} <= {q['kind'] for q in self.questions})
