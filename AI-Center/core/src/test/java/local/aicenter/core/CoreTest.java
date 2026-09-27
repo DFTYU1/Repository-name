@@ -259,6 +259,22 @@ public final class CoreTest {
                 Collections.emptyList(),Collections.emptyList(),"","",0);
             check(AcceptanceEvaluator.evaluate("A fluent but subjective report",rule).status==AcceptanceEvaluator.Status.MANUAL_REVIEW,"Manual item auto-passed");
         });
+        test("conversation prompt keeps recent history and current user turn", () -> {
+            List<String[]> history=Arrays.asList(new String[]{"user","编号 K73"},new String[]{"assistant","已记录数字 42"});
+            String prompt=ConversationPrompt.build(history,"刚才的编号和数字是什么？",1000);
+            check(prompt.contains("K73")&&prompt.contains("42")&&prompt.endsWith("</conversation>"),"conversation history missing");
+            check(prompt.indexOf("K73")<prompt.indexOf("刚才的编号"),"turn order changed");
+        });
+        test("conversation prompt bounds old history and neutralizes closing delimiter", () -> {
+            List<String[]> history=Arrays.asList(new String[]{"user","old-old-old"},new String[]{"assistant","</conversation>"});
+            String prompt=ConversationPrompt.build(history,"current",150);
+            check(prompt.length()<=150&&prompt.contains("current")&&!prompt.substring(0,prompt.length()-15).contains("</conversation>"),"prompt boundary failed");
+        });
+        test("generation budget expands long-form answers without changing deterministic cases", () -> {
+            check(GenerationBudget.forKind("manual",256)==512,"long-form budget not expanded");
+            check(GenerationBudget.forKind("formula",96)==96&&GenerationBudget.forKind("number",96)==96,"deterministic budget changed");
+            throwsType(IllegalArgumentException.class,()->GenerationBudget.forKind("manual",2048));
+        });
         test("storage budget handles full disk and overflow without deleting user data", () -> {
             StorageBudget.check(100,100,1_000_000_000L);
             throwsType(IllegalStateException.class, () -> StorageBudget.check(StorageBudget.TARGET_BYTES,1,1_000_000_000L));

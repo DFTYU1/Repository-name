@@ -88,6 +88,8 @@ final class ProfessionalBenchmark {
             .put("input",question.getString("prompt")).put("rubric",question.getString("rubric"))
             .put("output","").put("status","RUNNING").put("crash",JSONObject.NULL).put("timeout",false).put("cancelled",false)
             .put("ttft_ms",JSONObject.NULL).put("tokens_per_second",JSONObject.NULL);
+        int generationBudget=GenerationBudget.forKind(question.getString("kind"),question.getInt("max_tokens"));
+        item.put("generation_budget_tokens",generationBudget);
         results.put(item);save();
         FutureTask<String> work=new FutureTask<>(()->answer(question,item));Thread inference=new Thread(work,"benchmark-inference");inference.start();
         try{
@@ -96,7 +98,7 @@ final class ProfessionalBenchmark {
             double[] m=app.localModel.lastMetrics();
             item.put("ttft_ms",m[0]).put("generated_tokens",m[1]).put("native_total_ms",m[2]).put("tokens_per_second",m[3]);
             String kind=question.getString("kind");String status=grade(question,answer);
-            if((kind.equals("manual")||kind.equals("formula")||kind.equals("number"))&&m[1]>=question.getInt("max_tokens")){
+            if((kind.equals("manual")||kind.equals("formula")||kind.equals("number"))&&m[1]>=generationBudget){
                 status="FAIL";item.put("reason","generation_budget_exhausted; answer may be truncated");
             }
             item.put("status",status).put("crash",false);
@@ -139,7 +141,7 @@ final class ProfessionalBenchmark {
             require(second.state==AgentRuntime.State.SUCCEEDED,"Second conversation turn failed");
             app.db.message("assistant",second.output);return second.output;
         }
-        return app.localModel.generate(prompt,"",q.getInt("max_tokens"),token);
+        return app.localModel.generate(prompt,"",GenerationBudget.forKind(kind,q.getInt("max_tokens")),token);
     }
     private static String grade(JSONObject q,String answer)throws Exception{
         String kind=q.getString("kind");String s=answer.trim();

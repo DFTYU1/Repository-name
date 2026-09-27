@@ -225,6 +225,22 @@ def test():
                     profile_result['status'] = 'FAIL'
                     profile_result['crash'] = True
                 if profile_result['status'] == 'PASS':
+                    suite=json.loads((ROOT/'app/src/androidTest/assets/professional-100.json').read_text())
+                    representative=[]
+                    for kind in ('manual','conversation'):
+                        representative.append(next(i for i,q in enumerate(suite['cases']) if q['kind']==kind))
+                    for index in representative:
+                        raw=adb('shell','am','instrument','-w','-r','-e','professional_suite','true',
+                            '-e','fixture_password',fixture_password,'-e','case_start',str(index),'-e','case_count','1',
+                            '-e','commit',os.environ.get('GITHUB_SHA','UNKNOWN'),
+                            '-e','engine_revision',json.loads((ROOT/'ci/native-lock.json').read_text())['llama_commit'],
+                            TEST_PACKAGE+'/local.aicenter.app.FoundationInstrumentation',timeout=1100)
+                        captured=subprocess.run([str(x) for x in adb_command]+['exec-out','run-as',PACKAGE,'cat','files/ci-professional-benchmark.json'],capture_output=True,timeout=30)
+                        if captured.returncode or 'benchmark_status=EXECUTED' not in raw: raise RuntimeError('Representative professional case infrastructure failure')
+                        evidence=json.loads(captured.stdout); result=evidence['results'][0]
+                        (OUT/f'{profile}-professional-representative-{index:03d}.json').write_text(json.dumps(evidence,ensure_ascii=False,indent=2)+'\n')
+                        if result['status'] not in ('PASS','MANUAL_REVIEW') or result.get('reason')=='generation_budget_exhausted; answer may be truncated':
+                            raise RuntimeError('Representative professional case failed: '+result['id']+' '+result.get('reason','unknown'))
                     batches=[]
                     for start in range(0,100,5):
                         raw=adb('shell','am','instrument','-w','-r','-e','professional_suite','true',

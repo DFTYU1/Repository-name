@@ -47,7 +47,8 @@ public final class CenterApplication extends Application {
                 register("tasks",input->db.taskSummary());
                 register("chat",input->{
                     if(models==null)throw new IllegalStateException(modelError);
-                    return models.answer(input,false,false,(provider,paid,privateContent)->false,activeToken.get()).text;
+                    String prompt=ConversationPrompt.build(db.recentMessages(),input,12000);
+                    return models.answer(prompt,false,false,(provider,paid,privateContent)->false,activeToken.get()).text;
                 });
                 register("search",input->{
                     StopController.Token token=activeToken.get();

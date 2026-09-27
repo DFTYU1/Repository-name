@@ -16,7 +16,7 @@ concurrency:
 jobs:
   foundation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 150
+    timeout-minutes: 240
     defaults:
       run:
         working-directory: AI-Center
@@ -81,4 +81,3 @@ jobs:
             AI-Center/ci/toolchain-lock.json
             AI-Center/ci/native-lock.json
             AI-Center/app/build/reports/lint-results-debug.*
-
