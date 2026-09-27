@@ -1,5 +1,7 @@
 ## 2026-09-28 Run13编译失败修复
 
+- 最小修复提交`649c54c717974e460ec514227dd735a44707e96f`已触发Run14 `36341960326`，当前QUEUED。
+- 同一PROJECT_STATE v14与源码归档v12的替换重试均明确`transfer_failed`；本地检查点已保存，持久版本未变化。
 - Run13 `36337351616`在Android测试源码编译阶段FAIL；此前核心34项、专业报告11项、项目验证6项均PASS，模拟器步骤被跳过。
 - 从Artifact 10937503049的真实编译日志定位为`ProfessionalBenchmark`缺少`GenerationBudget`导入，两处调用均无法解析。
 - 本批只增加该导入并保存完整诊断，不修改冻结题库、评分、预算策略或生产历史接线。下一Run先验证APK构建，再验证manual/conversation代表题，最后才可能进入双模拟器100题。
@@ -204,3 +206,12 @@ Phase 2–11 尚未进入。需求保持不变。
 - 核对官方兼容表，原AGP/Gradle/JDK/SDK组合满足官方版本要求；保留原配置。
 - 本地SDK/Gradle网络请求被平台取消；GitHub仓库仍公开。没有执行无SDK构建或重复现有测试，新增Android通过项为零。
 - 保存最近构建脚本、Wrapper、Android测试源码和五份状态；下一步仍是获准后执行已准备云构建。
+## 2026-09-28 Run14结果与下一批预算门禁
+
+- Run14完成真实构建与双模拟器100题：两端均31/38/31/0，NOT_ACCEPTED门禁正确；0超时、0崩溃。
+- 生产聊天历史已由Q100 PASS验证。512预算使11道manual从截断转为MANUAL_REVIEW，但24道仍在512 tokens截断；4公式、10数值错误未改评分掩盖。
+- 保存Run14完整日志、逐题原始输出、性能、截图及Artifact校验到`Tests/ci-runs/36341960326/`。
+- 通用manual最低预算提高到768；CI用prompt+rubric最长的manual作为代表预检，并保留conversation预检；工作流上限300分钟。冻结题库、答案与评分不变。
+- 本段随下一提交同步；Run15先验证最复杂manual不再预算耗尽与conversation PASS，再决定是否进入全量100题。
+
+## 历史状态

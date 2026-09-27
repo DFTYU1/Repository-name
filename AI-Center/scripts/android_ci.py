@@ -226,9 +226,9 @@ def test():
                     profile_result['crash'] = True
                 if profile_result['status'] == 'PASS':
                     suite=json.loads((ROOT/'app/src/androidTest/assets/professional-100.json').read_text())
-                    representative=[]
-                    for kind in ('manual','conversation'):
-                        representative.append(next(i for i,q in enumerate(suite['cases']) if q['kind']==kind))
+                    manual_indices=[i for i,q in enumerate(suite['cases']) if q['kind']=='manual']
+                    representative=[max(manual_indices,key=lambda i: len(suite['cases'][i]['prompt'])+len(suite['cases'][i]['rubric'])),
+                                    next(i for i,q in enumerate(suite['cases']) if q['kind']=='conversation')]
                     for index in representative:
                         raw=adb('shell','am','instrument','-w','-r','-e','professional_suite','true',
                             '-e','fixture_password',fixture_password,'-e','case_start',str(index),'-e','case_count','1',

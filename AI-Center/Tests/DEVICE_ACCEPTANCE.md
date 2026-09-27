@@ -2,6 +2,7 @@
 
 project_id=personal-ai-center-20260909
 
+- 最新提交`649c54c717974e460ec514227dd735a44707e96f`，Run14 `36341960326`当前QUEUED；新APK、代表题、手机/平板和100题均NOT_RUN。
 - Run13 `36337351616`在Android测试源码编译阶段FAIL；手机、平板、manual代表题、conversation代表题和全量100题均NOT_RUN，不存在Run13的PASS/FAIL/MANUAL_REVIEW统计。
 - 核心34项、专业报告11项、项目验证6项PASS；缺失`GenerationBudget`导入的最小修复待下一Run实际验证。
 - 本轮无APK或测试APK；Artifact 10937503049，ZIP SHA-256 `a252b3c73c82a4df9c79df5b6fa8c7f3d7f39ae8434d1479e0ee2b0b0436f075`，证据保存于`Tests/ci-runs/36337351616/`。
@@ -48,3 +49,15 @@ Run9基础功能验证通过；Run10真实100题已执行但未通过验收。An
 Run10 APK大小1368423001字节，SHA-256 c02d91cf4dc9a83fe292d6a37fe09736c99a55619929887f21afa9003d295f01。两ABI，已签名，无INTERNET。诊断产物AI-Center-diagnostics-10保留至2026-10-11。
 
 仍需验证：真实设备、原位数据库升级、长期记忆、embedding及混合RAG、缓存配置与调度、数据库写失败恢复、磁盘不足与模型损坏恢复。禁止用模拟器结果代替真机。
+## 当前有效断点 · 2026-09-28 Run14
+
+project_id=personal-ai-center-20260909
+
+- Run14 `36341960326`结束FAIL：核心34项、专业报告11项、项目验证6项、签名APK/测试APK、lint及基础Android离线验证PASS；专业门禁NOT_ACCEPTED。
+- 手机与平板API35 x86_64均31 PASS / 38 FAIL / 31 MANUAL_REVIEW / 0 NOT_RUN；0超时、0崩溃。人工题未经复核不计PASS。
+- Q001代表manual以512预算生成314 tokens且未耗尽；Q100 conversation PASS。全量中24道manual仍恰好耗尽512并截断，另4公式、10数值题FAIL。
+- 手机TTFT均值10190.25ms、4.411 tokens/s、峰值PSS 1439770KiB；平板10141.45ms、4.440 tokens/s、峰值PSS 1436653KiB。
+- APK 1368423001字节，SHA-256 `3303280e0d0ce04e9f5f9bb2a3c5582e8a31f122285c8879f7c854dc8cc181ff`；Artifact 10944040093证据在`Tests/ci-runs/36341960326/`。
+- 下一Run使用768通用manual预算并以最复杂manual先行验证；冻结题库/答案/评分不变。vivo X300 Pro与Lenovo Y900仍NOT_RUN。
+
+## 历史状态

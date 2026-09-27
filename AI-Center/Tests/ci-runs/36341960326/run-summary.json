@@ -1,0 +1,22 @@
+{
+  "run_id": 36341960326,
+  "run_url": "https://github.com/DFTYU1/Repository-name/actions/runs/36341960326",
+  "commit": "649c54c717974e460ec514227dd735a44707e96f",
+  "conclusion": "failure",
+  "completed_utc": "2026-09-27T22:17:17Z",
+  "failed_gate": "dual emulator professional acceptance: NOT_ACCEPTED",
+  "phone_counts": {"PASS": 31, "FAIL": 38, "MANUAL_REVIEW": 31, "NOT_RUN": 0},
+  "tablet_counts": {"PASS": 31, "FAIL": 38, "MANUAL_REVIEW": 31, "NOT_RUN": 0},
+  "representative_manual": {"id": "Q001", "budget_tokens": 512, "generated_tokens": 314, "status": "MANUAL_REVIEW", "budget_exhausted": false},
+  "representative_conversation": {"id": "Q100", "status": "PASS"},
+  "remaining_failure_causes": {
+    "manual_generation_budget_exhausted": 24,
+    "formula_mismatch": 4,
+    "numeric_mismatch": 10
+  },
+  "timeouts": 0,
+  "crashes": 0,
+  "apk": {"bytes": 1368423001, "sha256": "3303280e0d0ce04e9f5f9bb2a3c5582e8a31f122285c8879f7c854dc8cc181ff", "signed": true, "internet_permission": false},
+  "test_apk": {"bytes": 59892, "sha256": "e2f420d41d790076c35622a8bf33b22c122c06fe7e76b33acc3ca61b47ba7571", "signed": true},
+  "artifact": {"name": "AI-Center-diagnostics-14", "id": 10944040093, "zip_sha256": "6b1112e3ac9cd3b8941af9dbb04c926fc1272fbd418798a67ade317d136ece7c", "expires_utc": "2026-10-11T22:16:37Z"}
+}

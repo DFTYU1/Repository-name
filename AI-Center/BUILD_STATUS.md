@@ -1,5 +1,7 @@
 ## Run13最终状态 / Android测试源码编译修复
 
+- 最新提交：`649c54c717974e460ec514227dd735a44707e96f`；Run14 `36341960326`当前QUEUED，Android结果NOT_RUN。
+- 持久保存状态：同一PROJECT_STATE v14与源码归档v12替换均再次明确`transfer_failed`；完整本地归档存在，但Library版本未更新。
 - Run13 `36337351616`: FAILURE。核心34项、专业报告11项、项目验证6项PASS；`:app:compileDebugAndroidTestJavaWithJavac`因缺失`GenerationBudget`导入FAIL。
 - APK、测试APK、签名、lint、manual/conversation代表题、全量100题与手机/平板模拟器在本轮均NOT_RUN；不存在可报告的Run13 APK哈希或100题统计。
 - Artifact：10937503049；ZIP SHA-256 `a252b3c73c82a4df9c79df5b6fa8c7f3d7f39ae8434d1479e0ee2b0b0436f075`；2026-10-11T17:35:40Z到期；真实日志已保存。
@@ -215,3 +217,12 @@ project_id=personal-ai-center-20260909
 - [Android官方兼容表](https://developer.android.com/build/releases/agp-8-11-0-release-notes)核对通过：AGP8.11支持API36、Gradle8.13、Build Tools35.0.0和JDK17。
 - GitHub正式连接返回DFTYU1/Repository-name为public。当前没有公开源码授权，未上传/未触发工作流，无远程运行ID。
 - Android编译NOT_RUN，APK=null，安装/启动NOT_RUN，本地真实模型NOT_INTEGRATED。既有测试结果沿用原证据，不计为本轮重测。
+## Run14最终状态 / Run15待验证
+
+- Run14 `36341960326`: FAILURE；构建、签名、lint和基础双模拟器验证PASS，专业门禁因NOT_ACCEPTED正确失败。
+- 手机/平板API35 x86_64均31 PASS / 38 FAIL / 31 MANUAL_REVIEW / 0 NOT_RUN；24项manual预算耗尽、4公式错误、10数值错误；0超时、0崩溃。
+- 代表Q001 manual以512预算生成314 tokens未耗尽；代表Q100 conversation PASS。新批次以768通用manual预算和最复杂manual代表预检验证剩余截断。
+- APK 1368423001字节，SHA-256 `3303280e0d0ce04e9f5f9bb2a3c5582e8a31f122285c8879f7c854dc8cc181ff`，signed=true，仅USE_BIOMETRIC、无INTERNET；测试APK 59892字节，SHA-256 `e2f420d41d790076c35622a8bf33b22c122c06fe7e76b33acc3ca61b47ba7571`。
+- Artifact 10944040093；ZIP SHA-256 `6b1112e3ac9cd3b8941af9dbb04c926fc1272fbd418798a67ade317d136ece7c`；2026-10-11T22:16:37Z到期。本段随下一提交同步。
+
+## 历史状态

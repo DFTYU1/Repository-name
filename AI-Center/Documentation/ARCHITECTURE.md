@@ -1,5 +1,6 @@
 ## Run13编译边界补充
 
+- 导入修复提交`649c54c717974e460ec514227dd735a44707e96f`，由Run14 `36341960326`重新执行正式Android类型编译和后续门禁。
 - `ProfessionalBenchmark`属于Android测试源集；桌面核心测试和语法解析不会解析其Android类型依赖，缺失Java导入只能由真实Android测试源码编译门禁发现。
 - Run13在`compileDebugAndroidTestJavaWithJavac`准确拦截缺失`GenerationBudget`导入，未进入代表题或模拟器。修复仅恢复既定的通用预算接线，不改变架构、题库或评分。
 
@@ -86,3 +87,11 @@ project_id=personal-ai-center-20260909
 - 本地重新执行31项核心测试、6项项目验证、6项报告检查均PASS。Android语法检查不等于类型编译；100题尚未实际运行，PASS/FAIL/MANUAL_REVIEW结果尚不可报告。
 - 当前工作流已移除APK分片与测试APK的公开Artifact上传；仅保留合成验收日志/报告诊断，保留14天。不创建Release。下一步读取Run10实际日志，修复构建/运行缺陷并完成真实验收后再推进embedding等TODO。
 - vivo X300 Pro / 联想Y900均NOT_RUN。无数据库迁移新实现，不声称旧数据库升级已验证。历史已完成Run5—9不重复记为新增成果。
+## Run14后的生成预算与预检边界
+
+- `GenerationBudget`仍只按能力类型分配预算，不读取题号、答案或评分；manual最低预算由512提高到768，仍受1024硬上限保护。
+- 代表manual按冻结题库中`prompt`与`rubric`总长度选择最复杂项，避免“第一道较短题通过”掩盖长回答截断；conversation代表题继续独立验证生产历史接线。
+- 代表题预算耗尽会在全量100题前失败，减少无效模拟器长跑。该门禁不把manual自动标PASS，也不修改公式/数值评分。
+- Run14证明生产chat的有界历史路径有效；当前剩余问题是24道长回答截断及2B模型的14项确定性能力错误。
+
+## 历史状态

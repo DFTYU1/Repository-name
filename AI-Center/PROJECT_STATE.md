@@ -2,10 +2,12 @@
 
 project_id=personal-ai-center-20260909
 
+- 最小修复已提交：`649c54c717974e460ec514227dd735a44707e96f`。Run14 https://github.com/DFTYU1/Repository-name/actions/runs/36341960326 当前QUEUED；结束前不并发提交，不推测APK、代表题或双模拟器结果。
+- 同一Library文件替换已按版本保护重试，但`PROJECT_STATE.md` v14与`AI-Center-Source.zip` v12均再次明确返回`transfer_failed`；没有创建新文件，也不宣称持久版本已更新。本地完整检查点继续保留。
 - Run13 https://github.com/DFTYU1/Repository-name/actions/runs/36337351616 于2026-09-27T17:35:41Z结束FAIL。核心34项、专业报告11项、项目验证6项PASS；Android测试源码编译失败，APK、代表manual/conversation、100题和双模拟器均NOT_RUN，不能沿用Run12结果冒充本轮结果。
 - 真实`android-build.log`显示`ProfessionalBenchmark.java:91`与`:144`两处`cannot find symbol: GenerationBudget`。原因是调用已提交但缺少`local.aicenter.core.GenerationBudget`导入；本批仅补该导入，不改生产逻辑、冻结100题、答案或评分。
 - Run13诊断Artifact `AI-Center-diagnostics-13` ID 10937503049，ZIP SHA-256 `a252b3c73c82a4df9c79df5b6fa8c7f3d7f39ae8434d1479e0ee2b0b0436f075`，有效至2026-10-11T17:35:40Z；证据保存于`Tests/ci-runs/36337351616/`。
-- 修复提交后等待下一轮正式Android构建与代表题；完成前不宣称512-token预算或聊天历史通过，不并发提交。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
+- 等待Run14正式Android构建与代表题；完成前不宣称512-token预算或聊天历史通过，不并发提交。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
 
 ## 历史状态（以下仅供追溯）
 
@@ -214,3 +216,15 @@ Android接口、SAF、Keystore、生物识别和界面仍需真实SDK和设备�
 记录：manual-resume-network-check-20260909。已读取五份状态和第1–68条需求，继承06:13 UTC检查点；77个归档文件及46个待提交文件哈希一致。没有重新创建工程或重写已完成代码。
 本轮正式SDK/Gradle地址的只读请求均被平台网络流程取消，未取得依赖；GitHub连接可读，仓库仍公开。构建、安装、启动和真实模型测试未执行，APK仍不存在。
 当前继续等待AWAITING_PUBLIC_SOURCE_PERMISSION；这是公开源码授权，不是开发框架技术选择。沿用已准备的CI流程；先取得明确授权再提交源码。完整证据见Tests/build-channel-check-20260909.json。
+## 当前有效断点 · 2026-09-28 Run14结果与768-token预检修复
+
+project_id=personal-ai-center-20260909
+
+- Run14 https://github.com/DFTYU1/Repository-name/actions/runs/36341960326 于2026-09-27T22:17:17Z结束FAIL；核心34项、专业报告11项、项目验证6项、签名APK/测试APK和lint均PASS，双模拟器专业门禁因NOT_ACCEPTED正确失败。
+- API35 x86_64手机/平板均为31 PASS / 38 FAIL / 31 MANUAL_REVIEW / 0 NOT_RUN，0超时、0崩溃。Q001代表manual以512预算生成314 tokens且未耗尽；Q100连续对话PASS，证明生产历史接线生效。相对Run12，连续对话增加1项PASS，11道manual由FAIL转MANUAL_REVIEW。
+- 仍有24道manual恰好耗尽512 tokens并在句子、表格或代码中截断；另有4公式和10数值确定性错误，继续如实FAIL。人工题未经人工复核不得PASS，专业状态仍NOT_ACCEPTED。
+- 本批不改冻结100题、答案和评分：manual通用最低预算提高到768；代表manual改为按prompt+rubric长度选最复杂题，仍加conversation代表题；工作流上限提高到300分钟。本段随下一提交同步，Run15待触发并先验证代表题。
+- Run14 APK 1368423001字节，SHA-256 `3303280e0d0ce04e9f5f9bb2a3c5582e8a31f122285c8879f7c854dc8cc181ff`，已签名，仅USE_BIOMETRIC、无INTERNET。Artifact `AI-Center-diagnostics-14` ID 10944040093，ZIP SHA-256 `6b1112e3ac9cd3b8941af9dbb04c926fc1272fbd418798a67ade317d136ece7c`，有效至2026-10-11T22:16:37Z；证据保存于`Tests/ci-runs/36341960326/`。
+- vivo X300 Pro与Lenovo Y900仍NOT_RUN；Phase1未完成。Library持久版本更新以正式返回为准。
+
+## 历史状态（以下仅供追溯）

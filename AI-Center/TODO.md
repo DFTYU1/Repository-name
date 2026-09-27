@@ -1,9 +1,11 @@
 ## 当前队列 · Run13编译失败后
 
+- [x] 提交最小修复`649c54c717974e460ec514227dd735a44707e96f`并启动Run14 `36341960326`。
+- [ ] Library同一PROJECT_STATE v14与源码归档v12替换再次`transfer_failed`；下轮先确认版本仍未变化再重试，不创建重复文件。
 - [x] 核验Run13最终FAIL并读取真实`android-build.log`；确认模拟器与代表题均NOT_RUN。
 - [x] 保存Artifact 10937503049及SHA-256校验；保留已通过的34核心、11报告和6项目验证结论。
 - [x] 仅补`ProfessionalBenchmark`缺失的`GenerationBudget`导入，不修改冻结100题/答案/评分。
-- [ ] 提交最小修复并等待下一Run；先核对APK/测试APK/lint，再核对manual与conversation代表题。
+- [ ] 等待Run14；先核对APK/测试APK/lint，再核对manual与conversation代表题。
 - [ ] 代表题通过后核对手机/平板全量100题、性能和专业门禁；公式/数值错误继续如实FAIL，人工题保持PENDING_MANUAL_REVIEW。
 - [ ] vivo X300 Pro与Lenovo Y900保持NOT_RUN；Phase1完成前继续续作。
 
@@ -213,3 +215,13 @@ project_id=personal-ai-center-20260909
 
 记录：manual-resume-network-check-20260909。完成77文件检查点/46文件CI清单完整性核对与构建通道只读检查。
 下一项仍为上述公开源码授权后执行CI；依赖下载未恢复时不重复相同失败请求。若正式私有构建环境变为可用，先核对费用及授权后继续。APK、Android运行和真实模型验收仍全部待完成。
+## 当前队列 · Run14失败后
+
+- [x] 核验Run14最终FAIL并保存Artifact 10944040093、完整日志、逐题回答和哈希。
+- [x] 确认双模拟器均31 PASS / 38 FAIL / 31 MANUAL_REVIEW / 0 NOT_RUN；Q100历史传递PASS，0超时、0崩溃。
+- [x] 将manual通用最低预算从512提高到768；按prompt+rubric长度选择最复杂manual代表题；工作流上限300分钟。
+- [ ] 跟踪Run15；代表manual若仍耗尽则只修预算/生成相关原因，不进入全量100题。
+- [ ] 代表题通过后核对双模拟器全量统计、性能、APK签名/ABI/权限；4公式和10数值错误仍需后续真实能力改进。
+- [ ] 31道人工题等待人工复核，未经复核保持PENDING_MANUAL_REVIEW；vivo X300 Pro与Lenovo Y900保持NOT_RUN。
+
+## 历史状态
