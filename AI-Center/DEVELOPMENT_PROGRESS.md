@@ -1,5 +1,14 @@
+## 2026-09-28 Run13编译失败修复
+
+- Run13 `36337351616`在Android测试源码编译阶段FAIL；此前核心34项、专业报告11项、项目验证6项均PASS，模拟器步骤被跳过。
+- 从Artifact 10937503049的真实编译日志定位为`ProfessionalBenchmark`缺少`GenerationBudget`导入，两处调用均无法解析。
+- 本批只增加该导入并保存完整诊断，不修改冻结题库、评分、预算策略或生产历史接线。下一Run先验证APK构建，再验证manual/conversation代表题，最后才可能进入双模拟器100题。
+
+## 历史状态
+
 ## 2026-09-28 Run12结果与遗漏接线修复
 
+- 已提交`0ae280b8fa61558c96b5ef1ea6d94d0bdbdc6f89`，Run13 `36337351616`排队验证；当前没有新Android结论。
 - Run12在`8fafbbcc357883f0cea9fc8f7700a381fbc722f1`上结束FAIL；构建、签名、lint及基础离线回归PASS，双模拟器专业验收仍各30/50/20/0并被NOT_ACCEPTED门禁拦截。
 - 逐文件对比归档与远程提交，确认远程只包含两个新增核心类，未包含调用它们的`CenterApplication`、`ProfessionalBenchmark`、`android_ci.py`、核心测试及240分钟工作流。
 - 保存Run12真实诊断、逐题原始输出、性能、截图和日志到`Tests/ci-runs/36327194525/`；没有把未生效修复宣称为验证通过。

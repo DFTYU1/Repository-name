@@ -1,5 +1,17 @@
+## 当前队列 · Run13编译失败后
+
+- [x] 核验Run13最终FAIL并读取真实`android-build.log`；确认模拟器与代表题均NOT_RUN。
+- [x] 保存Artifact 10937503049及SHA-256校验；保留已通过的34核心、11报告和6项目验证结论。
+- [x] 仅补`ProfessionalBenchmark`缺失的`GenerationBudget`导入，不修改冻结100题/答案/评分。
+- [ ] 提交最小修复并等待下一Run；先核对APK/测试APK/lint，再核对manual与conversation代表题。
+- [ ] 代表题通过后核对手机/平板全量100题、性能和专业门禁；公式/数值错误继续如实FAIL，人工题保持PENDING_MANUAL_REVIEW。
+- [ ] vivo X300 Pro与Lenovo Y900保持NOT_RUN；Phase1完成前继续续作。
+
+## 历史状态
+
 ## 当前队列 · Run12失败后
 
+- [x] 提交遗漏接线修复`0ae280b8fa61558c96b5ef1ea6d94d0bdbdc6f89`并启动Run13 `36337351616`。
 - [x] 核验Run12最终FAIL并保存Artifact 10936458455及完整诊断证据。
 - [x] 证明Run12仍运行旧256-token/无历史路径：`8faf...`只提交两个新增类，五个接线文件遗漏。
 - [x] 补齐生产chat历史接线、512-token manual预算调用、代表题先行门禁、3项核心测试及240分钟工作流；冻结题库和评分不变。

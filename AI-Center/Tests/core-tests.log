@@ -1,0 +1,35 @@
+PASS global stop revokes tokens and cannot resurrect old work
+PASS token cancellation closes only its own resources once
+PASS all stop resources close even when one hook fails
+PASS lease remains active during task and expires exactly five minutes after completion
+PASS leases cannot authorize another URI or survive disconnect
+PASS agent approval denial prevents tool execution
+PASS agent stop cancels next step and journals cancellation
+PASS tool failure is captured without logging its secret message
+PASS journal failure prevents a side effect
+PASS local is default and cloud has no silent access
+PASS authorized cloud A then B then local fallback
+PASS paid provider denied separately without breaking local fallback
+PASS cancelled model request cannot fall back to another provider
+PASS missing models produce explicit unavailability
+PASS cache eviction protects all permanent user categories
+PASS cache evicts least recently used before cap and respects 15 day boundary
+PASS file copy preserves original and hashes exact content
+PASS oversized import removes partial file
+PASS cancelled import cannot publish partial data
+PASS path traversal, symlinks and executable import rejected
+PASS UTF-8 decoding refuses silently damaged text
+PASS knowledge chunking preserves every source character and Unicode boundary
+PASS retrieval returns source and no fabricated hit for unrelated text
+PASS vector cosine ranking and dimension guard
+PASS retrieved instructions cannot become executable tools
+PASS password verifier accepts correct password and rejects corrupt or wrong values
+PASS acceptance grading requires every answer key term
+PASS acceptance grading handles exact formulas without whitespace
+PASS acceptance grading numeric tolerance is deterministic
+PASS acceptance grading separates manual review from pass
+PASS conversation prompt keeps recent history and current user turn
+PASS conversation prompt bounds old history and neutralizes closing delimiter
+PASS generation budget expands long-form answers without changing deterministic cases
+PASS storage budget handles full disk and overflow without deleting user data
+TOTAL 34 PASS

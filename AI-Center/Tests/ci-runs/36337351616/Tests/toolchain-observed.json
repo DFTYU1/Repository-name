@@ -1,0 +1,13 @@
+{
+  "time_utc": "2026-09-27T17:34:09.241189+00:00",
+  "java": "openjdk version \"17.0.20.1\" 2026-08-18\nOpenJDK Runtime Environment Temurin-17.0.20.1+1 (build 17.0.20.1+1)\nOpenJDK 64-Bit Server VM Temurin-17.0.20.1+1 (build 17.0.20.1+1, mixed mode, sharing)\n",
+  "sdkmanager": "12.0\n\n",
+  "emulator": "/usr/local/lib/android/sdk/emulator/qemu/linux-x86_64/qemu-system-x86_64: error while loading shared libraries: libpulse.so.0: cannot open shared object file: No such file or directory\n",
+  "gradle_wrapper_sha256": "81a82aaea5abcc8ff68b3dfcb58b3c3c429378efd98e7433460610fecd7ae45f",
+  "source_properties": {
+    "platforms/android-36": "Pkg.Desc=Android SDK Platform 16\nPkg.UserSrc=false\nPlatform.Version=16\nPlatform.CodeName=\nPkg.Revision=2\nAndroidVersion.ApiLevel=36\nAndroidVersion.ExtensionLevel=17\nAndroidVersion.IsBaseSdk=true\nLayoutlib.Api=15\nLayoutlib.Revision=1\nPlatform.MinToolsRev=22\n",
+    "build-tools/35.0.0": "Pkg.UserSrc=false\nPkg.Revision=35.0.0\n#Pkg.Revision=35.0.0 rc4\n",
+    "emulator": "Pkg.UserSrc=false\nPkg.Revision=37.1.11\nPkg.Path=emulator\nPkg.Desc=Android Emulator\nPkg.BuildId=15917651",
+    "system-images/android-35/google_apis/x86_64": "Pkg.Desc=System Image x86_64 with Google APIs.\nPkg.Revision=9\nPkg.Dependencies=emulator#33.1.24\nAndroidVersion.ApiLevel=35\nAndroidVersion.ExtensionLevel=13\nAndroidVersion.IsBaseSdk=true\nSystemImage.Abi=x86_64\nSystemImage.TagId=google_apis\nSystemImage.TagDisplay=Google APIs\nSystemImage.GpuSupport=true\nAddon.VendorId=google\nAddon.VendorDisplay=Google Inc.\n\n"
+  }
+}

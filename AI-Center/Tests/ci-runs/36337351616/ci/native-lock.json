@@ -1,0 +1,20 @@
+{
+  "project_id": "personal-ai-center-20260909",
+  "llama_repository": "https://github.com/ggml-org/llama.cpp.git",
+  "llama_commit": "f072b103714dfa1eee531f80b24512faf38e3dd2",
+  "model": {
+    "id": "Qwen3.5-2B-Q4_K_M",
+    "repository": "unsloth/Qwen3.5-2B-GGUF",
+    "revision": "f6d5376be1edb4d416d56da11e5397a961aca8ae",
+    "filename": "Qwen3.5-2B-Q4_K_M.gguf",
+    "sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+    "bytes": 1280835840,
+    "license": "Apache-2.0",
+    "scope": "Stronger text-only integration candidate; final device choice still requires vivo/Y900 benchmarks"
+  },
+  "context_tokens": 2048,
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ]
+}

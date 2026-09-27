@@ -1,0 +1,24 @@
+{
+  "run_id": 36337351616,
+  "source_commit": "0ae280b8fa61558c96b5ef1ea6d94d0bdbdc6f89",
+  "conclusion": "failure",
+  "completed_at": "2026-09-27T17:35:41Z",
+  "failed_step": "Build signed debug APK and instrumentation APK, run lint",
+  "failed_task": ":app:compileDebugAndroidTestJavaWithJavac",
+  "compiler_error": "ProfessionalBenchmark cannot resolve GenerationBudget because its import is missing",
+  "core_tests": {"passed": 34, "status": "PASS"},
+  "professional_report_tests": {"passed": 11, "status": "PASS"},
+  "project_verification": {"passed": 6, "status": "PASS"},
+  "apk": "NOT_RUN",
+  "representative_manual": "NOT_RUN",
+  "representative_conversation": "NOT_RUN",
+  "professional_100": "NOT_RUN",
+  "phone_emulator": "NOT_RUN",
+  "tablet_emulator": "NOT_RUN",
+  "artifact": {
+    "name": "AI-Center-diagnostics-13",
+    "id": 10937503049,
+    "zip_sha256": "a252b3c73c82a4df9c79df5b6fa8c7f3d7f39ae8434d1479e0ee2b0b0436f075",
+    "expires_at": "2026-10-11T17:35:40Z"
+  }
+}

@@ -1,5 +1,15 @@
+## Run13最终状态 / Android测试源码编译修复
+
+- Run13 `36337351616`: FAILURE。核心34项、专业报告11项、项目验证6项PASS；`:app:compileDebugAndroidTestJavaWithJavac`因缺失`GenerationBudget`导入FAIL。
+- APK、测试APK、签名、lint、manual/conversation代表题、全量100题与手机/平板模拟器在本轮均NOT_RUN；不存在可报告的Run13 APK哈希或100题统计。
+- Artifact：10937503049；ZIP SHA-256 `a252b3c73c82a4df9c79df5b6fa8c7f3d7f39ae8434d1479e0ee2b0b0436f075`；2026-10-11T17:35:40Z到期；真实日志已保存。
+- 本批仅增加Android测试源码导入，下一Run重新执行必要的构建与Android验证。
+
+## 历史状态
+
 ## Run12最终状态 / 遗漏提交修复待新Run
 
+- 最新提交：`0ae280b8fa61558c96b5ef1ea6d94d0bdbdc6f89`；Run13 `36337351616`当前QUEUED，新APK与Android结果NOT_RUN。
 - Run12 `36327194525`: FAILURE（NOT_ACCEPTED门禁正确）；核心、项目验证、签名APK/测试APK、lint和基础双模拟器离线回归PASS。
 - 双模拟器专业结果：各30 PASS / 50 FAIL / 20 MANUAL_REVIEW / 0 NOT_RUN；Run12未实际应用512-token预算和生产历史接线。
 - APK：1368423001字节，SHA-256 `789bb1e7db2a49c61b485a4ca20ac26e0ec99250487b293b16e76ef8a10431ad`，signed=true，仅USE_BIOMETRIC、无INTERNET。测试APK SHA-256 `f824ada5cbf0080b4e286755460066b31767e32d3d42df496e448f70abdd932c`。

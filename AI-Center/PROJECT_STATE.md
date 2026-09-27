@@ -1,7 +1,19 @@
+## 当前有效断点 · 2026-09-28 Run13编译失败与最小修复
+
+project_id=personal-ai-center-20260909
+
+- Run13 https://github.com/DFTYU1/Repository-name/actions/runs/36337351616 于2026-09-27T17:35:41Z结束FAIL。核心34项、专业报告11项、项目验证6项PASS；Android测试源码编译失败，APK、代表manual/conversation、100题和双模拟器均NOT_RUN，不能沿用Run12结果冒充本轮结果。
+- 真实`android-build.log`显示`ProfessionalBenchmark.java:91`与`:144`两处`cannot find symbol: GenerationBudget`。原因是调用已提交但缺少`local.aicenter.core.GenerationBudget`导入；本批仅补该导入，不改生产逻辑、冻结100题、答案或评分。
+- Run13诊断Artifact `AI-Center-diagnostics-13` ID 10937503049，ZIP SHA-256 `a252b3c73c82a4df9c79df5b6fa8c7f3d7f39ae8434d1479e0ee2b0b0436f075`，有效至2026-10-11T17:35:40Z；证据保存于`Tests/ci-runs/36337351616/`。
+- 修复提交后等待下一轮正式Android构建与代表题；完成前不宣称512-token预算或聊天历史通过，不并发提交。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
+
+## 历史状态（以下仅供追溯）
+
 ## 当前有效断点 · 2026-09-28 Run12失败与遗漏提交修复
 
 project_id=personal-ai-center-20260909
 
+- 遗漏接线修复已提交：`0ae280b8fa61558c96b5ef1ea6d94d0bdbdc6f89`。Run13 https://github.com/DFTYU1/Repository-name/actions/runs/36337351616 已排队；结束前不并发提交，不宣称代表题或全量结果通过。
 - Run12 `36327194525` 于2026-09-27T17:01:54Z结束FAIL。核心测试、项目验证、签名APK/测试APK和lint均PASS；失败步骤为双模拟器验证，专业门禁正确拦截NOT_ACCEPTED。
 - 手机与平板API35 x86_64均为30 PASS / 50 FAIL / 20 MANUAL_REVIEW / 0 NOT_RUN；35项仍为256-token预算耗尽，另15项为4公式、10数值和1连续对话错误。0超时、0崩溃；基础离线中英/QE/Excel、工具和取消恢复PASS。手机TTFT均值9.281秒、5.17 tokens/s、峰值1448651KiB；平板9.222秒、5.18 tokens/s、峰值1443006KiB。
 - 根因已核实：提交`8fafbbcc357883f0cea9fc8f7700a381fbc722f1`实际只新增`ConversationPrompt`与`GenerationBudget`两个类；归档内已准备的生产chat接线、Android基准预算调用、代表题预检、3项核心测试和240分钟工作流没有进入该提交。因此Run12仍运行旧路径，不能作为512-token或生产历史传递的有效验证。

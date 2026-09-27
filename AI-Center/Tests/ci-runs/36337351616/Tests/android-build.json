@@ -1,0 +1,15 @@
+{
+  "started_utc": "2026-09-27T17:34:34.839937+00:00",
+  "status": "FAIL",
+  "blockers": [
+    "Missing build output: app/build/outputs/apk/debug/app-debug.apk",
+    "Missing build output: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+  ],
+  "apk": null,
+  "instrumentation_apk": null,
+  "scope": "Foundation APK build only; startup, real LLM and device acceptance are separate gates.",
+  "sdk_root": "/usr/local/lib/android/sdk",
+  "gradle_version": "8.13",
+  "exit_code": 1,
+  "finished_utc": "2026-09-27T17:35:40.570423+00:00"
+}

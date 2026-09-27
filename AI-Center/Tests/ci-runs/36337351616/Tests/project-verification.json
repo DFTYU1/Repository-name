@@ -1,0 +1,14 @@
+{
+  "time_utc": "2026-09-27T17:34:34.705126+00:00",
+  "status": "PASS",
+  "passed": [
+    "SQLite schema constraints and foreign keys",
+    "SQLite indexing rollback preserves imported document",
+    "Android Java syntax parsing only",
+    "Android manifest requests no broad access or network",
+    "100 fixed professional questions and execution kinds",
+    "Checkpoint restore and tamper detection"
+  ],
+  "error": null,
+  "limitations": "SQLite tests use host SQLite; Java parse excludes Android type checking, emulator and device tests."
+}

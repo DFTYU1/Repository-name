@@ -1,5 +1,14 @@
+## 未发布续作 · Run13 Android测试编译修复
+
+- 保存Run13诊断Artifact 10937503049与真实编译日志。
+- 修复`ProfessionalBenchmark`缺少`GenerationBudget`导入造成的两处Java编译错误。
+- 未修改冻结100题、答案、评分、通用预算策略或生产聊天历史逻辑；本轮没有APK、模拟器或100题结果。
+
+## 历史状态
+
 ## 未发布续作 · Run12遗漏接线修复
 
+- 修复提交：`0ae280b8fa61558c96b5ef1ea6d94d0bdbdc6f89`；Run13 `36337351616`已启动验证。
 - 保存Run12完整诊断证据；双模拟器仍30 PASS / 50 FAIL / 20 MANUAL_REVIEW，NOT_ACCEPTED门禁正确失败。
 - 修正上一提交只新增类而未提交调用方的问题：正式聊天实际读取最近加密会话并构建12000字符有界上下文。
 - Android专业执行器实际调用通用`GenerationBudget`，manual使用512 tokens，公式/数字题保持原预算。

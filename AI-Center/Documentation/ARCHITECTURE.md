@@ -1,3 +1,10 @@
+## Run13编译边界补充
+
+- `ProfessionalBenchmark`属于Android测试源集；桌面核心测试和语法解析不会解析其Android类型依赖，缺失Java导入只能由真实Android测试源码编译门禁发现。
+- Run13在`compileDebugAndroidTestJavaWithJavac`准确拦截缺失`GenerationBudget`导入，未进入代表题或模拟器。修复仅恢复既定的通用预算接线，不改变架构、题库或评分。
+
+## 历史状态
+
 ## Run12后接线完整性补充
 
 - Run12证明仅新增`ConversationPrompt`和`GenerationBudget`类并不会改变运行路径；生产入口、Android执行器、CI脚本和正式工作流必须同批提交并由真实Android结果验证。

@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
 import local.aicenter.core.AgentRuntime;
+import local.aicenter.core.GenerationBudget;
 import local.aicenter.core.StopController;
 import org.json.*;
 

@@ -1,19 +1,7 @@
-## 当前有效断点 · 2026-09-28 Run13
-
-project_id=personal-ai-center-20260909
-
-- Run13 `36337351616`在Android测试源码编译阶段FAIL；手机、平板、manual代表题、conversation代表题和全量100题均NOT_RUN，不存在Run13的PASS/FAIL/MANUAL_REVIEW统计。
-- 核心34项、专业报告11项、项目验证6项PASS；缺失`GenerationBudget`导入的最小修复待下一Run实际验证。
-- 本轮无APK或测试APK；Artifact 10937503049，ZIP SHA-256 `a252b3c73c82a4df9c79df5b6fa8c7f3d7f39ae8434d1479e0ee2b0b0436f075`，证据保存于`Tests/ci-runs/36337351616/`。
-- Run12双模拟器30/50/20/0仍仅是历史基线，不能当作Run13结果。vivo X300 Pro与Lenovo Y900仍NOT_RUN。
-
-## 历史状态
-
 ## 当前有效断点 · 2026-09-28 Run12
 
 project_id=personal-ai-center-20260909
 
-- 最新提交`0ae280b8fa61558c96b5ef1ea6d94d0bdbdc6f89`，Run13 `36337351616`已排队；代表题与全量结果尚未取得。
 - Run12 `36327194525` 已结束FAIL：API35 x86_64手机、平板模拟器均30 PASS / 50 FAIL / 20 MANUAL_REVIEW / 0 NOT_RUN，专业状态NOT_ACCEPTED；0超时、0崩溃。
 - 基础Android、离线中文/英文/QE/Excel、真实工具、取消恢复、界面渲染均PASS；手机和平板截图已目视核对，无明显裁切或布局错位。
 - 35项仍达到256 tokens，另15项为4公式、10数值、1连续对话错误。原因是远程提交遗漏调用方，Run12没有验证512-token预算或生产历史传递；不得声称修复无效或已通过。
