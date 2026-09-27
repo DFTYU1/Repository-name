@@ -39,6 +39,7 @@ public final class FoundationInstrumentation extends Instrumentation {
     private int failures;
     @Override public void onCreate(Bundle arguments) { super.onCreate(arguments); options=arguments==null?new Bundle():arguments; start(); }
     @Override public void onStart() {
+        if("true".equals(options.getString("professional_suite","false"))){new ProfessionalBenchmark(this,options).run();return;}
         try {
             Intent intent=new Intent(getTargetContext(),MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             screen=startActivitySync(intent);
@@ -54,7 +55,7 @@ public final class FoundationInstrumentation extends Instrumentation {
                 runOnMainSync(()->{
                     List<EditText> fields=new ArrayList<>(); collectFields(screen.getWindow().getDecorView(),fields);
                     require(fields.size()==2,"Expected two administrator password fields");
-                    String password=UUID.randomUUID().toString();
+                    String password=options.getString("fixture_password",UUID.randomUUID().toString());
                     fields.get(0).setText(password);fields.get(1).setText(password);
                     findText(screen.getWindow().getDecorView(),"建立管理员").performClick();
                 });

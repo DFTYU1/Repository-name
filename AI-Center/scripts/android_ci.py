@@ -9,6 +9,8 @@ import os
 from pathlib import Path
 import re
 import shutil
+import secrets
+from professional_report import summarize
 import subprocess
 import sys
 import tempfile
@@ -174,6 +176,7 @@ def test():
         report['device'] = {'model': adb('shell', 'getprop', 'ro.product.model').strip(),
                             'api': adb('shell', 'getprop', 'ro.build.version.sdk').strip(),
                             'abi': adb('shell', 'getprop', 'ro.product.cpu.abi').strip()}
+        fixture_password = secrets.token_hex(24)
         for profile, size, density in [('phone', '1080x2400', '420'), ('tablet', '2560x1600', '240')]:
             try:
                 if profile == 'tablet':
@@ -198,7 +201,7 @@ def test():
                 if not re.search(r'^Status: ok$', started, re.M):
                     raise RuntimeError('Activity launch did not report success')
                 output = adb('shell', 'am', 'instrument', '-w', '-r', '-e', 'profile', profile,
-                    '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
+                    '-e', 'fixture_password', fixture_password, '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
                     TEST_PACKAGE + '/local.aicenter.app.FoundationInstrumentation', timeout=1800)
                 (OUT / (profile + '-instrumentation.log')).write_text(output)
                 profile_result = parse_instrumentation(output, profile)
@@ -216,6 +219,25 @@ def test():
                 if 'Process: ' + PACKAGE in crash:
                     profile_result['status'] = 'FAIL'
                     profile_result['crash'] = True
+                if profile_result['status'] == 'PASS':
+                    batches=[]
+                    for start in range(0,100,5):
+                        raw=adb('shell','am','instrument','-w','-r','-e','professional_suite','true',
+                            '-e','fixture_password',fixture_password,'-e','case_start',str(start),'-e','case_count','5',
+                            '-e','commit',os.environ.get('GITHUB_SHA','UNKNOWN'),
+                            '-e','engine_revision',json.loads((ROOT/'ci/native-lock.json').read_text())['llama_commit'],
+                            TEST_PACKAGE+'/local.aicenter.app.FoundationInstrumentation',timeout=1100)
+                        (OUT/f'{profile}-professional-{start:03d}.log').write_text(raw)
+                        captured=subprocess.run([str(x) for x in adb_command]+['exec-out','run-as',PACKAGE,'cat','files/ci-professional-benchmark.json'],capture_output=True,timeout=30)
+                        if captured.returncode: raise RuntimeError('Cannot retrieve professional batch')
+                        batch=OUT/f'{profile}-professional-{start:03d}.json'
+                        batch.write_bytes(captured.stdout);batches.append(batch)
+                        if 'benchmark_status=EXECUTED' not in raw: raise RuntimeError('Professional batch infrastructure failure')
+                        print(f'{profile}: professional {start+5}/100',flush=True)
+                    summary=summarize(ROOT/'app/src/androidTest/assets/professional-100.json',batches,os.environ.get('GITHUB_SHA','UNKNOWN'))
+                    (OUT/f'{profile}-professional-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
+                    profile_result['professional_counts']=summary['counts']
+                    if not summary['execution_complete']: profile_result['status']='FAIL'
                 report['profiles'][profile] = profile_result
                 print(profile + ': ' + profile_result['status'], flush=True)
             except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:

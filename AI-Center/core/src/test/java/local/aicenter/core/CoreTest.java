@@ -237,6 +237,28 @@ public final class CoreTest {
             check(!PasswordCredential.verify("wrong-password".toCharArray(),encoded), "wrong password accepted");
             check(!PasswordCredential.verify("correct-password".toCharArray(),"v1$999999999$bad$bad"), "malformed credential accepted");
         });
+        test("acceptance grading requires every answer key term", () -> {
+            AcceptanceEvaluator.Rule rule=new AcceptanceEvaluator.Rule(AcceptanceEvaluator.Kind.CONTAINS_ALL,
+                Arrays.asList("Plan","Do","Check","Act"),Collections.singletonList("Control"),"","",0);
+            check(AcceptanceEvaluator.evaluate("**Plan**, Do, Check, Act",rule).status==AcceptanceEvaluator.Status.PASS,"Markdown answer rejected");
+            check(AcceptanceEvaluator.evaluate("Plan, Do, Control, Act",rule).status==AcceptanceEvaluator.Status.FAIL,"Wrong PDCA accepted");
+        });
+        test("acceptance grading handles exact formulas without whitespace", () -> {
+            AcceptanceEvaluator.Rule rule=new AcceptanceEvaluator.Rule(AcceptanceEvaluator.Kind.EXACT,
+                Collections.emptyList(),Collections.emptyList(),"","=SUM(A1:A10)",0);
+            check(AcceptanceEvaluator.evaluate(" `=SUM( A1:A10 )` ",rule).status==AcceptanceEvaluator.Status.PASS,"Equivalent formula rejected");
+        });
+        test("acceptance grading numeric tolerance is deterministic", () -> {
+            AcceptanceEvaluator.Rule rule=new AcceptanceEvaluator.Rule(AcceptanceEvaluator.Kind.NUMERIC,
+                Collections.emptyList(),Collections.emptyList(),"","1.33",0.01);
+            check(AcceptanceEvaluator.evaluate("Cpk = 1.329",rule).status==AcceptanceEvaluator.Status.PASS,"Numeric answer rejected");
+            check(AcceptanceEvaluator.evaluate("Cpk = 1.30",rule).status==AcceptanceEvaluator.Status.FAIL,"Out-of-tolerance answer accepted");
+        });
+        test("acceptance grading separates manual review from pass", () -> {
+            AcceptanceEvaluator.Rule rule=new AcceptanceEvaluator.Rule(AcceptanceEvaluator.Kind.MANUAL_REVIEW,
+                Collections.emptyList(),Collections.emptyList(),"","",0);
+            check(AcceptanceEvaluator.evaluate("A fluent but subjective report",rule).status==AcceptanceEvaluator.Status.MANUAL_REVIEW,"Manual item auto-passed");
+        });
         test("storage budget handles full disk and overflow without deleting user data", () -> {
             StorageBudget.check(100,100,1_000_000_000L);
             throwsType(IllegalStateException.class, () -> StorageBudget.check(StorageBudget.TARGET_BYTES,1,1_000_000_000L));

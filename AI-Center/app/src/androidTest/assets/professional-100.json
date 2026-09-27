@@ -1,0 +1,1212 @@
+{
+  "schema": 1,
+  "id": "professional-100-v1",
+  "model": "Qwen3.5-2B-Q4_K_M",
+  "policy": "Synthetic fixtures only. Manual rubrics are never automatically graded PASS. No model self-grading. Frozen before first run.",
+  "cases": [
+    {
+      "id": "Q001",
+      "category": "QE_QC_SixSigma",
+      "prompt": "解释PDCA四个字母及各阶段的作用。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "Plan、Do、Check、Act；检查不能误写为Control。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q002",
+      "category": "QE_QC_SixSigma",
+      "prompt": "解释DMAIC五个阶段，并说明测量阶段的交付物。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "Define、Measure、Analyze、Improve、Control；测量阶段建立可信基线及测量系统。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q003",
+      "category": "QE_QC_SixSigma",
+      "prompt": "用制造业案例区别QC检验与QE预防。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "QC关注检测控制；QE分析过程和系统预防；不是绝对排他。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q004",
+      "category": "QE_QC_SixSigma",
+      "prompt": "写出8D各步骤，并区别临时遏制和永久纠正措施。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "D1团队/D2描述/D3遏制/D4根因/D5选择验证/D6实施/D7防再发/D8认可；不得混淆。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q005",
+      "category": "QE_QC_SixSigma",
+      "prompt": "螺丝反复松动，如何用5Why分析，怎样避免凭猜测认定根因？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "逐层因果；每层证据；验证和反证；不强制恰好五次。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q006",
+      "category": "QE_QC_SixSigma",
+      "prompt": "装配划伤用鱼骨图如何分类？列出验证方法。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "人机料法环测等分类是候选原因，不是已证实根因；有验证。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q007",
+      "category": "QE_QC_SixSigma",
+      "prompt": "如何制作不良Pareto图？频次和损失金额应怎样选择？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "按所选指标降序及累计占比；说明目的和分母；80/20不是强制规律。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q008",
+      "category": "QE_QC_SixSigma",
+      "prompt": "说明控制限和规格限的区别。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "控制限来自过程统计；规格来自设计客户；不能互换。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q009",
+      "category": "QE_QC_SixSigma",
+      "prompt": "过程不稳定时可以直接宣称Cpk很好吗？为什么？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "稳定性及分布前提；不稳定时能力结论不可作可靠预测。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q010",
+      "category": "QE_QC_SixSigma",
+      "prompt": "Cp与Cpk有什么区别？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "Cp潜在离散；Cpk包含偏心；同一估计sigma下Cpk不大于Cp。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q011",
+      "category": "QE_QC_SixSigma",
+      "prompt": "Pp/Ppk与Cp/Cpk的标准差口径有什么区别？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "整体标准差与组内估计的区别；不只简单短期长期标签。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q012",
+      "category": "QE_QC_SixSigma",
+      "prompt": "MSA的重复性与再现性分别是什么？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "同人同设备重复测量和操作者等条件变化。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q013",
+      "category": "QE_QC_SixSigma",
+      "prompt": "安排一个3人、10件、每件重复3次的交叉GR&R研究。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "代表性样件、随机盲测、统一方法、90次、零件可重复测量。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q014",
+      "category": "QE_QC_SixSigma",
+      "prompt": "说明测量偏倚、线性和稳定性。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "对基准系统差；不同量程偏倚；时间变化。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q015",
+      "category": "QE_QC_SixSigma",
+      "prompt": "FMEA中严重度、发生度、探测度如何理解？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "后果/发生可能/检出能力；探测度高通常表示难检出；不能只按RPN。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q016",
+      "category": "QE_QC_SixSigma",
+      "prompt": "PFMEA和DFMEA分别关注什么？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "制造装配过程与设计功能失效；不能互相替代。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q017",
+      "category": "QE_QC_SixSigma",
+      "prompt": "来料抽样AQL表示允许每批交付该比例的不良吗？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "不能；抽样方案参数非逐批质量保证；供需风险。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q018",
+      "category": "QE_QC_SixSigma",
+      "prompt": "请选择p图和np图适用数据，并说明样本量变化的影响。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "不合格品比例和数量；np通常固定样本；p限随样本量。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q019",
+      "category": "QE_QC_SixSigma",
+      "prompt": "c图与u图如何选择？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "缺陷数而非不合格品数；固定与不同检验机会/单位。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q020",
+      "category": "QE_QC_SixSigma",
+      "prompt": "每小时只能测一个尺寸，选择什么控制图，为什么？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "I-MR个体移动极差；说明连续数据和时间顺序。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q021",
+      "category": "QE_QC_SixSigma",
+      "prompt": "Control Plan应包含哪些可执行要素？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "特性规格方法样本频次责任反应计划记录。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q022",
+      "category": "QE_QC_SixSigma",
+      "prompt": "APQP与PPAP分别解决什么问题？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "产品质量先期策划与生产件批准证据；非相同。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q023",
+      "category": "QE_QC_SixSigma",
+      "prompt": "相关系数高是否证明因果？设计什么验证？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "不能；混杂和时间顺序；控制实验或DOE。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q024",
+      "category": "QE_QC_SixSigma",
+      "prompt": "制造过程做2因子2水平DOE应考虑哪些事项？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "4种组合；随机化重复交互作用；响应指标和安全。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q025",
+      "category": "QE_QC_SixSigma",
+      "prompt": "夹片螺母螺丝咬牙：给出问题定义、原因分类、来料检查、量具、螺纹规、扭矩、材料、热处理、镀层、装配及验证方案。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "覆盖全部11项；区分待验证假设；螺纹规格配合通止规、扭矩记录、交叉配对；不得捏造现场结果。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q026",
+      "category": "Excel",
+      "prompt": "Excel：把A1到A10求和。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=SUM(A1:A10)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q027",
+      "category": "Excel",
+      "prompt": "Excel：把B2到B11求平均。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=AVERAGE(B2:B11)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q028",
+      "category": "Excel",
+      "prompt": "Excel：统计C2到C20中的数字个数。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=COUNT(C2:C20)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q029",
+      "category": "Excel",
+      "prompt": "Excel：求D2到D20最大值。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=MAX(D2:D20)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q030",
+      "category": "Excel",
+      "prompt": "Excel：求D2到D20最小值。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=MIN(D2:D20)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q031",
+      "category": "Excel",
+      "prompt": "Excel：若A2大于等于60显示合格，否则显示不合格。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=IF(A2>=60,\"合格\",\"不合格\")"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q032",
+      "category": "Excel",
+      "prompt": "Excel：计算A2/B2，出错则显示空文本。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=IFERROR(A2/B2,\"\")"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q033",
+      "category": "Excel",
+      "prompt": "Excel：统计A2到A20等于NG的个数。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=COUNTIF(A2:A20,\"NG\")"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q034",
+      "category": "Excel",
+      "prompt": "Excel：A2到A20等于NG时汇总B2到B20。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=SUMIF(A2:A20,\"NG\",B2:B20)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q035",
+      "category": "Excel",
+      "prompt": "Excel：汇总C2到C20，条件A2到A20等于A且B2到B20大于0。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=SUMIFS(C2:C20,A2:A20,\"A\",B2:B20,\">0\")"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q036",
+      "category": "Excel",
+      "prompt": "Excel：用INDEX和MATCH在A2:A20精确查找E2并返回B2:B20对应值。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=INDEX(B2:B20,MATCH(E2,A2:A20,0))"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q037",
+      "category": "Excel",
+      "prompt": "Excel：用XLOOKUP精确查找E2在A2:A20的位置，返回B2:B20，未找到显示未找到。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=XLOOKUP(E2,A2:A20,B2:B20,\"未找到\")"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q038",
+      "category": "Excel",
+      "prompt": "Excel：用MATCH精确查找E2在A2:A20的位置。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=MATCH(E2,A2:A20,0)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q039",
+      "category": "Excel",
+      "prompt": "Excel：用TRIM清理A2普通空格。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=TRIM(A2)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q040",
+      "category": "Excel",
+      "prompt": "Excel：用SUBSTITUTE去掉A2内全部半角连字符。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=SUBSTITUTE(A2,\"-\",\"\")"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q041",
+      "category": "Excel",
+      "prompt": "Excel：用ROUND把A2四舍五入为2位小数。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=ROUND(A2,2)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q042",
+      "category": "Excel",
+      "prompt": "Excel：用LEFT取A2左侧3个字符。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=LEFT(A2,3)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q043",
+      "category": "Excel",
+      "prompt": "Excel：用RIGHT取A2右侧4个字符。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=RIGHT(A2,4)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q044",
+      "category": "Excel",
+      "prompt": "Excel：用LEN计算A2字符数。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=LEN(A2)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q045",
+      "category": "Excel",
+      "prompt": "Excel：用IF避免除零，B2等于0返回空文本，否则A2/B2。仅输出一条英文函数公式，逗号分隔参数。",
+      "kind": "formula",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": [
+        "=IF(B2=0,\"\",A2/B2)"
+      ],
+      "rubric": "精确公式结构契约；不是整个Excel能力验收。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q046",
+      "category": "English",
+      "prompt": "教我defect：必须包括发音、中文意思、QE例句、听力练习、口语练习、拼写测试和复习安排。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "名词/动词重音适当；缺陷；制造例句；听说需标注文字方案不冒充播放/录音。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q047",
+      "category": "English",
+      "prompt": "用简单英语解释inspection与test的区别，并给中文说明。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "检查符合性与测试性能等；合理例句。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q048",
+      "category": "English",
+      "prompt": "翻译：请检查这批零件的螺纹。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "Please inspect/check the threads of this batch of parts. 意思完整。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q049",
+      "category": "English",
+      "prompt": "翻译并解释root cause。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "根本原因；区别症状。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q050",
+      "category": "English",
+      "prompt": "解释corrective action和correction的区别。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "消除原因防再发与纠正已发现不合格。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q051",
+      "category": "English",
+      "prompt": "用torque造一个装配现场句子并翻译。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "力矩/扭矩；适当单位；自然句。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q052",
+      "category": "English",
+      "prompt": "纠正句子：He go to work every day.",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "He goes to work every day. 单三解释。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q053",
+      "category": "English",
+      "prompt": "纠正句子：There is three defects.",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "There are three defects. 主谓一致。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q054",
+      "category": "English",
+      "prompt": "写一句礼貌的英文，要求供应商提供检验报告。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "礼貌请求；inspection report；不声称已发送。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q055",
+      "category": "English",
+      "prompt": "用英文告诉同事：先隔离不合格品，再调查原因。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "Quarantine/segregate nonconforming parts first, then investigate. 次序正确。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q056",
+      "category": "English",
+      "prompt": "解释tolerance在尺寸检验中的意思并给例句。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "公差；不是忍耐在此语境。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q057",
+      "category": "English",
+      "prompt": "解释supplier和customer并给制造业例句。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "供应商/客户不倒置。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q058",
+      "category": "English",
+      "prompt": "把“请确认变更从哪个订单开始执行”翻成工作英语。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "confirm order from which change takes effect；不捏造单号。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q059",
+      "category": "English",
+      "prompt": "给初学者写3句质量会议英语及中文。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "简短自然中英对应。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q060",
+      "category": "English",
+      "prompt": "用英语介绍一项待验证的原因，明确它不是已证实结论。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "may/might/possible hypothesis；需验证；不能断言。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q061",
+      "category": "Work",
+      "prompt": "写一条不超过100字的通知：来料发现划伤，需要隔离并请工程确认。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "事实、行动、责任对象；不捏造数量日期结论。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q062",
+      "category": "Work",
+      "prompt": "供应商说“全部合格”，但没有报告，怎样写回复索要证据？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "检验方法数据抽样追溯；避免无证接受。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q063",
+      "category": "Work",
+      "prompt": "扭矩异常，写一个包含事实、影响、临时措施、验证计划的简短报告模板。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "四部分齐全；未知事实占待填写而非虚构。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q064",
+      "category": "Work",
+      "prompt": "怎样区分缺陷事实、根因假设和验证结论？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "三者标识和证据例子。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q065",
+      "category": "Work",
+      "prompt": "现场人员说换了零件问题消失，能马上认定旧零件是根因吗？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "不能排除干扰；交叉复现和样本验证。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q066",
+      "category": "Work",
+      "prompt": "帮我安排本周两小时Cpk学习，包含练习和复习。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "可执行时间合计120分钟；概念/计算/解释/复习。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q067",
+      "category": "Work",
+      "prompt": "Excel图表看不到曲线时按什么顺序排查？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "隐藏行列、源范围、数值类型、轴、系列格式；不声称已打开文件。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q068",
+      "category": "Work",
+      "prompt": "比较两份物料清单怎样避免因排序不同误判？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "键值匹配、重复键处理、差异输出副本。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q069",
+      "category": "Work",
+      "prompt": "清洗订单号前为什么要保留原始列？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "追溯、前导零、文本格式、不能不可逆覆盖。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q070",
+      "category": "Work",
+      "prompt": "如何自动生成不良TOP10图，遇到并列如何处理？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "聚合、排序、并列规则、可刷新数据范围。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q071",
+      "category": "Work",
+      "prompt": "一个工序尺寸均值漂移但仍在规格内，应如何处理？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "看稳定性控制图、调查过程，不只按规格放行。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q072",
+      "category": "Work",
+      "prompt": "客户投诉报告里，哪些数据必须标为待确认？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "未测数量范围根因效果等不能编造。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q073",
+      "category": "Work",
+      "prompt": "编写供应商变更通知的必要字段。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "变更前后、原因、验证、切入点、旧料处置、会签、追溯。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q074",
+      "category": "Work",
+      "prompt": "教我用Is/Is Not缩小车灯间歇故障范围。",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "是什么/不是什么，时间地点对象程度，对比可验证。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q075",
+      "category": "Work",
+      "prompt": "如何为螺纹来料检验制定可追溯记录？",
+      "kind": "manual",
+      "max_tokens": 256,
+      "timeout_ms": 180000,
+      "rubric": "规格批次样本量规校准通止结果责任日期；不编造标准限值。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q076",
+      "category": "Cpk_calculation",
+      "prompt": "已确认过程稳定且满足正态能力分析前提。LSL=0、USL=12、均值=6、组内标准差=1。求Cpk，仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 2.0,
+      "tolerance": 0.005,
+      "rubric": "min((USL-mean)/(3*sigma),(mean-LSL)/(3*sigma))",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q077",
+      "category": "Cpk_calculation",
+      "prompt": "已确认过程稳定且满足正态能力分析前提。LSL=10、USL=22、均值=15、组内标准差=1。求Cpk，仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 1.6666666666666667,
+      "tolerance": 0.005,
+      "rubric": "min((USL-mean)/(3*sigma),(mean-LSL)/(3*sigma))",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q078",
+      "category": "Cpk_calculation",
+      "prompt": "已确认过程稳定且满足正态能力分析前提。LSL=20、USL=38、均值=29、组内标准差=2。求Cpk，仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 1.5,
+      "tolerance": 0.005,
+      "rubric": "min((USL-mean)/(3*sigma),(mean-LSL)/(3*sigma))",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q079",
+      "category": "Cpk_calculation",
+      "prompt": "已确认过程稳定且满足正态能力分析前提。LSL=0、USL=6、均值=2、组内标准差=1。求Cpk，仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 0.6666666666666666,
+      "tolerance": 0.005,
+      "rubric": "min((USL-mean)/(3*sigma),(mean-LSL)/(3*sigma))",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q080",
+      "category": "Cpk_calculation",
+      "prompt": "已确认过程稳定且满足正态能力分析前提。LSL=30、USL=54、均值=39、组内标准差=2。求Cpk，仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 1.5,
+      "tolerance": 0.005,
+      "rubric": "min((USL-mean)/(3*sigma),(mean-LSL)/(3*sigma))",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q081",
+      "category": "QC_calculation",
+      "prompt": "抽检1000件，其中20件不合格。不合格品率是多少百分比？仅输出百分数的数值，不加百分号。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 2.0,
+      "tolerance": 0.0001,
+      "rubric": "100*不合格品数/检验件数",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q082",
+      "category": "QC_calculation",
+      "prompt": "抽检800件，其中12件不合格。不合格品率是多少百分比？仅输出百分数的数值，不加百分号。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 1.5,
+      "tolerance": 0.0001,
+      "rubric": "100*不合格品数/检验件数",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q083",
+      "category": "QC_calculation",
+      "prompt": "抽检250件，其中5件不合格。不合格品率是多少百分比？仅输出百分数的数值，不加百分号。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 2.0,
+      "tolerance": 0.0001,
+      "rubric": "100*不合格品数/检验件数",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q084",
+      "category": "QC_calculation",
+      "prompt": "抽检400件，其中10件不合格。不合格品率是多少百分比？仅输出百分数的数值，不加百分号。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 2.5,
+      "tolerance": 0.0001,
+      "rubric": "100*不合格品数/检验件数",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q085",
+      "category": "QC_calculation",
+      "prompt": "抽检1200件，其中18件不合格。不合格品率是多少百分比？仅输出百分数的数值，不加百分号。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 1.5,
+      "tolerance": 0.0001,
+      "rubric": "100*不合格品数/检验件数",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q086",
+      "category": "Statistics",
+      "prompt": "数据为[2, 4, 6, 8]，算术平均值是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 5.0,
+      "tolerance": 0.0001,
+      "rubric": "sum(data)/len(data)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q087",
+      "category": "Statistics",
+      "prompt": "数据为[10, 12, 14]，算术平均值是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 12.0,
+      "tolerance": 0.0001,
+      "rubric": "sum(data)/len(data)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q088",
+      "category": "Statistics",
+      "prompt": "数据为[3, 5, 7, 9]，算术平均值是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 6.0,
+      "tolerance": 0.0001,
+      "rubric": "sum(data)/len(data)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q089",
+      "category": "Statistics",
+      "prompt": "数据为[20, 30, 40]，算术平均值是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 30.0,
+      "tolerance": 0.0001,
+      "rubric": "sum(data)/len(data)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q090",
+      "category": "Statistics",
+      "prompt": "数据为[1, 2, 3, 4, 5]，算术平均值是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 3.0,
+      "tolerance": 0.0001,
+      "rubric": "sum(data)/len(data)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q091",
+      "category": "Excel_calculation",
+      "prompt": "Excel中A1=2，A2=4，A3=6，公式=SUM(A1:A3)的结果是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 12,
+      "tolerance": 0.0001,
+      "rubric": "sum(A1:A3)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q092",
+      "category": "Excel_calculation",
+      "prompt": "Excel中A1=10，A2=20，A3=30，公式=SUM(A1:A3)的结果是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 60,
+      "tolerance": 0.0001,
+      "rubric": "sum(A1:A3)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q093",
+      "category": "Excel_calculation",
+      "prompt": "Excel中A1=1，A2=3，A3=8，公式=SUM(A1:A3)的结果是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 12,
+      "tolerance": 0.0001,
+      "rubric": "sum(A1:A3)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q094",
+      "category": "Excel_calculation",
+      "prompt": "Excel中A1=5，A2=8，A3=11，公式=SUM(A1:A3)的结果是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 24,
+      "tolerance": 0.0001,
+      "rubric": "sum(A1:A3)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q095",
+      "category": "Excel_calculation",
+      "prompt": "Excel中A1=20，A2=22，A3=24，公式=SUM(A1:A3)的结果是多少？仅输出数值。",
+      "kind": "number",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": 66,
+      "tolerance": 0.0001,
+      "rubric": "sum(A1:A3)",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q096",
+      "category": "Agent",
+      "prompt": "请检查设备剩余存储空间",
+      "kind": "tool",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": "storage",
+      "rubric": "真实模型选择正确工具且Agent执行成功",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q097",
+      "category": "Agent",
+      "prompt": "请列出已经导入的文件",
+      "kind": "tool",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": "files",
+      "rubric": "真实模型选择正确工具且Agent执行成功",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q098",
+      "category": "Agent",
+      "prompt": "请查询已有任务执行记录",
+      "kind": "tool",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "expected": "tasks",
+      "rubric": "真实模型选择正确工具且Agent执行成功",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q099",
+      "category": "Cancellation",
+      "prompt": "用中文写一篇很长的制造业故事。",
+      "kind": "cancel",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "rubric": "原生生成取消在10秒内结束、旧token失效；新请求返回7。",
+      "difficulty": "basic",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    },
+    {
+      "id": "Q100",
+      "category": "Conversation",
+      "prompt": "本轮虚构测试批次代号是K73，目标抽检量是42件，请记住。",
+      "kind": "conversation",
+      "max_tokens": 96,
+      "timeout_ms": 180000,
+      "followup": "刚才给出的批次代号和目标抽检量是什么？",
+      "rubric": "经实际聊天/消息持久化路径两轮调用；必须同时包含K73和42；测试不得偷偷拼接上下文。",
+      "difficulty": "advanced",
+      "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+    }
+  ]
+}
