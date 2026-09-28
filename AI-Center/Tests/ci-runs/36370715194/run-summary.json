@@ -1,0 +1,41 @@
+{
+  "run_id": 36370715194,
+  "run_number": 18,
+  "commit": "46b4d73c08cb3a96997ce78712ad864e058e69ee",
+  "conclusion": "failure",
+  "professional_status": "NOT_ACCEPTED",
+  "profiles": {
+    "phone": {"PASS": 25, "FAIL": 22, "MANUAL_REVIEW": 53, "NOT_RUN": 0, "timeouts": 2, "crashes": 0},
+    "tablet": {"PASS": 25, "FAIL": 22, "MANUAL_REVIEW": 53, "NOT_RUN": 0, "timeouts": 2, "crashes": 0}
+  },
+  "representatives": {
+    "Q025": "MANUAL_REVIEW on phone and tablet; complete, 209 tokens on tablet",
+    "Q100": "PASS on phone and tablet through production conversation persistence"
+  },
+  "failure_breakdown": {
+    "manual_timeouts": ["Q013", "Q073"],
+    "formula_model_errors": ["Q027", "Q028", "Q034", "Q035", "Q037", "Q038"],
+    "numeric_model_errors": ["Q076", "Q077", "Q078", "Q079", "Q080", "Q082", "Q083", "Q084", "Q085", "Q087", "Q088", "Q089", "Q093", "Q095"]
+  },
+  "apk": {
+    "bytes": 1368423001,
+    "sha256": "be21333467a237f530d6c33b2f665c0843f163bb0261108b3aef4f3a5dc28fae",
+    "signed": true,
+    "permissions": ["android.permission.USE_BIOMETRIC"],
+    "internet_permission": false
+  },
+  "instrumentation_apk": {
+    "bytes": 59984,
+    "sha256": "67739b3d7a05778fe5b98896630681dff2e99eeafa391443030edf03040c0f15",
+    "signed": true
+  },
+  "artifact": {
+    "id": 10952753496,
+    "name": "AI-Center-diagnostics-18",
+    "bytes": 513123,
+    "sha256": "ca963ad8909c26ea11f5079961634851733dacffc62fc5fe0457854fbdb32298",
+    "expires_at": "2026-10-12T05:41:39Z"
+  },
+  "frozen_suite_changed": false,
+  "physical_devices": {"vivo_X300_Pro": "NOT_RUN", "Lenovo_Y900": "NOT_RUN"}
+}

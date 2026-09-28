@@ -8,6 +8,16 @@
 - 本批仅增加Android测试源码导入，下一Run重新执行必要的构建与Android验证。
 
 ## 历史状态
+## Run18最终状态 / 下一Run待验证
+
+- Run18 `36370715194`: FAILURE；构建、签名、lint、34核心、11报告、6验证及基础双模拟器离线回归PASS。
+- 手机/平板100题均25 PASS / 22 FAIL / 53 MANUAL_REVIEW / 0 NOT_RUN；Q025完整、Q100 PASS。2道manual超时、6道公式错误、14道数值错误，0应用崩溃。
+- 手机TTFT均值32285.44ms、4.926 tokens/s、峰值1443175KiB；平板32149.95ms、4.974 tokens/s、峰值1441064KiB。
+- APK 1368423001字节，SHA-256 `be21333467a237f530d6c33b2f665c0843f163bb0261108b3aef4f3a5dc28fae`；测试APK 59984字节，SHA-256 `67739b3d7a05778fe5b98896630681dff2e99eeafa391443030edf03040c0f15`；均已签名，仅USE_BIOMETRIC、无INTERNET。
+- Artifact 10952753496，ZIP SHA-256 `ca963ad8909c26ea11f5079961634851733dacffc62fc5fe0457854fbdb32298`，有效至2026-10-12T05:41:39Z。
+- 下一Run验证640最低预算是否消除Q013/Q073超时；公式/数值模型错误仍由门禁如实拦截。
+
+## 历史状态
 
 ## Run12最终状态 / 遗漏提交修复待新Run
 
@@ -252,6 +262,7 @@ project_id=personal-ai-center-20260909
 - Q025手机/平板均278 tokens、MANUAL_REVIEW；Q100手机PASS、平板因Unicode词边界误判FAIL。手机100题11/35/54/0，平板100题NOT_RUN。
 - APK 1368423001字节，SHA-256 `3f16fb4f15771e2e85391a355093b7333bdfeceb9ba1983e16d18a99ca1a50a0`；Artifact 10948562460，ZIP SHA-256 `d4fd61d9d8ea23949f2c15492296bfbddc0a2014c642c3dfb6d466ae0db78228`。
 - 下一批不改冻结验收，只修精确输出格式、Q100实现边界与Q013长生成风险。
+- 提交`46b4d73c08cb3a96997ce78712ad864e058e69ee`；Run18 `36370715194`当前QUEUED。
 - Library持久保存仍为PROJECT_STATE v14、源码归档v12；本轮两项版本保护替换再次`transfer_failed`。
 
 ## 历史状态

@@ -1,5 +1,5 @@
 {
-  "time_utc": "2026-09-28T00:13:11.993284+00:00",
+  "time_utc": "2026-09-28T05:48:47.879523+00:00",
   "scope": "Production core on host JVM; excludes Android framework, APK and real LLM/device tests.",
   "compile_exit": 0,
   "compile_output": "",

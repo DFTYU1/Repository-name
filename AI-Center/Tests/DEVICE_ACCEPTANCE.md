@@ -40,6 +40,14 @@ project_id=personal-ai-center-20260909
 
 # 当前设备验收
 
+## 当前有效断点 · 2026-09-28 Run18
+
+- Run18 `36370715194`结束FAIL，专业状态NOT_ACCEPTED；核心、报告、项目验证、签名APK/测试APK、lint及基础双模拟器离线回归PASS。
+- 手机和平板API35 x86_64均完整执行100题：25 PASS / 22 FAIL / 53 MANUAL_REVIEW / 0 NOT_RUN；Q025完整、Q100两端PASS。
+- 22项FAIL为Q013/Q073超时、6道真实Excel公式错误和14道真实数值错误；0应用崩溃。人工题未经人工复核不得PASS。
+- APK SHA-256 `be21333467a237f530d6c33b2f665c0843f163bb0261108b3aef4f3a5dc28fae`；Artifact 10952753496证据在`Tests/ci-runs/36370715194/`。
+- 下一Run以640通用manual最低预算验证超时修复；vivo X300 Pro与Lenovo Y900仍NOT_RUN。
+
 Run11于2026-09-27正确FAIL：API35 x86_64手机、平板模拟器均30 PASS / 50 FAIL / 20 MANUAL_REVIEW / 0 NOT_RUN，专业状态NOT_ACCEPTED；基础离线回归全部PASS，0超时、0崩溃。证据在`Tests/ci-runs/36312388759/`，Artifact 10932545265有效至2026-10-11。
 
 Run12 `36327194525`正在验证生产聊天历史和512-token长回答预算；当前无新Android结果。vivo X300 Pro与Lenovo Y900仍NOT_RUN。

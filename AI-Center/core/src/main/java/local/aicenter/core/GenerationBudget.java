@@ -2,7 +2,11 @@ package local.aicenter.core;
 
 /** Applies capability-wide generation limits without inspecting question ids or answer keys. */
 public final class GenerationBudget {
-    private static final int LONG_FORM_MINIMUM = 1024;
+    /*
+     * Keep enough room for compact multi-part answers while staying below the
+     * 180 second per-question watchdog on the verified ~5 token/s runtime.
+     */
+    private static final int LONG_FORM_MINIMUM = 640;
     private static final int HARD_MAXIMUM = 1024;
     private GenerationBudget() {}
 

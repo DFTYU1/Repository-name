@@ -55,22 +55,21 @@
     ]
   },
   "professional_acceptance": {
-    "commit": "649c54c717974e460ec514227dd735a44707e96f",
-    "run": 36341960326,
+    "commit": "46b4d73c08cb3a96997ce78712ad864e058e69ee",
+    "run": 36370715194,
     "status": "NOT_ACCEPTED",
     "counts": {
-      "PASS": 31,
-      "FAIL": 38,
-      "MANUAL_REVIEW": 31,
+      "PASS": 25,
+      "FAIL": 22,
+      "MANUAL_REVIEW": 53,
       "NOT_RUN": 0
     }
   },
   "pending_validation": {
-    "commit": "f0d1a965f84421e14803a6c7963101651bb0e8a3",
-    "run": 36363582769,
-    "status": "FAIL",
-    "long_form_representative": "PASS_AS_MANUAL_REVIEW_278_TOKENS_BOTH_PROFILES",
-    "conversation_representative": "PHONE_PASS_TABLET_FALSE_NEGATIVE_UNICODE_BOUNDARY",
-    "professional_100": "PHONE_NOT_ACCEPTED_11_35_54_0_TABLET_NOT_RUN"
+    "commit": null,
+    "run": null,
+    "status": "LOCAL_VALIDATION_PASS",
+    "first_gate": "Q025 compact long form then Q100 conversation",
+    "professional_100": "PENDING_640_TOKEN_TIMEOUT_VALIDATION"
   }
 }

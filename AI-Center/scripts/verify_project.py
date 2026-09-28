@@ -60,6 +60,8 @@ def professional_definition():
     engine=(ROOT/'platform-android/src/main/cpp/engine.cpp').read_text()
     assert 'finish below 450 tokens' in engine and 'output only that requested value' in engine
     assert 'Q025' not in engine and q[24]['prompt'] not in engine and q[24]['rubric'] not in engine
+    budget=(ROOT/'core/src/main/java/local/aicenter/core/GenerationBudget.java').read_text()
+    assert 'LONG_FORM_MINIMUM = 640' in budget and 'HARD_MAXIMUM = 1024' in budget
 def checkpoint_roundtrip():
     with tempfile.TemporaryDirectory() as tmp:
         output=Path(tmp)/'checkpoint.zip';info=create_checkpoint(ROOT,output,'automated checkpoint round-trip')

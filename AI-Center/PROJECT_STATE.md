@@ -1,3 +1,17 @@
+## 当前有效断点 · 2026-09-28 Run18完整双模拟器结果与超时预算修复
+
+project_id=personal-ai-center-20260909
+
+- Run18 https://github.com/DFTYU1/Repository-name/actions/runs/36370715194 已结束FAIL，专业状态`NOT_ACCEPTED`；构建、签名、lint、34核心、11报告、6项目验证和基础手机/平板离线回归全部PASS。
+- 手机、平板API35 x86_64均完整执行100题：25 PASS / 22 FAIL / 53 MANUAL_REVIEW / 0 NOT_RUN。Q025完整结束为MANUAL_REVIEW，Q100两端均PASS；精确输出与Unicode边界修复已验证。
+- 22项FAIL由6道真实Excel公式错误、14道真实数值错误和Q013/Q073两道人工题180秒超时组成；0应用崩溃。题库、答案、评分未改，20项模型能力错误继续如实FAIL。
+- APK 1368423001字节，SHA-256 `be21333467a237f530d6c33b2f665c0843f163bb0261108b3aef4f3a5dc28fae`，signed=true，仅USE_BIOMETRIC、无INTERNET；测试APK 59984字节，SHA-256 `67739b3d7a05778fe5b98896630681dff2e99eeafa391443030edf03040c0f15`。
+- Artifact `AI-Center-diagnostics-18` ID 10952753496，ZIP SHA-256 `ca963ad8909c26ea11f5079961634851733dacffc62fc5fe0457854fbdb32298`，有效至2026-10-12T05:41:39Z；完整证据保存`Tests/ci-runs/36370715194/`。
+- 只修可避免超时：manual通用最低预算由1024降至640，保留显式更高预算和1024硬上限；按实测约5 tokens/s为180秒看门狗留出提示处理余量。冻结验收及生产聊天接线不变。本地34核心、11报告、6项目验证PASS。
+- vivo X300 Pro与Lenovo Y900仍NOT_RUN；53道人工题未经人工复核保持PENDING_MANUAL_REVIEW；Phase1未完成。
+
+## 历史状态（以下仅供追溯）
+
 ## 当前有效断点 · 2026-09-28 Run13编译失败与最小修复
 
 project_id=personal-ai-center-20260909
@@ -262,5 +276,6 @@ project_id=personal-ai-center-20260909
 - Run17 APK 1368423001字节，SHA-256 `3f16fb4f15771e2e85391a355093b7333bdfeceb9ba1983e16d18a99ca1a50a0`；测试APK 59892字节，SHA-256 `cdf2eeba5073c637f078140858f490a086c0cc201b1710799426ed2ae28c858e`；均已签名，仅USE_BIOMETRIC、无INTERNET。
 - Artifact `AI-Center-diagnostics-17` ID 10948562460，ZIP SHA-256 `d4fd61d9d8ea23949f2c15492296bfbddc0a2014c642c3dfb6d466ae0db78228`，有效至2026-10-12T02:27:21Z；完整证据保存`Tests/ci-runs/36363582769/`。
 - 本批只修实际根因：系统提示新增“仅输出公式/数值/代码时禁止编号和解释”，多项回答目标由700缩至450 tokens以降低Q013超时风险；Q100数字检查改为ASCII数字两侧非数字，仍拒绝142等子串。冻结题库、题面、答案及要求不变，10道真实数值错误继续FAIL。
+- 修复已提交：`46b4d73c08cb3a96997ce78712ad864e058e69ee`。Run18 https://github.com/DFTYU1/Repository-name/actions/runs/36370715194 已排队；结束前不并发提交，不推测精确格式、Q013或双模拟器全量结果。
 
 ## 历史状态（以下仅供追溯）

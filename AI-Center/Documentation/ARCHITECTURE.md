@@ -117,3 +117,6 @@ project_id=personal-ai-center-20260909
 - conversation验收使用ASCII数字两侧非数字边界，避免中文字符使`\\b`失效，同时拒绝142包含42的假阳性。
 
 ## 历史状态
+# Run18 generation-budget observation
+
+The immutable professional suite completed on both API-35 emulator profiles. Compact multi-part prompting kept the most complex representative answer complete, while a 1024-token manual floor allowed two otherwise ordinary manual prompts to exceed the 180-second watchdog on the measured ~5 token/s runtime. Manual requests now receive a 640-token floor, retain explicit larger requests up to the existing 1024 hard limit, and remain human-review-only. Deterministic formula and numeric grading is unchanged.

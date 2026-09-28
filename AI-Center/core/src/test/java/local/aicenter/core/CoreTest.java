@@ -273,7 +273,8 @@ public final class CoreTest {
             check(prompt.length()<=150&&prompt.contains("current")&&!prompt.substring(0,prompt.length()-15).contains("</conversation>"),"prompt boundary failed");
         });
         test("generation budget expands long-form answers without changing deterministic cases", () -> {
-            check(GenerationBudget.forKind("manual",256)==1024,"long-form budget not expanded");
+            check(GenerationBudget.forKind("manual",256)==640,"long-form budget not runtime bounded");
+            check(GenerationBudget.forKind("manual",800)==800,"explicit larger manual budget changed");
             check(GenerationBudget.forKind("formula",96)==96&&GenerationBudget.forKind("number",96)==96,"deterministic budget changed");
             throwsType(IllegalArgumentException.class,()->GenerationBudget.forKind("manual",2048));
         });
