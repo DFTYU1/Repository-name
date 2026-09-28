@@ -48,6 +48,11 @@ public final class CenterApplication extends Application {
                 register("chat",input->{
                     if(models==null)throw new IllegalStateException(modelError);
                     String prompt=ConversationPrompt.build(db.recentMessages(),input,12000);
+                    java.util.List<String[]> userMessages=new java.util.ArrayList<>();
+                    for(String[] message:db.recentMessages())if("user".equals(message[0]))userMessages.add(message);
+                    String toolContext=ConversationPrompt.build(userMessages,input,12000);
+                    String assisted=new ToolChat((request,token)->localModel.generate(request,"",256,token)).answer(toolContext,activeToken.get());
+                    if(assisted!=null)return assisted;
                     return models.answer(prompt,false,false,(provider,paid,privateContent)->false,activeToken.get()).text;
                 });
                 register("search",input->{

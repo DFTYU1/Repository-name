@@ -1,3 +1,25 @@
+## 当前有效断点 · 2026-09-28 Run19结果与生产计算工具实现
+
+项目 personal-ai-center-20260909。基线提交 b7e2d73e078558f2dfb887f10206569613355f55；本批在独立目录实现，未更改冻结100题、答案与评分。
+Run19 https://github.com/DFTYU1/Repository-name/actions/runs/36384039111 于2026-09-28T09:26:39Z结束FAIL/NOT_ACCEPTED。手机/平板均25 PASS、22 FAIL、53 MANUAL_REVIEW、0 NOT_RUN。对比Run18所有200条判定无变化、PASS无退化；Q013/Q073仍180秒超时。6公式契约失败、14数值错误仍保留。Q025完整但仍待人工复核，Q100通过。诊断Artifact10961197425，ZIP SHA256 1e2ed36d329397f6bf413e608d5b9cfd0846493843105a4a0b25e5af303e50be；完整本地证据Tests/ci-runs/36384039111，公开仅扫描后结构化摘要/合成逐题对比。
+本批新增LocalCalculation（白名单运算、Decimal128、参数/除零/单位/百分数检查）、FormulaCheck（有限函数签名/范围检查）、ToolChat（真实模型提取参数，工具计算，缺参澄清），接入CenterApplication生产chat。仅用户消息可作为数值来源，不读取题库答案。语义参数映射仍依赖模型，不能宣称已可靠；公式STRUCTURE_ONLY不等于业务正确，复杂/未知函数UNVERIFIED。Q037原精确契约FAIL保留，并注明冗余包装的等价性差异。
+已验证34核心+30工具断言（规划器夹具，非真实模型）+11报告测试+6项目检查；Android源语法通过，Android类型编译/签名构建/lint/真实工具链尚待CI。新增10个真实UI工具辅助定向测试，点击聊天发送按钮走MainActivity→AgentRuntime→chat→ToolChat，覆盖变化数字/表述/范围、缺参、歧义、除零、单位错误及多轮补参。下轮双模拟器只跑基础离线与定向工具测试，全量100题显式NOT_RUN，任何定向PASS均不代表正式验收。
+持久状态：当前Library读取仍PROJECT_STATE v18、源码v16；先前替换transfer_failed未解决，不宣称更新。源码与状态按正式GitHub通道提交，持久恢复以本批仓库提交为准。vivo X300 Pro/Lenovo Y900仍NOT_RUN；Phase1未完成。
+下一步：核验定向Android真实输出及模型参数提取；失败只修对应原因；通过后再决定全量100题。原始裸模型成绩与工具辅助成绩分别保存，不互相覆盖。
+
+## 当前有效断点 · 2026-09-28 Run19运行中与Run18错误诊断
+
+- 已提交/正在测试：b7e2d73e078558f2dfb887f10206569613355f55；Run19 https://github.com/DFTYU1/Repository-name/actions/runs/36384039111 。构建/核心/项目验证/lint通过，模拟器仍in_progress，尚无Artifact；不并发提交。
+- 本轮只新增诊断证据与状态，未修改生产代码或冻结题库/评分。Tests/run18-analysis/DIAGNOSIS.md及failures.json包含20题双端原始输入/输出/预期/耗时；14数值题独立重算全部匹配预期。
+- 修正分类：Q037是精确结构契约失败，正常查找下冗余IFERROR包装可等价，不应笼统归为真实公式计算错误；保持原FAIL。
+- CenterApplication未注册数值/公式工具；chat直接模型回答；ProfessionalBenchmark的number/formula直接localModel.generate，绕过Agent。后续工具能力须独立真实Android验证，不能冒充裸模型改善。
+- manual-review.json已整理53题双端完整证据；全部PENDING_MANUAL_REVIEW，审核人/结论留空。Q025不自动PASS；真机仍NOT_RUN，Phase1未完成。
+- 待Run19结束先逐题比较超时与原PASS退化，再落实受限Decimal计算/结构化公式工具及模型参数提取，先变值/变表述小范围真实验证。本轮没有声称生产修复或Android验证完成。
+
+- 本轮版本保护替换两文件均明确transfer_failed；持久版本仍18/16。诊断与完整检查点仅本地保存，待重试；因Run19活跃，尚未提交诊断文档。
+
+## 历史记录（以下非当前断点）
+
 ## Run13最终状态 / Android测试源码编译修复
 
 - 最新提交：`649c54c717974e460ec514227dd735a44707e96f`；Run14 `36341960326`当前QUEUED，Android结果NOT_RUN。
@@ -16,6 +38,7 @@
 - APK 1368423001字节，SHA-256 `be21333467a237f530d6c33b2f665c0843f163bb0261108b3aef4f3a5dc28fae`；测试APK 59984字节，SHA-256 `67739b3d7a05778fe5b98896630681dff2e99eeafa391443030edf03040c0f15`；均已签名，仅USE_BIOMETRIC、无INTERNET。
 - Artifact 10952753496，ZIP SHA-256 `ca963ad8909c26ea11f5079961634851733dacffc62fc5fe0457854fbdb32298`，有效至2026-10-12T05:41:39Z。
 - 下一Run验证640最低预算是否消除Q013/Q073超时；公式/数值模型错误仍由门禁如实拦截。
+- 提交`b7e2d73e078558f2dfb887f10206569613355f55`已同步；新Run编号待正式接口返回。
 
 ## 历史状态
 

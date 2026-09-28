@@ -55,8 +55,8 @@
     ]
   },
   "professional_acceptance": {
-    "commit": "46b4d73c08cb3a96997ce78712ad864e058e69ee",
-    "run": 36370715194,
+    "commit": "b7e2d73e078558f2dfb887f10206569613355f55",
+    "run": 36384039111,
     "status": "NOT_ACCEPTED",
     "counts": {
       "PASS": 25,
@@ -68,8 +68,9 @@
   "pending_validation": {
     "commit": null,
     "run": null,
-    "status": "LOCAL_VALIDATION_PASS",
-    "first_gate": "Q025 compact long form then Q100 conversation",
-    "professional_100": "PENDING_640_TOKEN_TIMEOUT_VALIDATION"
-  }
+    "status": "LOCAL_TESTS_PASS_ANDROID_NOT_RUN",
+    "first_gate": "10 production UI tool-chat cases on both emulators",
+    "professional_100": "NOT_RUN_FOR_TOOL_IMPLEMENTATION"
+  },
+  "diagnostic_note": "Run19 vs Run18: no status changes; Q013/Q073 still time out. Tool implementation added; semantic extraction remains unverified on Android."
 }

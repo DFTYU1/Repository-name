@@ -1,0 +1,7 @@
+{
+  "status": "REMOTE_VERSIONS_UNCHANGED",
+  "project_state_version": 18,
+  "source_archive_version": 16,
+  "previous_error": "transfer_failed",
+  "recovery": "Source/state to be persisted via authorized GitHub commit; Library not updated"
+}

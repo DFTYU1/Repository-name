@@ -1,0 +1,123 @@
+{
+  "base": "b7e2d73e078558f2dfb887f10206569613355f55",
+  "files": [
+    {
+      "path": "core/src/main/java/local/aicenter/core/LocalCalculation.java",
+      "sha256": "1097cf59b6afe46e38bb436094919a5e68460b88ba3290ca89cc88423c2bec29"
+    },
+    {
+      "path": "core/src/main/java/local/aicenter/core/FormulaCheck.java",
+      "sha256": "83353689cccd8c7340104496ea75c2d1f95b7a8aa88073215759e238c24fd301"
+    },
+    {
+      "path": "core/src/main/java/local/aicenter/core/ToolChat.java",
+      "sha256": "5d0dc52959cafe16e901751a5b651e595b2eee8ebdc7a5753fb553e8b900605b"
+    },
+    {
+      "path": "core/src/test/java/local/aicenter/core/ToolCalculationTest.java",
+      "sha256": "1e40ae36f9073cfa0406317c288f2e0eec8adeeb8935b394e0c8cf3280b5e4d2"
+    },
+    {
+      "path": "app/src/main/java/local/aicenter/app/CenterApplication.java",
+      "sha256": "65da20749cc310c628ddb19d7dcf81ab968029a3ca87a4c56053cfe3af845730"
+    },
+    {
+      "path": "app/src/androidTest/java/local/aicenter/app/FoundationInstrumentation.java",
+      "sha256": "dcd02ac50bc00114071177bb04f057c31d8e4b13ec0a2b5ccca2fbe900d3e0a0"
+    },
+    {
+      "path": "scripts/test_core.py",
+      "sha256": "5a57bdae303fb959cc16024daca34b19ed928742ce66f6d97b9b2e163e549803"
+    },
+    {
+      "path": "scripts/android_ci.py",
+      "sha256": "a827851795900cbeae8c69d0ba48e31895decbe9d4d4bd8977b2ec6b628230bf"
+    },
+    {
+      "path": "ci/android-build.yml",
+      "sha256": "ff1bf838cddcdc98aa78393e281defdcb2f492b81eaa6f41e33161cf584d30c7"
+    },
+    {
+      "path": "PROJECT_STATE.md",
+      "sha256": "e34f45cf466b695b33a6f2a3c9ecef031edc78b63089f450a48fb4ef5631ea2d"
+    },
+    {
+      "path": "DEVELOPMENT_PROGRESS.md",
+      "sha256": "ace30e84b64494180193be5970f1044dfb3d55576f03b848f8036a60d241afdb"
+    },
+    {
+      "path": "TODO.md",
+      "sha256": "f0f0ec9bad6732f5fc10204df6a6f776c2011ae3b224e1c43c1bf4af69b9932b"
+    },
+    {
+      "path": "BUILD_STATUS.md",
+      "sha256": "16d8f34b91dd327ea0d03750d1cb7effdd7d2f5bf0bbd5f2af959036d37ccb2a"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "8a132af6dde42d6cb92681a4710eed458bd200b90704a021dac651d222c61e40"
+    },
+    {
+      "path": "Documentation/ARCHITECTURE.md",
+      "sha256": "f0e7b846f0cfdcf0e3762b909c936cef4ec49a59c77c48bbc65a3c9ad1466cb7"
+    },
+    {
+      "path": "Documentation/TOOL_ASSISTED_CHAT.md",
+      "sha256": "2e447d3965cdb8568999ef74d86c0d01bd30693c15b86f2649dca3304390662a"
+    },
+    {
+      "path": "Models/TOOL_VALIDATION.md",
+      "sha256": "6b5b63ab6e1e1d5632c33d3f327b07e16422ff89e752a1c934e3c487c8981994"
+    },
+    {
+      "path": "Tests/DEVICE_ACCEPTANCE.md",
+      "sha256": "9980ac57b4a0aa8b7cbca51d4a687fabb841f7868f4143befb5e5c6a6e4a412e"
+    },
+    {
+      "path": "Tests/tool-calculation-tests.json",
+      "sha256": "8c9849d6efa85685d341e637ef26468955aab5b347fe9594ea7b2b1293aabcde"
+    },
+    {
+      "path": "Tests/core-tests.json",
+      "sha256": "837337ec8cb4b02de71aededef7c6f6fff3468a6f13928f948653df182fa1e8d"
+    },
+    {
+      "path": "Tests/core-tests.log",
+      "sha256": "f3b43eb80d4bd0e9837f1fbde01157cd97bdee8399f870df03fc4b017ed8828a"
+    },
+    {
+      "path": "Tests/checkpoint-save-status.json",
+      "sha256": "664922031f1a20b6237a8d760cd21a48235a90f09745a7b72d223a3b743e9aae"
+    },
+    {
+      "path": "Tests/ci-runs/36384039111/run-summary.json",
+      "sha256": "1d7dadadf384a5794ee6e1a4b4b2b1afb3b97d9037d5e79e5882c2e90bf8fd02"
+    },
+    {
+      "path": "Tests/ci-runs/36384039111/phone-comparison.json",
+      "sha256": "6b66cd6ed1b0556edcd8f7fb26059c5efef4f37137c6e1847a961ee55b7234ac"
+    },
+    {
+      "path": "Tests/ci-runs/36384039111/tablet-comparison.json",
+      "sha256": "e4064d74357f371e09b43d25fa49af17b06b43b5caf5555ef54732e8ca52a278"
+    },
+    {
+      "path": "Tests/run18-analysis/DIAGNOSIS.md",
+      "sha256": "24a1c0d274c70852150312c21575118a5e48d9d75e491a285b080f74afe24f33"
+    },
+    {
+      "path": "Tests/run18-analysis/manual-review.json",
+      "sha256": "a3dbc5dcb112060719b179054fd9b6a465bcc6db4308689fc76cd5a37c9b7379"
+    },
+    {
+      "path": "Tests/run18-analysis/independent-numeric-checks.json",
+      "sha256": "61a5381bbecc7fd61d5657a2fe3243c8cba894a2d9f2eb1ab96b315b74c32528"
+    },
+    {
+      "path": "Tests/run18-analysis/reproduce.py",
+      "sha256": "01aab7781819c2bcb885a2ae800c394bfd9569860bbad7f7307d91eee029f85f"
+    }
+  ],
+  "scan": "no fixed credential pattern matches",
+  "excluded": "raw logs/diagnostic ZIP/APK/GGUF/user data"
+}

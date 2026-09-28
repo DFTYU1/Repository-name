@@ -206,7 +206,7 @@ def test():
                 if not re.search(r'^Status: ok$', started, re.M):
                     raise RuntimeError('Activity launch did not report success')
                 output = adb('shell', 'am', 'instrument', '-w', '-r', '-e', 'profile', profile,
-                    '-e', 'fixture_password', fixture_password, '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
+                    '-e','tool_chat','true', '-e', 'fixture_password', fixture_password, '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
                     TEST_PACKAGE + '/local.aicenter.app.FoundationInstrumentation', timeout=1800)
                 (OUT / (profile + '-instrumentation.log')).write_text(output)
                 profile_result = parse_instrumentation(output, profile)
@@ -224,7 +224,11 @@ def test():
                 if 'Process: ' + PACKAGE in crash:
                     profile_result['status'] = 'FAIL'
                     profile_result['crash'] = True
-                if profile_result['status'] == 'PASS':
+                if os.environ.get('AI_CENTER_VALIDATION_SCOPE') == 'tool_chat':
+                    profile_result['scope']='TARGETED_TOOL_CHAT_ONLY'
+                    profile_result['professional_status']='NOT_RUN'
+                    profile_result['formal_acceptance']='NOT_ACCEPTED'
+                elif profile_result['status'] == 'PASS':
                     suite=json.loads((ROOT/'app/src/androidTest/assets/professional-100.json').read_text())
                     manual_indices=[i for i,q in enumerate(suite['cases']) if q['kind']=='manual']
                     representative=[max(manual_indices,key=lambda i: len(suite['cases'][i]['prompt'])+len(suite['cases'][i]['rubric'])),

@@ -1,0 +1,10 @@
+# 受限本地计算与公式检查
+
+## 生产路径与能力边界
+MainActivity的发送按钮调用planTool和AgentRuntime；chat注册入口从加密会话取得用户消息，ToolChat用实际本地模型提取封闭协议。LocalCalculation只执行白名单运算，无代码求值、脚本、反射或题库读取。数学结果使用Decimal128；循环小数遵循34位有效数字，不声称无限精确。
+数字来源检查防止模型凭空增加数值；并不能证明数字角色、单位或历史指代正确，这仍需真实模型验收。未知单位/缺参/冲突应澄清，不使用默认值。当前不支持复合单位、跨长度单位隐式转换、任意表达式或嵌套公式。生产工具只看用户消息，避免把先前模型答案当用户输入。
+FormulaCheck支持SUM/AVERAGE/COUNT、SUMIF/SUMIFS、MATCH、XLOOKUP的受限单层形式。检查函数参数位置类型、范围方向、Excel边界和维度，不证明条件范围与业务数据匹配；返回STRUCTURE_ONLY明确说明未验证业务含义。未知函数、嵌套公式返回UNVERIFIED，不把结构正确称为公式正确。
+
+## 验证与独立成绩
+ProfessionalBenchmark的裸模型数值/公式生成与评分保持原样。Q037保留精确公式契约失败，另注等价性差异。人工清单Tests/run18-analysis/manual-review.json保持53题PENDING_MANUAL_REVIEW。
+ToolCalculationTest包含30个确定性断言，模型规划由夹具替代，不能代表真实模型成功。FoundationInstrumentation新增10项UI真实模型测试，记录完整合成问题、输出与耗时。工作流定向scope为tool_chat，报告明确100题NOT_RUN/正式NOT_ACCEPTED。定向通过后才评估全量回归。原始Run19双端25/22/53/0另存，不改写成工具成绩。

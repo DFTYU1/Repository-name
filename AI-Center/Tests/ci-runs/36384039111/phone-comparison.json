@@ -1,0 +1,2102 @@
+[
+  {
+    "id": "Q001",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 43705,
+      "generated_tokens": 61,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "PDCA 四个字母及作用如下：\nP: Plan 计划，设定目标与标准；\nD: Do 执行，实施计划并行动；\nC: Check 检查，评估结果与标准对比；\nA: Act 处理，标准化成功经验或修正失败问题。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 52750,
+      "generated_tokens": 61,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "PDCA 四个字母及作用如下：\nP: Plan 计划，设定目标与标准；\nD: Do 执行，实施计划并行动；\nC: Check 检查，评估结果与标准对比；\nA: Act 处理，标准化成功经验或修正失败问题。"
+    }
+  },
+  {
+    "id": "Q002",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 44555,
+      "generated_tokens": 68,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "DMAIC 五个阶段为：定义 (Define)、测量 (Measure)、分析 (Analyze)、改进 (Improve)、控制 (Control)。测量阶段的交付物包括：原始数据、过程统计图、过程能力指数 (Cpk/Ppk)、过程变异来源清单及关键质量特性 (KCT) 的基准值。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 54635,
+      "generated_tokens": 68,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "DMAIC 五个阶段为：定义 (Define)、测量 (Measure)、分析 (Analyze)、改进 (Improve)、控制 (Control)。测量阶段的交付物包括：原始数据、过程统计图、过程能力指数 (Cpk/Ppk)、过程变异来源清单及关键质量特性 (KCT) 的基准值。"
+    }
+  },
+  {
+    "id": "Q003",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 35956,
+      "generated_tokens": 27,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "QC 检验：事后检测，发现缺陷后返工或报废；QE 预防：事前设计控制，防止缺陷产生。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 43471,
+      "generated_tokens": 27,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "QC 检验：事后检测，发现缺陷后返工或报废；QE 预防：事前设计控制，防止缺陷产生。"
+    }
+  },
+  {
+    "id": "Q004",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 60985,
+      "generated_tokens": 146,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 问题识别：定义问题及其影响。\n2. 原因分析：寻找根本原因。\n3. 临时遏制：立即停止问题发生或扩大，防止损失。\n4. 永久纠正措施：实施长期方案以消除根本原因。\n5. 预防再发生：制定计划防止同类问题再次发生。\n6. 验证：确认问题已解决且预防措施有效。\n7. 管理评审：评估体系改进及资源需求。\n8. 关闭：正式批准并关闭问题及纠正措施。\n\n区别：\n临时遏制是短期、临时性措施，用于立即止损；永久纠正措施是长期、根本性措施，旨在消除问题根源。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 74983,
+      "generated_tokens": 146,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 问题识别：定义问题及其影响。\n2. 原因分析：寻找根本原因。\n3. 临时遏制：立即停止问题发生或扩大，防止损失。\n4. 永久纠正措施：实施长期方案以消除根本原因。\n5. 预防再发生：制定计划防止同类问题再次发生。\n6. 验证：确认问题已解决且预防措施有效。\n7. 管理评审：评估体系改进及资源需求。\n8. 关闭：正式批准并关闭问题及纠正措施。\n\n区别：\n临时遏制是短期、临时性措施，用于立即止损；永久纠正措施是长期、根本性措施，旨在消除问题根源。"
+    }
+  },
+  {
+    "id": "Q005",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 67860,
+      "generated_tokens": 177,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 询问“螺丝松动”的根本原因：是设计缺陷、材料问题、安装不当还是环境因素？\n2. 追问“设计缺陷”：是公差过大、应力集中还是缺乏防松措施？\n3. 追问“安装不当”：是扭矩控制失效、螺纹匹配错误或缺乏防松工具？\n4. 追问“材料问题”：是批次差异、热处理不当还是涂层脱落？\n5. 追问“环境因素”：是振动、湿度、温度或腐蚀导致失效？\n6. 验证假设：通过更换标准件、优化工艺或加强检测来确认根因。\n7. 制定对策：针对每个根因实施具体改进措施并跟踪效果。\n8. 防止误判：坚持“5Why”层层深入，避免仅凭经验或单一现象下结论。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 83656,
+      "generated_tokens": 177,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 询问“螺丝松动”的根本原因：是设计缺陷、材料问题、安装不当还是环境因素？\n2. 追问“设计缺陷”：是公差过大、应力集中还是缺乏防松措施？\n3. 追问“安装不当”：是扭矩控制失效、螺纹匹配错误或缺乏防松工具？\n4. 追问“材料问题”：是批次差异、热处理不当还是涂层脱落？\n5. 追问“环境因素”：是振动、湿度、温度或腐蚀导致失效？\n6. 验证假设：通过更换标准件、优化工艺或加强检测来确认根因。\n7. 制定对策：针对每个根因实施具体改进措施并跟踪效果。\n8. 防止误判：坚持“5Why”层层深入，避免仅凭经验或单一现象下结论。"
+    }
+  },
+  {
+    "id": "Q006",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 45704,
+      "generated_tokens": 69,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 人：操作者技能、疲劳、培训不足\n2. 机：设备精度、磨损、校准\n3. 料：原材料缺陷、包装不当\n4. 法：工艺参数、工装设计\n5. 环：环境温湿度、清洁度\n6. 测：检测设备精度、校准状态"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 55387,
+      "generated_tokens": 69,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 人：操作者技能、疲劳、培训不足\n2. 机：设备精度、磨损、校准\n3. 料：原材料缺陷、包装不当\n4. 法：工艺参数、工装设计\n5. 环：环境温湿度、清洁度\n6. 测：检测设备精度、校准状态"
+    }
+  },
+  {
+    "id": "Q007",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 47710,
+      "generated_tokens": 80,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 绘制横轴为不良项目，纵轴为累计频率或累计损失金额。\n2. 选择频次：优先选择频次最高的不良项目，以突出主要问题。\n3. 选择损失金额：优先选择损失金额最高的不良项目，以反映实际成本影响。\n4. 若两者冲突，通常以频次为主，损失金额为辅进行排序。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 58330,
+      "generated_tokens": 80,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 绘制横轴为不良项目，纵轴为累计频率或累计损失金额。\n2. 选择频次：优先选择频次最高的不良项目，以突出主要问题。\n3. 选择损失金额：优先选择损失金额最高的不良项目，以反映实际成本影响。\n4. 若两者冲突，通常以频次为主，损失金额为辅进行排序。"
+    }
+  },
+  {
+    "id": "Q008",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 44291,
+      "generated_tokens": 70,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "控制限：统计过程控制中，由样本数据计算得出的上下限，用于判断过程是否处于统计控制状态。\n规格限：产品标准中规定的上下限，用于判断产品是否合格。\n区别：控制限反映过程稳定性，规格限反映产品合格性；控制限随样本变化，规格限为固定值。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 54195,
+      "generated_tokens": 70,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "控制限：统计过程控制中，由样本数据计算得出的上下限，用于判断过程是否处于统计控制状态。\n规格限：产品标准中规定的上下限，用于判断产品是否合格。\n区别：控制限反映过程稳定性，规格限反映产品合格性；控制限随样本变化，规格限为固定值。"
+    }
+  },
+  {
+    "id": "Q009",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40147,
+      "generated_tokens": 46,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "不可以。Cpk 是过程能力指数，反映过程在统计意义上的稳定性与能力。过程不稳定（如存在异常点、变异大）时，Cpk 会显著降低，不能宣称 Cpk 很好。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 48752,
+      "generated_tokens": 46,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "不可以。Cpk 是过程能力指数，反映过程在统计意义上的稳定性与能力。过程不稳定（如存在异常点、变异大）时，Cpk 会显著降低，不能宣称 Cpk 很好。"
+    }
+  },
+  {
+    "id": "Q010",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 38481,
+      "generated_tokens": 42,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Cp 与 Cpk 的区别在于：Cp 衡量过程潜在能力（假设过程完全稳定且无变异），Cpk 衡量实际过程能力（考虑了过程变异和中心偏移）。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 46816,
+      "generated_tokens": 42,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Cp 与 Cpk 的区别在于：Cp 衡量过程潜在能力（假设过程完全稳定且无变异），Cpk 衡量实际过程能力（考虑了过程变异和中心偏移）。"
+    }
+  },
+  {
+    "id": "Q011",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 52376,
+      "generated_tokens": 102,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Ppk/Ppk 与 Cp/Cpk 的标准差口径区别如下：\n\n1. **Ppk 口径**：基于过程均值与标准差（$\\sigma$）计算，反映长期稳定性。\n2. **Cpk 口径**：基于过程均值与标准差（$\\sigma$）计算，反映过程能力。\n3. **核心差异**：两者均使用标准差作为分母，但 Ppk 关注长期性能，Cpk 关注过程能力。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 64112,
+      "generated_tokens": 102,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Ppk/Ppk 与 Cp/Cpk 的标准差口径区别如下：\n\n1. **Ppk 口径**：基于过程均值与标准差（$\\sigma$）计算，反映长期稳定性。\n2. **Cpk 口径**：基于过程均值与标准差（$\\sigma$）计算，反映过程能力。\n3. **核心差异**：两者均使用标准差作为分母，但 Ppk 关注长期性能，Cpk 关注过程能力。"
+    }
+  },
+  {
+    "id": "Q012",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40879,
+      "generated_tokens": 52,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "重复性：同一操作者、同一设备、同一地点、同一条件下，对同一样品进行多次测量，结果的一致性。\n再现性：不同操作者、不同设备、不同地点、不同条件下，对同一样品进行测量，结果的一致性。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 50070,
+      "generated_tokens": 52,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "重复性：同一操作者、同一设备、同一地点、同一条件下，对同一样品进行多次测量，结果的一致性。\n再现性：不同操作者、不同设备、不同地点、不同条件下，对同一样品进行测量，结果的一致性。"
+    }
+  },
+  {
+    "id": "Q013",
+    "before": {
+      "status": "FAIL",
+      "reason": "question_timeout",
+      "elapsed_ms": 180118,
+      "generated_tokens": null,
+      "generation_budget_tokens": 1024,
+      "timeout": true,
+      "output": ""
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "question_timeout",
+      "elapsed_ms": 180232,
+      "generated_tokens": null,
+      "generation_budget_tokens": 640,
+      "timeout": true,
+      "output": ""
+    }
+  },
+  {
+    "id": "Q014",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 43453,
+      "generated_tokens": 65,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "测量偏倚：系统误差（如校准不准）或随机误差（如读数波动）。\n线性：测量值与真实值呈正比关系（如 100mg 对应 100mg 读数）。\n稳定性：重复测量结果的一致性（如多次称量差值极小）。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 53336,
+      "generated_tokens": 65,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "测量偏倚：系统误差（如校准不准）或随机误差（如读数波动）。\n线性：测量值与真实值呈正比关系（如 100mg 对应 100mg 读数）。\n稳定性：重复测量结果的一致性（如多次称量差值极小）。"
+    }
+  },
+  {
+    "id": "Q015",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40198,
+      "generated_tokens": 46,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "严重度：故障后果的严重程度（如停机损失、人员伤亡）。\n发生度：故障发生的概率（概率越低，发生度越高）。\n探测度：检测系统发现故障的能力（能力越高，探测度越高）。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 49066,
+      "generated_tokens": 46,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "严重度：故障后果的严重程度（如停机损失、人员伤亡）。\n发生度：故障发生的概率（概率越低，发生度越高）。\n探测度：检测系统发现故障的能力（能力越高，探测度越高）。"
+    }
+  },
+  {
+    "id": "Q016",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 34925,
+      "generated_tokens": 20,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "PFMEA 关注过程失效模式及其后果；DFMEA 关注产品设计失效模式及其后果。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 42353,
+      "generated_tokens": 20,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "PFMEA 关注过程失效模式及其后果；DFMEA 关注产品设计失效模式及其后果。"
+    }
+  },
+  {
+    "id": "Q017",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 31253,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "是"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 37643,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "是"
+    }
+  },
+  {
+    "id": "Q018",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 43686,
+      "generated_tokens": 62,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "p 图适用：二分类数据（如患病/健康）；np 图适用：多分类数据（如不同血型）。样本量变化影响：样本量增大时，p 图能更稳定地识别显著差异，np 图能更准确反映各组的真实分布差异。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 53308,
+      "generated_tokens": 62,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "p 图适用：二分类数据（如患病/健康）；np 图适用：多分类数据（如不同血型）。样本量变化影响：样本量增大时，p 图能更稳定地识别显著差异，np 图能更准确反映各组的真实分布差异。"
+    }
+  },
+  {
+    "id": "Q019",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 39739,
+      "generated_tokens": 49,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 选择 c 图：当数据分布呈正态分布且需监控过程均值与标准差时。\n2. 选择 u 图：当数据分布非正态或需监控过程均值与变异时。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 48798,
+      "generated_tokens": 49,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 选择 c 图：当数据分布呈正态分布且需监控过程均值与标准差时。\n2. 选择 u 图：当数据分布非正态或需监控过程均值与变异时。"
+    }
+  },
+  {
+    "id": "Q020",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 42127,
+      "generated_tokens": 56,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "控制图选择：X-bar 图（均值图）。\n\n原因：每小时测一个尺寸，样本量 n=1，无法计算标准差，因此不能用 R 图或 S 图；X-bar 图适用于单值序列，能监控过程均值偏移。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 51634,
+      "generated_tokens": 56,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "控制图选择：X-bar 图（均值图）。\n\n原因：每小时测一个尺寸，样本量 n=1，无法计算标准差，因此不能用 R 图或 S 图；X-bar 图适用于单值序列，能监控过程均值偏移。"
+    }
+  },
+  {
+    "id": "Q021",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40754,
+      "generated_tokens": 48,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 识别关键过程及控制点；\n2. 确定控制方法及限值；\n3. 制定检验与测量方案；\n4. 规定偏差处理程序；\n5. 明确记录与追溯要求。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 49349,
+      "generated_tokens": 48,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 识别关键过程及控制点；\n2. 确定控制方法及限值；\n3. 制定检验与测量方案；\n4. 规定偏差处理程序；\n5. 明确记录与追溯要求。"
+    }
+  },
+  {
+    "id": "Q022",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 36489,
+      "generated_tokens": 30,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "APQP 解决新产品/新工艺开发中的设计、验证与确认问题；PPAP 解决量产前对供应商的批准与验证问题。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 44084,
+      "generated_tokens": 30,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "APQP 解决新产品/新工艺开发中的设计、验证与确认问题；PPAP 解决量产前对供应商的批准与验证问题。"
+    }
+  },
+  {
+    "id": "Q023",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 43165,
+      "generated_tokens": 62,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "不相关系数高不证明因果。验证方法包括：1. 时间序列分析（如格兰杰因果检验）；2. 工具变量法（IV）；3. 双重差分法（DID）；4. 自然实验；5. 断点回归（RDD）。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 52784,
+      "generated_tokens": 62,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "不相关系数高不证明因果。验证方法包括：1. 时间序列分析（如格兰杰因果检验）；2. 工具变量法（IV）；3. 双重差分法（DID）；4. 自然实验；5. 断点回归（RDD）。"
+    }
+  },
+  {
+    "id": "Q024",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 44665,
+      "generated_tokens": 68,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 明确目标响应变量与因子间的因果关系；\n2. 确定各因子水平及其对应的工艺参数；\n3. 设计实验布局以平衡误差与效应；\n4. 制定数据采集与统计分析计划；\n5. 控制实验条件的一致性；\n6. 验证模型预测与实际结果的偏差。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 54653,
+      "generated_tokens": 68,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 明确目标响应变量与因子间的因果关系；\n2. 确定各因子水平及其对应的工艺参数；\n3. 设计实验布局以平衡误差与效应；\n4. 制定数据采集与统计分析计划；\n5. 控制实验条件的一致性；\n6. 验证模型预测与实际结果的偏差。"
+    }
+  },
+  {
+    "id": "Q025",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 76386,
+      "generated_tokens": 209,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "问题定义：夹片螺母螺丝在装配或运行中发生咬合、滑牙、断裂或扭矩失效。\n原因分类：材料强度不足、热处理不当、镀层附着力差、装配扭矩不足、异物污染、设计公差过大。\n来料检查：外观无裂纹、镀层厚度达标、螺纹尺寸符合公差、材质牌号正确。\n量具：螺纹规、扭矩扳手、硬度计、镀层测厚仪、显微镜。\n螺纹规：用于检测牙型角、螺距及螺纹通止规。\n扭矩：使用标准扭矩扳手，设定值需参考手册或计算。\n材料：确认屈服强度、抗拉强度及疲劳极限。\n热处理：退火消除应力、淬火提高硬度、回火防止脆性。\n镀层：检查附着力、厚度均匀性及耐蚀性。\n装配：清洁表面、正确力矩拧紧、使用防松措施。\n验证方案：扭矩测试、振动疲劳试验、外观及尺寸复检。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 95230,
+      "generated_tokens": 209,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "问题定义：夹片螺母螺丝在装配或运行中发生咬合、滑牙、断裂或扭矩失效。\n原因分类：材料强度不足、热处理不当、镀层附着力差、装配扭矩不足、异物污染、设计公差过大。\n来料检查：外观无裂纹、镀层厚度达标、螺纹尺寸符合公差、材质牌号正确。\n量具：螺纹规、扭矩扳手、硬度计、镀层测厚仪、显微镜。\n螺纹规：用于检测牙型角、螺距及螺纹通止规。\n扭矩：使用标准扭矩扳手，设定值需参考手册或计算。\n材料：确认屈服强度、抗拉强度及疲劳极限。\n热处理：退火消除应力、淬火提高硬度、回火防止脆性。\n镀层：检查附着力、厚度均匀性及耐蚀性。\n装配：清洁表面、正确力矩拧紧、使用防松措施。\n验证方案：扭矩测试、振动疲劳试验、外观及尺寸复检。"
+    }
+  },
+  {
+    "id": "Q026",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34427,
+      "generated_tokens": 8,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=SUM(A1:A10)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 41313,
+      "generated_tokens": 8,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=SUM(A1:A10)"
+    }
+  },
+  {
+    "id": "Q027",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 33839,
+      "generated_tokens": 9,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=AVG(B2:B11)"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 40702,
+      "generated_tokens": 9,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=AVG(B2:B11)"
+    }
+  },
+  {
+    "id": "Q028",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 34564,
+      "generated_tokens": 11,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=COUNTIF(C2:C20,\"数字\")"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 41338,
+      "generated_tokens": 11,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=COUNTIF(C2:C20,\"数字\")"
+    }
+  },
+  {
+    "id": "Q029",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 33594,
+      "generated_tokens": 8,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=MAX(D2:D20)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 40253,
+      "generated_tokens": 8,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=MAX(D2:D20)"
+    }
+  },
+  {
+    "id": "Q030",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 33679,
+      "generated_tokens": 8,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=MIN(D2:D20)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 40515,
+      "generated_tokens": 8,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=MIN(D2:D20)"
+    }
+  },
+  {
+    "id": "Q031",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 35861,
+      "generated_tokens": 12,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=IF(A2>=60,\"合格\",\"不合格\")"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 42648,
+      "generated_tokens": 12,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=IF(A2>=60,\"合格\",\"不合格\")"
+    }
+  },
+  {
+    "id": "Q032",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34073,
+      "generated_tokens": 9,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=IFERROR(A2/B2,\"\")"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 40742,
+      "generated_tokens": 9,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=IFERROR(A2/B2,\"\")"
+    }
+  },
+  {
+    "id": "Q033",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34606,
+      "generated_tokens": 11,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=COUNTIF(A2:A20,\"NG\")"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 41549,
+      "generated_tokens": 11,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=COUNTIF(A2:A20,\"NG\")"
+    }
+  },
+  {
+    "id": "Q034",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 36676,
+      "generated_tokens": 18,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=SUMIF(B2:B20,\"=NG\",A2:A20)"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 43792,
+      "generated_tokens": 18,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=SUMIF(B2:B20,\"=NG\",A2:A20)"
+    }
+  },
+  {
+    "id": "Q035",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 40410,
+      "generated_tokens": 30,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=SUMIF(C2:C20,A2:B20,IF(B2:B20>0,C2:C20,0))"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 48534,
+      "generated_tokens": 30,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=SUMIF(C2:C20,A2:B20,IF(B2:B20>0,C2:C20,0))"
+    }
+  },
+  {
+    "id": "Q036",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 38333,
+      "generated_tokens": 19,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=INDEX(B2:B20,MATCH(E2,A2:A20,0))"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 45635,
+      "generated_tokens": 19,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=INDEX(B2:B20,MATCH(E2,A2:A20,0))"
+    }
+  },
+  {
+    "id": "Q037",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 43260,
+      "generated_tokens": 41,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=IFERROR(XLOOKUP(E2,A2:A20,B2:B20,\"未找到\"),XLOOKUP(E2,A2:A20,B2:B20,\"未找到\"))"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 51880,
+      "generated_tokens": 41,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=IFERROR(XLOOKUP(E2,A2:A20,B2:B20,\"未找到\"),XLOOKUP(E2,A2:A20,B2:B20,\"未找到\"))"
+    }
+  },
+  {
+    "id": "Q038",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 36750,
+      "generated_tokens": 19,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=INDEX(A2:A20,MATCH(E2,A2:A20,0))"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 44065,
+      "generated_tokens": 19,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=INDEX(A2:A20,MATCH(E2,A2:A20,0))"
+    }
+  },
+  {
+    "id": "Q039",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 33067,
+      "generated_tokens": 6,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=TRIM(A2)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 39646,
+      "generated_tokens": 6,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=TRIM(A2)"
+    }
+  },
+  {
+    "id": "Q040",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34415,
+      "generated_tokens": 9,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=SUBSTITUTE(A2,\"-\",\"\")"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 40979,
+      "generated_tokens": 9,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=SUBSTITUTE(A2,\"-\",\"\")"
+    }
+  },
+  {
+    "id": "Q041",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34622,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=ROUND(A2,2)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 41209,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=ROUND(A2,2)"
+    }
+  },
+  {
+    "id": "Q042",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 33564,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=LEFT(A2,3)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 39898,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=LEFT(A2,3)"
+    }
+  },
+  {
+    "id": "Q043",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 33792,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=RIGHT(A2,4)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 39869,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=RIGHT(A2,4)"
+    }
+  },
+  {
+    "id": "Q044",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 32845,
+      "generated_tokens": 5,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=LEN(A2)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 39064,
+      "generated_tokens": 5,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=LEN(A2)"
+    }
+  },
+  {
+    "id": "Q045",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 36435,
+      "generated_tokens": 13,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=IF(B2=0,\"\",A2/B2)"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 43211,
+      "generated_tokens": 13,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "=IF(B2=0,\"\",A2/B2)"
+    }
+  },
+  {
+    "id": "Q046",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 53399,
+      "generated_tokens": 97,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "defect: 发音：/ˈdefekt/；中文意思：缺陷、错误；QE例句：The software has a critical defect that needs immediate attention; 听力练习：Listen to audio clips of engineers discussing bugs; 口语练习：Role-play a QA meeting about a new feature; 拼写测试：Type \"defect\" into a text box; 复习安排：Daily 15 mins, Weekly 30 mins, Monthly 1 hour."
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 64336,
+      "generated_tokens": 97,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "defect: 发音：/ˈdefekt/；中文意思：缺陷、错误；QE例句：The software has a critical defect that needs immediate attention; 听力练习：Listen to audio clips of engineers discussing bugs; 口语练习：Role-play a QA meeting about a new feature; 拼写测试：Type \"defect\" into a text box; 复习安排：Daily 15 mins, Weekly 30 mins, Monthly 1 hour."
+    }
+  },
+  {
+    "id": "Q047",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40126,
+      "generated_tokens": 44,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "inspection: 检查，查看表面或过程是否合规。\ntest: 测试，验证功能或性能是否达标。\ninspection 关注外观或流程合规性；test 关注功能或性能是否合格。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 48201,
+      "generated_tokens": 44,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "inspection: 检查，查看表面或过程是否合规。\ntest: 测试，验证功能或性能是否达标。\ninspection 关注外观或流程合规性；test 关注功能或性能是否合格。"
+    }
+  },
+  {
+    "id": "Q048",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 31846,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "请检查这批零件的螺纹。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 37649,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "请检查这批零件的螺纹。"
+    }
+  },
+  {
+    "id": "Q049",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 35092,
+      "generated_tokens": 24,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Root cause (根本原因) 指导致问题发生的初始、最深层因素，而非直接表现出的表面症状。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 41863,
+      "generated_tokens": 24,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Root cause (根本原因) 指导致问题发生的初始、最深层因素，而非直接表现出的表面症状。"
+    }
+  },
+  {
+    "id": "Q050",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 35275,
+      "generated_tokens": 23,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Corrective action: correcting a problem to prevent recurrence.\nCorrection: fixing an error to resolve the immediate issue."
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 41746,
+      "generated_tokens": 23,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Corrective action: correcting a problem to prevent recurrence.\nCorrection: fixing an error to resolve the immediate issue."
+    }
+  },
+  {
+    "id": "Q051",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 34145,
+      "generated_tokens": 14,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "工人用扭矩扳手拧紧螺栓；工人用扭矩扳手拧紧螺栓。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40351,
+      "generated_tokens": 14,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "工人用扭矩扳手拧紧螺栓；工人用扭矩扳手拧紧螺栓。"
+    }
+  },
+  {
+    "id": "Q052",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 31936,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "He goes to work every day."
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 37893,
+      "generated_tokens": 7,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "He goes to work every day."
+    }
+  },
+  {
+    "id": "Q053",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 31402,
+      "generated_tokens": 5,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "There are three defects."
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 37058,
+      "generated_tokens": 5,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "There are three defects."
+    }
+  },
+  {
+    "id": "Q054",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 32896,
+      "generated_tokens": 11,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Could you please provide the inspection report for your shipment?"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 39289,
+      "generated_tokens": 11,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Could you please provide the inspection report for your shipment?"
+    }
+  },
+  {
+    "id": "Q055",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 33423,
+      "generated_tokens": 12,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Isolate defective items first, then investigate the root cause."
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 39828,
+      "generated_tokens": 12,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Isolate defective items first, then investigate the root cause."
+    }
+  },
+  {
+    "id": "Q056",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 44292,
+      "generated_tokens": 62,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Tolerance 在尺寸检验中是指允许的尺寸变动范围，即零件实际尺寸与公称尺寸之间的最大允许偏差。\n\n例句：该零件的公差为 0.5mm，表示其实际长度必须在 49.5mm 至 50.5mm 之间。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 52908,
+      "generated_tokens": 62,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Tolerance 在尺寸检验中是指允许的尺寸变动范围，即零件实际尺寸与公称尺寸之间的最大允许偏差。\n\n例句：该零件的公差为 0.5mm，表示其实际长度必须在 49.5mm 至 50.5mm 之间。"
+    }
+  },
+  {
+    "id": "Q057",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 39969,
+      "generated_tokens": 48,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Supplier: 向产品或服务提供原材料、零部件或服务的供应商。\nCustomer: 购买产品或服务并支付费用的消费者或企业。\n例句：汽车制造商与钢铁供应商建立了长期合作关系，而汽车制造商的客户则是最终消费者。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 48481,
+      "generated_tokens": 48,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Supplier: 向产品或服务提供原材料、零部件或服务的供应商。\nCustomer: 购买产品或服务并支付费用的消费者或企业。\n例句：汽车制造商与钢铁供应商建立了长期合作关系，而汽车制造商的客户则是最终消费者。"
+    }
+  },
+  {
+    "id": "Q058",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 33750,
+      "generated_tokens": 12,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "Please confirm the scope of the change execution from which order."
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40076,
+      "generated_tokens": 12,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "Please confirm the scope of the change execution from which order."
+    }
+  },
+  {
+    "id": "Q059",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 37807,
+      "generated_tokens": 36,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. Quality meeting: 质量会议; 质量会议\n2. Quality issue: 质量问题; 质量问题\n3. Quality goal: 质量目标; 质量目标"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 45340,
+      "generated_tokens": 36,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. Quality meeting: 质量会议; 质量会议\n2. Quality issue: 质量问题; 质量问题\n3. Quality goal: 质量目标; 质量目标"
+    }
+  },
+  {
+    "id": "Q060",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 39147,
+      "generated_tokens": 41,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "The hypothesis that \"all swans are white\" is not yet confirmed because the only known swans in the world are white, but this conclusion has not been verified by examining every swan on Earth."
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 47397,
+      "generated_tokens": 41,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "The hypothesis that \"all swans are white\" is not yet confirmed because the only known swans in the world are white, but this conclusion has not been verified by examining every swan on Earth."
+    }
+  },
+  {
+    "id": "Q061",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 36797,
+      "generated_tokens": 21,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "立即隔离涉事物料。请工程部门于 2 小时内确认划伤原因并出具整改方案。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 43601,
+      "generated_tokens": 21,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "立即隔离涉事物料。请工程部门于 2 小时内确认划伤原因并出具整改方案。"
+    }
+  },
+  {
+    "id": "Q062",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 35987,
+      "generated_tokens": 24,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "请供应商提供加盖公章的《质量检验报告》或《出厂合格证》，并附上对应的批次号及检验记录。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 42872,
+      "generated_tokens": 24,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "请供应商提供加盖公章的《质量检验报告》或《出厂合格证》，并附上对应的批次号及检验记录。"
+    }
+  },
+  {
+    "id": "Q063",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 48199,
+      "generated_tokens": 82,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 事实：扭矩值超出设计公差范围 [X] Nm，导致连接件松动。\n2. 影响：设备振动加剧，轴承磨损加快，运行噪音增加。\n3. 临时措施：立即停机检查，更换同规格扭矩扳手，紧固至标准值。\n4. 验证计划：24 小时内复测扭矩，确认恢复至正常范围。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 58534,
+      "generated_tokens": 82,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 事实：扭矩值超出设计公差范围 [X] Nm，导致连接件松动。\n2. 影响：设备振动加剧，轴承磨损加快，运行噪音增加。\n3. 临时措施：立即停机检查，更换同规格扭矩扳手，紧固至标准值。\n4. 验证计划：24 小时内复测扭矩，确认恢复至正常范围。"
+    }
+  },
+  {
+    "id": "Q064",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 42453,
+      "generated_tokens": 57,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 缺陷事实：客观记录的问题现象，如“系统崩溃”；\n2. 根因假设：对缺陷成因的推测，如“内存泄漏”；\n3. 验证结论：经测试确认的根因，如“堆内存溢出”。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 50974,
+      "generated_tokens": 57,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 缺陷事实：客观记录的问题现象，如“系统崩溃”；\n2. 根因假设：对缺陷成因的推测，如“内存泄漏”；\n3. 验证结论：经测试确认的根因，如“堆内存溢出”。"
+    }
+  },
+  {
+    "id": "Q065",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 37250,
+      "generated_tokens": 27,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "不能。需结合更换前后数据对比、故障现象重现性、维修记录及现场排查结果综合判断，避免误判。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 43946,
+      "generated_tokens": 27,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "不能。需结合更换前后数据对比、故障现象重现性、维修记录及现场排查结果综合判断，避免误判。"
+    }
+  },
+  {
+    "id": "Q066",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 53297,
+      "generated_tokens": 106,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 上午 09:00-09:30：Cpk 基础概念与计算原理。\n2. 上午 09:30-10:00：Cpk 计算实战练习。\n3. 下午 14:00-14:30：Cpk 核心公式与参数含义复习。\n4. 下午 14:30-15:00：Cpk 案例复盘与错题整理。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 64533,
+      "generated_tokens": 106,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 上午 09:00-09:30：Cpk 基础概念与计算原理。\n2. 上午 09:30-10:00：Cpk 计算实战练习。\n3. 下午 14:00-14:30：Cpk 核心公式与参数含义复习。\n4. 下午 14:30-15:00：Cpk 案例复盘与错题整理。"
+    }
+  },
+  {
+    "id": "Q067",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 52199,
+      "generated_tokens": 108,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 检查数据源是否包含有效数值。\n2. 确认图表类型是否匹配（如散点图需数据为数值型）。\n3. 验证系列名称是否唯一且无冲突。\n4. 检查数据标签是否被隐藏或格式错误。\n5. 确认图表区域是否包含所有数据点。\n6. 检查数据格式是否为数字而非文本。\n7. 查看图表标题或图例是否遮挡数据。\n8. 确认数据源连接状态正常。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 63491,
+      "generated_tokens": 108,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 检查数据源是否包含有效数值。\n2. 确认图表类型是否匹配（如散点图需数据为数值型）。\n3. 验证系列名称是否唯一且无冲突。\n4. 检查数据标签是否被隐藏或格式错误。\n5. 确认图表区域是否包含所有数据点。\n6. 检查数据格式是否为数字而非文本。\n7. 查看图表标题或图例是否遮挡数据。\n8. 确认数据源连接状态正常。"
+    }
+  },
+  {
+    "id": "Q068",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 43951,
+      "generated_tokens": 64,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 统一物料编码规则（如按字母或数字排序）。\n2. 固定物料清单的导入顺序。\n3. 使用固定排序算法（如按字母升序）。\n4. 在系统中强制指定物料顺序。\n5. 定期核对物料清单与实物库存。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 52399,
+      "generated_tokens": 64,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 统一物料编码规则（如按字母或数字排序）。\n2. 固定物料清单的导入顺序。\n3. 使用固定排序算法（如按字母升序）。\n4. 在系统中强制指定物料顺序。\n5. 定期核对物料清单与实物库存。"
+    }
+  },
+  {
+    "id": "Q069",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 33666,
+      "generated_tokens": 17,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "保留原始列是为了确保数据完整性，避免清洗过程中丢失或混淆原始信息。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40135,
+      "generated_tokens": 17,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "保留原始列是为了确保数据完整性，避免清洗过程中丢失或混淆原始信息。"
+    }
+  },
+  {
+    "id": "Q070",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 50153,
+      "generated_tokens": 96,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 使用 `top_n` 或 `rank` 函数按指标降序排序取前 10。\n2. 对并列项使用 `rank` 函数（如 `rank(1)`）或自定义逻辑（如 `rank(1)` 后加 `+1` 或 `+2`）打破平局。\n3. 若需并列时均显示，可先排序再根据排名规则合并显示。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 60891,
+      "generated_tokens": 96,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 使用 `top_n` 或 `rank` 函数按指标降序排序取前 10。\n2. 对并列项使用 `rank` 函数（如 `rank(1)`）或自定义逻辑（如 `rank(1)` 后加 `+1` 或 `+2`）打破平局。\n3. 若需并列时均显示，可先排序再根据排名规则合并显示。"
+    }
+  },
+  {
+    "id": "Q071",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 44454,
+      "generated_tokens": 63,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 分析漂移原因（如设备磨损、材料变化、环境因素）。\n2. 实施短期对策（如调整工艺参数、加强巡检）。\n3. 实施长期对策（如预防性维护、优化设计）。\n4. 监控过程能力，确保漂移持续受控。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 53143,
+      "generated_tokens": 63,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 分析漂移原因（如设备磨损、材料变化、环境因素）。\n2. 实施短期对策（如调整工艺参数、加强巡检）。\n3. 实施长期对策（如预防性维护、优化设计）。\n4. 监控过程能力，确保漂移持续受控。"
+    }
+  },
+  {
+    "id": "Q072",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 41135,
+      "generated_tokens": 50,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 客户投诉的具体原因描述；\n2. 投诉处理流程的节点记录；\n3. 客户反馈的解决方案；\n4. 处理结果的实际执行情况；\n5. 后续跟进的进度与计划。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 49253,
+      "generated_tokens": 50,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 客户投诉的具体原因描述；\n2. 投诉处理流程的节点记录；\n3. 客户反馈的解决方案；\n4. 处理结果的实际执行情况；\n5. 后续跟进的进度与计划。"
+    }
+  },
+  {
+    "id": "Q073",
+    "before": {
+      "status": "FAIL",
+      "reason": "question_timeout",
+      "elapsed_ms": 180289,
+      "generated_tokens": null,
+      "generation_budget_tokens": 1024,
+      "timeout": true,
+      "output": ""
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "question_timeout",
+      "elapsed_ms": 180235,
+      "generated_tokens": null,
+      "generation_budget_tokens": 640,
+      "timeout": true,
+      "output": ""
+    }
+  },
+  {
+    "id": "Q074",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 40842,
+      "generated_tokens": 49,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 设置 Is 条件：车灯间歇故障 = 是。\n2. 设置 Is Not 条件：车灯间歇故障 = 否。\n3. 运行筛选：仅保留满足上述条件的车辆数据。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 48968,
+      "generated_tokens": 49,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 设置 Is 条件：车灯间歇故障 = 是。\n2. 设置 Is Not 条件：车灯间歇故障 = 否。\n3. 运行筛选：仅保留满足上述条件的车辆数据。"
+    }
+  },
+  {
+    "id": "Q075",
+    "before": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 51980,
+      "generated_tokens": 104,
+      "generation_budget_tokens": 1024,
+      "timeout": false,
+      "output": "1. 建立唯一产品序列号（SN）与批次号的关联表。\n2. 在来料检验（IQC）环节，对每批螺纹进行外观、尺寸及材质抽检。\n3. 将检验结果（合格/不合格）及操作人、时间、设备编号录入系统。\n4. 生成包含批次号、检验状态、异常描述及处置建议的追溯报告。\n5. 定期导出历史检验记录，用于质量回溯与趋势分析。"
+    },
+    "after": {
+      "status": "MANUAL_REVIEW",
+      "reason": "requires_human_rubric_review",
+      "elapsed_ms": 62592,
+      "generated_tokens": 104,
+      "generation_budget_tokens": 640,
+      "timeout": false,
+      "output": "1. 建立唯一产品序列号（SN）与批次号的关联表。\n2. 在来料检验（IQC）环节，对每批螺纹进行外观、尺寸及材质抽检。\n3. 将检验结果（合格/不合格）及操作人、时间、设备编号录入系统。\n4. 生成包含批次号、检验状态、异常描述及处置建议的追溯报告。\n5. 定期导出历史检验记录，用于质量回溯与趋势分析。"
+    }
+  },
+  {
+    "id": "Q076",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 36662,
+      "generated_tokens": 4,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2.66"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 42755,
+      "generated_tokens": 4,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2.66"
+    }
+  },
+  {
+    "id": "Q077",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 35854,
+      "generated_tokens": 3,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "1.0"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 41954,
+      "generated_tokens": 3,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "1.0"
+    }
+  },
+  {
+    "id": "Q078",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 35722,
+      "generated_tokens": 3,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2.0"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 42022,
+      "generated_tokens": 3,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2.0"
+    }
+  },
+  {
+    "id": "Q079",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 35800,
+      "generated_tokens": 4,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2.66"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 41714,
+      "generated_tokens": 4,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2.66"
+    }
+  },
+  {
+    "id": "Q080",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 35841,
+      "generated_tokens": 3,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2.1"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 42252,
+      "generated_tokens": 3,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2.1"
+    }
+  },
+  {
+    "id": "Q081",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34038,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 39973,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "2"
+    }
+  },
+  {
+    "id": "Q082",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 33548,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "15"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 39454,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "15"
+    }
+  },
+  {
+    "id": "Q083",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 33249,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "20"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 39231,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "20"
+    }
+  },
+  {
+    "id": "Q084",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 33443,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "25"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 39504,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "25"
+    }
+  },
+  {
+    "id": "Q085",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 33480,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "15"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 39570,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "15"
+    }
+  },
+  {
+    "id": "Q086",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 33042,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "5"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 38941,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "5"
+    }
+  },
+  {
+    "id": "Q087",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 32547,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "13"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 38508,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "13"
+    }
+  },
+  {
+    "id": "Q088",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 32912,
+      "generated_tokens": 3,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "6.5"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 38951,
+      "generated_tokens": 3,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "6.5"
+    }
+  },
+  {
+    "id": "Q089",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 35447,
+      "generated_tokens": 17,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "33.33333333333333"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 42333,
+      "generated_tokens": 17,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "33.33333333333333"
+    }
+  },
+  {
+    "id": "Q090",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 32889,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "3"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 38663,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "3"
+    }
+  },
+  {
+    "id": "Q091",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34392,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "12"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 40527,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "12"
+    }
+  },
+  {
+    "id": "Q092",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34268,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "60"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 40348,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "60"
+    }
+  },
+  {
+    "id": "Q093",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 34105,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "13"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 40075,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "13"
+    }
+  },
+  {
+    "id": "Q094",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 34127,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "24"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 40183,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "24"
+    }
+  },
+  {
+    "id": "Q095",
+    "before": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 34594,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "24"
+    },
+    "after": {
+      "status": "FAIL",
+      "reason": "deterministic_rule_mismatch",
+      "elapsed_ms": 40623,
+      "generated_tokens": 2,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "24"
+    }
+  },
+  {
+    "id": "Q096",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 38875,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "应用已用：1.39 GB / 30 GB 目标\n普通缓存：0.00 GB / 8 GB 默认上限\n设备剩余：2.57 GB\n\n普通缓存连续 15 天未使用自动清除。收藏、知识库、笔记、主动下载及工作文件不自动删除。"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 45563,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "应用已用：1.32 GB / 30 GB 目标\n普通缓存：0.00 GB / 8 GB 默认上限\n设备剩余：2.58 GB\n\n普通缓存连续 15 天未使用自动清除。收藏、知识库、笔记、主动下载及工作文件不自动删除。"
+    }
+  },
+  {
+    "id": "Q097",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 38356,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "还没有导入文件。可以选择 TXT 或 Markdown 文件，原文件保留。"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 44868,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "还没有导入文件。可以选择 TXT 或 Markdown 文件，原文件保留。"
+    }
+  },
+  {
+    "id": "Q098",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 38185,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "进行中 · 任务记录 · 正在处理\n已完成 · 查看文件 · 结果已保存\n已完成 · 查看存储 · 结果已保存\n已完成 · AI对话 · 结果已保存\n已完成 · AI对话 · 结果已保存\n已完成 · 查看存储 · 结果已保存\n上次中断 · 本地任务 · 应用重启后保留记录\n"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 44858,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "进行中 · 任务记录 · 正在处理\n已完成 · 查看文件 · 结果已保存\n已完成 · 查看存储 · 结果已保存\n已完成 · AI对话 · 结果已保存\n已完成 · AI对话 · 结果已保存\n已完成 · 查看存储 · 结果已保存\n上次中断 · 本地任务 · 应用重启后保留记录\n"
+    }
+  },
+  {
+    "id": "Q099",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 31419,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "7"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 37037,
+      "generated_tokens": 1,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "7"
+    }
+  },
+  {
+    "id": "Q100",
+    "before": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 112255,
+      "generated_tokens": 11,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "K73批次目标抽检量42件。"
+    },
+    "after": {
+      "status": "PASS",
+      "reason": "deterministic_rule_satisfied",
+      "elapsed_ms": 137374,
+      "generated_tokens": 14,
+      "generation_budget_tokens": 96,
+      "timeout": false,
+      "output": "K73 批次目标抽检量 42 件。"
+    }
+  }
+]

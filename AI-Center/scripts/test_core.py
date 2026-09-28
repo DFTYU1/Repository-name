@@ -23,7 +23,13 @@ if compiled.returncode == 0:
     report['test_exit'] = tested.returncode
     output = tested.stdout+tested.stderr
     report['passed'] = sum(line.startswith('PASS ') for line in tested.stdout.splitlines())
-report['status'] = 'PASS' if report['compile_exit']==0 and report['test_exit']==0 else 'FAIL'
+if compiled.returncode == 0:
+    tool_test = subprocess.run([java,'-ea','-cp',str(build),'local.aicenter.core.ToolCalculationTest'],capture_output=True,text=True,timeout=120)
+    tool_report = {'scope':'Production calculator and formula validator; planner fixtures, NOT real model or Android', 'exit':tool_test.returncode,'output':tool_test.stdout+tool_test.stderr}
+    (ROOT/'Tests/tool-calculation-tests.json').write_text(json.dumps(tool_report,ensure_ascii=False,indent=2)+'\n')
+    output += tool_report['output']
+    if tool_test.returncode: report['test_exit']=tool_test.returncode
+report['status'] = 'PASS'  if report['compile_exit']==0 and report['test_exit']==0 else 'FAIL'
 report['test_output'] = output
 (ROOT/'Tests').mkdir(exist_ok=True)
 (ROOT/'Tests/core-tests.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')

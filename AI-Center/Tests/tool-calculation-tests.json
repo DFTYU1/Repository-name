@@ -1,0 +1,5 @@
+{
+  "scope": "Production calculator and formula validator; planner fixtures, NOT real model or Android",
+  "exit": 0,
+  "output": "PASS 30 checks; planner fixtures only, NOT real-model validation\n"
+}

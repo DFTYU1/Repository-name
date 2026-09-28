@@ -1,0 +1,313 @@
+{
+  "run": 19,
+  "commit": "b7e2d73e078558f2dfb887f10206569613355f55",
+  "conclusion": "failure",
+  "artifact_id": 10961197425,
+  "artifact_sha256": "1e2ed36d329397f6bf413e608d5b9cfd0846493843105a4a0b25e5af303e50be",
+  "profiles": {
+    "phone": {
+      "counts": {
+        "PASS": 25,
+        "FAIL": 22,
+        "MANUAL_REVIEW": 53,
+        "NOT_RUN": 0
+      },
+      "status_changes": [],
+      "pass_regressions": [],
+      "performance": {
+        "ttft_ms": {
+          "observed": 98,
+          "mean": 38263.570838214284,
+          "median": 37399.487491,
+          "max": 67431.544301
+        },
+        "tokens_per_second": {
+          "observed": 98,
+          "mean": 3.873699739036784,
+          "median": 3.919630386458139,
+          "max": 4.006042853917
+        },
+        "elapsed_ms": {
+          "observed": 100,
+          "mean": 50417.33,
+          "median": 43536.0,
+          "max": 180235
+        },
+        "peak_pss_kb": {
+          "observed": 100,
+          "mean": 1421543,
+          "median": 1420249.0,
+          "max": 1445951
+        },
+        "timeouts": {
+          "events": 2,
+          "observed": 100,
+          "unknown": 0,
+          "rate": 0.02
+        },
+        "crashes": {
+          "events": 0,
+          "observed": 98,
+          "unknown": 2,
+          "rate": 0.0
+        },
+        "cancellations": {
+          "events": 3,
+          "observed": 100,
+          "unknown": 0,
+          "rate": 0.03
+        },
+        "measured_case_total_ms": 5041733
+      },
+      "failures": [
+        {
+          "id": "Q013",
+          "reason": "question_timeout"
+        },
+        {
+          "id": "Q027",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q028",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q034",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q035",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q037",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q038",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q073",
+          "reason": "question_timeout"
+        },
+        {
+          "id": "Q076",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q077",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q078",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q079",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q080",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q082",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q083",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q084",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q085",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q087",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q088",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q089",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q093",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q095",
+          "reason": "deterministic_rule_mismatch"
+        }
+      ]
+    },
+    "tablet": {
+      "counts": {
+        "PASS": 25,
+        "FAIL": 22,
+        "MANUAL_REVIEW": 53,
+        "NOT_RUN": 0
+      },
+      "status_changes": [],
+      "pass_regressions": [],
+      "performance": {
+        "ttft_ms": {
+          "observed": 98,
+          "mean": 38127.318031316325,
+          "median": 37227.0035455,
+          "max": 67695.114233
+        },
+        "tokens_per_second": {
+          "observed": 98,
+          "mean": 3.906581019041107,
+          "median": 3.9342335869844605,
+          "max": 4.1020069869074804
+        },
+        "elapsed_ms": {
+          "observed": 100,
+          "mean": 50188.93,
+          "median": 43230.5,
+          "max": 180292
+        },
+        "peak_pss_kb": {
+          "observed": 100,
+          "mean": 1424811.03,
+          "median": 1423658.5,
+          "max": 1438495
+        },
+        "timeouts": {
+          "events": 2,
+          "observed": 100,
+          "unknown": 0,
+          "rate": 0.02
+        },
+        "crashes": {
+          "events": 0,
+          "observed": 98,
+          "unknown": 2,
+          "rate": 0.0
+        },
+        "cancellations": {
+          "events": 3,
+          "observed": 100,
+          "unknown": 0,
+          "rate": 0.03
+        },
+        "measured_case_total_ms": 5018893
+      },
+      "failures": [
+        {
+          "id": "Q013",
+          "reason": "question_timeout"
+        },
+        {
+          "id": "Q027",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q028",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q034",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q035",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q037",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q038",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q073",
+          "reason": "question_timeout"
+        },
+        {
+          "id": "Q076",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q077",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q078",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q079",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q080",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q082",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q083",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q084",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q085",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q087",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q088",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q089",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q093",
+          "reason": "deterministic_rule_mismatch"
+        },
+        {
+          "id": "Q095",
+          "reason": "deterministic_rule_mismatch"
+        }
+      ]
+    }
+  },
+  "apk": {
+    "path": "app/build/outputs/apk/debug/app-debug.apk",
+    "bytes": 1368423001,
+    "sha256": "a3125bfd0d83678a5c14448d4d24cacd333b88aacc91e2e0666d56cb8443374e",
+    "signed": true
+  },
+  "instrumentation_apk": {
+    "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+    "bytes": 59984,
+    "sha256": "a336ad47379a370beba32ad1e029934deea5a1b11858b3ae7ec168f327a1895b",
+    "signed": true
+  },
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/36384039111",
+  "finished_utc": "2026-09-28T09:26:39Z"
+}
