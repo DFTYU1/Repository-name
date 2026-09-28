@@ -324,6 +324,8 @@ project_id=personal-ai-center-20260909
 - 修复已提交：`46b4d73c08cb3a96997ce78712ad864e058e69ee`。Run18 https://github.com/DFTYU1/Repository-name/actions/runs/36370715194 已排队；结束前不并发提交，不推测精确格式、Q013或双模拟器全量结果。
 
 ## 历史状态（以下仅供追溯）
+> 提交 `ad361f75b3750360b1745ced3560b43f768d42a9` 已快进，但截至 2026-09-28T18:40Z 未产生关联工作流或状态检查。代码不重复提交；本状态更新通过正式内容接口产生一次可追溯 push，以触发既有定向验证。持久文件已成功更新：PROJECT_STATE v19、源码归档 v17（SHA256 `ab49e20d3d001a64b23177d5a8a7a33795b3e175f78daabe86ea342e37c747f6`）。
+
 ## 当前有效断点 · 2026-09-28 Run21结果与定向修复
 
 - Run21 https://github.com/DFTYU1/Repository-name/actions/runs/36452654994 源提交 `091f7b85a4f0e82cf1e02fa71252108a252b367d`，结束FAIL；构建、签名APK/测试APK、lint、34核心、40计算夹具前一版对应检查、11报告、6项目验证及双端基础离线功能PASS。
@@ -332,4 +334,3 @@ project_id=personal-ai-center-20260909
 - Artifact `AI-Center-diagnostics-21` ID 10985487877，ZIP SHA256 `89c726e38346d8df146465311885852cc70be14d807e786ca85147eea7811935`。APK 1368455769字节，SHA256 `317b3c162e872dd68f1a3fa085049315f476a9299d12763acbccb800c31b57e8`；测试APK 74440字节，SHA256 `03c452e68837ac2aa69e0b15f53ad5ee2f011392bacf5b0a1cb499f68caf22d4`，均signed。
 - 已实现通用修复：ToolChat按总数/不良数的中英文语义角色校验fraction参数并仅在模型提取值与原文一致时重排；冲突/歧义继续澄清。原生解码仅在四次相同连续token周期时停止，termination=5；报告明确标为`repetitive_generation_stopped`，不得转MANUAL_REVIEW。
 - 本地验证：34核心、40工具/公式夹具、原生重复/计时宿主测试、11报告、6项目验证PASS。真实Android验证尚未运行；下一Run仍只跑双端代表百分比、缺参Cpk及Q013/Q073，再决定恢复10项UI，不启动完整100题。冻结题库/答案/评分；53人工题PENDING_MANUAL_REVIEW，vivo X300 Pro/Lenovo Y900 NOT_RUN，Phase1未完成。
-
