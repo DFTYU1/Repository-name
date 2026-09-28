@@ -243,6 +243,15 @@ project_id=personal-ai-center-20260909
 - APK 1368423001字节，SHA-256 `2b27603540bbbda4f21d9bdbc453f1a56d26a361ae1b4caaac23553f1d24f454`；测试APK 59892字节，SHA-256 `b374b231bf38ca17632f272a1d98db616eb3cea0e0857c97a70464297ad44e84`；均signed=true，仅USE_BIOMETRIC、无INTERNET。
 - Artifact 10946207474；ZIP SHA-256 `bf9cfeb035d3d9db421a34dd7865108e01b6a1ded807f56bd3eecfc6292a5e82`；2026-10-12T00:34:15Z到期。
 - 下一Run只验证强化后的通用紧凑生成策略；真实结果出来前不宣称长回答、conversation或100题通过。
+- 提交`f0d1a965f84421e14803a6c7963101651bb0e8a3`；Run17 `36363582769`当前QUEUED。
+- 同一Library状态文件和完整源码归档已按版本保护替换成功；持久检查点传输阻塞解除。
+
+## Run17最终状态 / 下一Run待验证
+
+- Run17 `36363582769`: FAILURE；构建、签名、lint、34核心、11报告、6验证与基础双模拟器离线回归PASS。
+- Q025手机/平板均278 tokens、MANUAL_REVIEW；Q100手机PASS、平板因Unicode词边界误判FAIL。手机100题11/35/54/0，平板100题NOT_RUN。
+- APK 1368423001字节，SHA-256 `3f16fb4f15771e2e85391a355093b7333bdfeceb9ba1983e16d18a99ca1a50a0`；Artifact 10948562460，ZIP SHA-256 `d4fd61d9d8ea23949f2c15492296bfbddc0a2014c642c3dfb6d466ae0db78228`。
+- 下一批不改冻结验收，只修精确输出格式、Q100实现边界与Q013长生成风险。
 - Library持久保存仍为PROJECT_STATE v14、源码归档v12；本轮两项版本保护替换再次`transfer_failed`。
 
 ## 历史状态

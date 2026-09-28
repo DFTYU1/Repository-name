@@ -66,10 +66,11 @@
     }
   },
   "pending_validation": {
-    "commit": "77c1980d7ac7389f4de5d145a897508bd8416dcb",
-    "run": 36361478841,
-    "status": "FAIL_REPRESENTATIVE_Q025_1024_EXHAUSTED",
-    "conversation_representative": "NOT_RUN",
-    "professional_100": "NOT_RUN"
+    "commit": "f0d1a965f84421e14803a6c7963101651bb0e8a3",
+    "run": 36363582769,
+    "status": "FAIL",
+    "long_form_representative": "PASS_AS_MANUAL_REVIEW_278_TOKENS_BOTH_PROFILES",
+    "conversation_representative": "PHONE_PASS_TABLET_FALSE_NEGATIVE_UNICODE_BOUNDARY",
+    "professional_100": "PHONE_NOT_ACCEPTED_11_35_54_0_TABLET_NOT_RUN"
   }
 }

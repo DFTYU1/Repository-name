@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
 import local.aicenter.core.AgentRuntime;
+import local.aicenter.core.AcceptanceEvaluator;
 import local.aicenter.core.GenerationBudget;
 import local.aicenter.core.StopController;
 import org.json.*;
@@ -148,7 +149,7 @@ final class ProfessionalBenchmark {
         String kind=q.getString("kind");String s=answer.trim();
         if(kind.equals("manual"))return "MANUAL_REVIEW";
         if(kind.equals("tool"))return s.isEmpty()?"FAIL":"PASS";
-        if(kind.equals("conversation"))return s.contains("K73")&&s.matches("(?s).*\\b42\\b.*")?"PASS":"FAIL";
+        if(kind.equals("conversation"))return s.contains("K73")&&AcceptanceEvaluator.containsStandaloneAsciiNumber(s,"42")?"PASS":"FAIL";
         if(kind.equals("cancel"))return s.equals("7")?"PASS":"FAIL";
         if(kind.equals("number")){
             if(!s.matches("[+-]?[0-9]+(?:\\.[0-9]+)?"))return "FAIL";

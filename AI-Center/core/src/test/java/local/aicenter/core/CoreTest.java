@@ -242,6 +242,8 @@ public final class CoreTest {
                 Arrays.asList("Plan","Do","Check","Act"),Collections.singletonList("Control"),"","",0);
             check(AcceptanceEvaluator.evaluate("**Plan**, Do, Check, Act",rule).status==AcceptanceEvaluator.Status.PASS,"Markdown answer rejected");
             check(AcceptanceEvaluator.evaluate("Plan, Do, Control, Act",rule).status==AcceptanceEvaluator.Status.FAIL,"Wrong PDCA accepted");
+            check(AcceptanceEvaluator.containsStandaloneAsciiNumber("目标抽检量是42件。","42"),"Unicode-adjacent number rejected");
+            check(!AcceptanceEvaluator.containsStandaloneAsciiNumber("目标抽检量是142件。","42"),"Numeric substring accepted");
         });
         test("acceptance grading handles exact formulas without whitespace", () -> {
             AcceptanceEvaluator.Rule rule=new AcceptanceEvaluator.Rule(AcceptanceEvaluator.Kind.EXACT,

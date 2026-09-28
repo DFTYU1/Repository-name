@@ -1,0 +1,44 @@
+{
+  "run_id": 36363582769,
+  "run_url": "https://github.com/DFTYU1/Repository-name/actions/runs/36363582769",
+  "commit": "f0d1a965f84421e14803a6c7963101651bb0e8a3",
+  "conclusion": "failure",
+  "completed_utc": "2026-09-28T02:28:22Z",
+  "core_tests": {"passed": 34, "status": "PASS"},
+  "professional_report_tests": {"passed": 11, "status": "PASS"},
+  "project_verification": {"passed": 6, "status": "PASS"},
+  "build_and_lint": "PASS",
+  "phone_representatives": {
+    "Q025": {"status": "MANUAL_REVIEW", "generated_tokens": 278, "budget_tokens": 1024},
+    "Q100": {"status": "PASS", "generated_tokens": 27, "budget_tokens": 96}
+  },
+  "tablet_representatives": {
+    "Q025": {"status": "MANUAL_REVIEW", "generated_tokens": 278, "budget_tokens": 1024},
+    "Q100": {"status": "FAIL", "reason": "Unicode word-boundary false negative despite output containing K73 and 42"}
+  },
+  "phone_professional_100": {
+    "status": "NOT_ACCEPTED",
+    "counts": {"PASS": 11, "FAIL": 35, "MANUAL_REVIEW": 54, "NOT_RUN": 0},
+    "timeouts": 1,
+    "crashes": 0,
+    "note": "20 formula and several numeric formatting failures were introduced by unwanted numbering; 10 numeric answers remain genuinely incorrect"
+  },
+  "tablet_professional_100": "NOT_RUN",
+  "apk": {
+    "bytes": 1368423001,
+    "sha256": "3f16fb4f15771e2e85391a355093b7333bdfeceb9ba1983e16d18a99ca1a50a0",
+    "signed": true,
+    "internet_permission": false
+  },
+  "test_apk": {
+    "bytes": 59892,
+    "sha256": "cdf2eeba5073c637f078140858f490a086c0cc201b1710799426ed2ae28c858e",
+    "signed": true
+  },
+  "artifact": {
+    "name": "AI-Center-diagnostics-17",
+    "id": 10948562460,
+    "zip_sha256": "d4fd61d9d8ea23949f2c15492296bfbddc0a2014c642c3dfb6d466ae0db78228",
+    "expires_utc": "2026-10-12T02:27:21Z"
+  }
+}

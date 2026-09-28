@@ -248,6 +248,19 @@ project_id=personal-ai-center-20260909
 - Run16 APK 1368423001字节，SHA-256 `2b27603540bbbda4f21d9bdbc453f1a56d26a361ae1b4caaac23553f1d24f454`；测试APK 59892字节，SHA-256 `b374b231bf38ca17632f272a1d98db616eb3cea0e0857c97a70464297ad44e84`；两者已签名，仅USE_BIOMETRIC、无INTERNET。
 - Artifact `AI-Center-diagnostics-16` ID 10946207474，ZIP SHA-256 `bf9cfeb035d3d9db421a34dd7865108e01b6a1ded807f56bd3eecfc6292a5e82`，有效至2026-10-12T00:34:15Z；完整证据保存于`Tests/ci-runs/36361478841/`，公开仓库仅同步扫描后的结构化摘要。
 - 本批不提高1024硬上限、不改2048上下文、不改冻结题库/答案/评分。只强化生产原生系统提示为双语能力级约束：多项请求按原顺序、每项一个短编号句、整答少于700 tokens，禁止标题/引言/结论/嵌套项目/重复/未要求示例；不读取题号、rubric或答案。
-- 下一Run仍先验证Q025，不通过则conversation和全量100题继续NOT_RUN；通过后才核对conversation及双模拟器全量。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
+- 最小修复已提交：`f0d1a965f84421e14803a6c7963101651bb0e8a3`。Run17 https://github.com/DFTYU1/Repository-name/actions/runs/36363582769 已排队；结束前不并发提交，不推测Q025改善。
+- 同一Library `PROJECT_STATE.md`与`AI-Center-Source.zip`已在确认旧版本未变化后按版本保护替换成功，先前`transfer_failed`阻塞解除；未创建重复文件。最终同步检查点将继续替换这两个既有文件。
+- Run17仍先验证Q025，不通过则conversation和全量100题继续NOT_RUN；通过后才核对conversation及双模拟器全量。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
+
+## 当前有效断点 · 2026-09-28 Run17结果与精确格式/Unicode边界修复
+
+project_id=personal-ai-center-20260909
+
+- Run17 https://github.com/DFTYU1/Repository-name/actions/runs/36363582769 于2026-09-28T02:28:22Z结束FAIL。核心34项、报告11项、项目验证6项、签名APK/测试APK、lint及基础手机/平板离线回归PASS。
+- Q025手机/平板均由1024截断改善为278 tokens完整结束，状态MANUAL_REVIEW；长回答代表门禁通过。Q100手机PASS；平板输出实际同时包含K73和42，但Java `\\b42\\b`受相邻中文字符影响误判FAIL。
+- 手机完成100题：11 PASS / 35 FAIL / 54 MANUAL_REVIEW / 0 NOT_RUN，专业状态NOT_ACCEPTED；1超时（Q013）、0崩溃。35 FAIL中20道公式被通用编号前缀`1. `破坏精确格式，另有4道数值答案正确但带解释/编号、10道数值能力错误、Q013超时。平板全量100题NOT_RUN，不能沿用手机统计。
+- Run17 APK 1368423001字节，SHA-256 `3f16fb4f15771e2e85391a355093b7333bdfeceb9ba1983e16d18a99ca1a50a0`；测试APK 59892字节，SHA-256 `cdf2eeba5073c637f078140858f490a086c0cc201b1710799426ed2ae28c858e`；均已签名，仅USE_BIOMETRIC、无INTERNET。
+- Artifact `AI-Center-diagnostics-17` ID 10948562460，ZIP SHA-256 `d4fd61d9d8ea23949f2c15492296bfbddc0a2014c642c3dfb6d466ae0db78228`，有效至2026-10-12T02:27:21Z；完整证据保存`Tests/ci-runs/36363582769/`。
+- 本批只修实际根因：系统提示新增“仅输出公式/数值/代码时禁止编号和解释”，多项回答目标由700缩至450 tokens以降低Q013超时风险；Q100数字检查改为ASCII数字两侧非数字，仍拒绝142等子串。冻结题库、题面、答案及要求不变，10道真实数值错误继续FAIL。
 
 ## 历史状态（以下仅供追溯）

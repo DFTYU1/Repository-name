@@ -84,3 +84,15 @@ project_id=personal-ai-center-20260909
 - 下一Run先验证双语紧凑提示下的Q025；vivo X300 Pro与Lenovo Y900仍NOT_RUN。
 
 ## 历史状态
+
+## 当前有效断点 · 2026-09-28 Run17
+
+project_id=personal-ai-center-20260909
+
+- Run17 `36363582769`结束FAIL；构建、签名、lint、基础双模拟器与本地门禁PASS。
+- Q025手机/平板均278 tokens完整结束、MANUAL_REVIEW；Q100手机PASS，平板实际含K73和42但被Unicode词边界误判。
+- 手机100题11 PASS / 35 FAIL / 54 MANUAL_REVIEW / 0 NOT_RUN，1超时、0崩溃；平板100题NOT_RUN。
+- APK 1368423001字节，SHA-256 `3f16fb4f15771e2e85391a355093b7333bdfeceb9ba1983e16d18a99ca1a50a0`；Artifact 10948562460。
+- 下一Run验证精确输出、Q100边界及Q013超时风险；vivo X300 Pro与Lenovo Y900仍NOT_RUN。
+
+## 历史状态

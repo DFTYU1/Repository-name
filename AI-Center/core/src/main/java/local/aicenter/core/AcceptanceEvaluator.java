@@ -80,6 +80,12 @@ public final class AcceptanceEvaluator {
         return compact(input.replace("**","").replace("__","").replace("`","")).toLowerCase(Locale.ROOT);
     }
 
+    /** ASCII numeric token check that is not confused by adjacent Unicode letters. */
+    public static boolean containsStandaloneAsciiNumber(String input,String digits){
+        if(input==null||digits==null||!digits.matches("[0-9]+"))return false;
+        return Pattern.compile("(?<![0-9])"+Pattern.quote(digits)+"(?![0-9])").matcher(input).find();
+    }
+
     private static String compact(String input){return input.replaceAll("\\s+","").trim();}
     private static String exact(String input){return compact(input.replace("`","")).toLowerCase(Locale.ROOT);}
 
