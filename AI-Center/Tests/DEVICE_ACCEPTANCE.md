@@ -61,3 +61,14 @@ project_id=personal-ai-center-20260909
 - 下一Run使用768通用manual预算并以最复杂manual先行验证；冻结题库/答案/评分不变。vivo X300 Pro与Lenovo Y900仍NOT_RUN。
 
 ## 历史状态
+## 当前有效断点 · 2026-09-28 Run15
+
+project_id=personal-ai-center-20260909
+
+- Run15 `36357175571`结束FAIL：34核心、11报告、6验证、签名APK/测试APK、lint和基础手机/平板离线回归PASS。
+- 最复杂manual代表题Q025在手机和平板均使用768预算、生成768 tokens后截断；状态FAIL，0超时、0应用崩溃。
+- conversation代表题与全量100题均NOT_RUN；Run14的31/38/31/0只能作为历史基线，不能当作Run15结果。
+- APK 1368423001字节，SHA-256 `3f41c729ae453ba24e12554229d88f35a11686e175bb938770964f69d64995fb`；Artifact 10944975450证据在`Tests/ci-runs/36357175571/`。
+- 下一Run使用1024通用manual预算与紧凑多部分回答提示，仍先跑Q025和conversation代表题。vivo X300 Pro与Lenovo Y900仍NOT_RUN。
+
+## 历史状态

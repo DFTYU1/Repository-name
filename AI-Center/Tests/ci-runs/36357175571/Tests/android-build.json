@@ -1,0 +1,22 @@
+{
+  "started_utc": "2026-09-27T23:02:14.401620+00:00",
+  "status": "PASS",
+  "blockers": [],
+  "apk": {
+    "path": "app/build/outputs/apk/debug/app-debug.apk",
+    "bytes": 1368423001,
+    "sha256": "3f41c729ae453ba24e12554229d88f35a11686e175bb938770964f69d64995fb",
+    "signed": true
+  },
+  "instrumentation_apk": {
+    "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+    "bytes": 59892,
+    "sha256": "e8b19708de9eb53b95f1ce8a6774067e97bdbd64db04ed342f9ae26796318380",
+    "signed": true
+  },
+  "scope": "Foundation APK build only; startup, real LLM and device acceptance are separate gates.",
+  "sdk_root": "/usr/local/lib/android/sdk",
+  "gradle_version": "8.13",
+  "exit_code": 0,
+  "finished_utc": "2026-09-27T23:04:52.455912+00:00"
+}

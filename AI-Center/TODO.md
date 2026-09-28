@@ -217,11 +217,24 @@ project_id=personal-ai-center-20260909
 下一项仍为上述公开源码授权后执行CI；依赖下载未恢复时不重复相同失败请求。若正式私有构建环境变为可用，先核对费用及授权后继续。APK、Android运行和真实模型验收仍全部待完成。
 ## 当前队列 · Run14失败后
 
+- [x] 提交`74bf12e196c1a57ed9435fdffa5a4cf2effa00f5`并启动Run15 `36357175571`；运行结束前不并发提交。
+- [ ] Library同一PROJECT_STATE v14与源码归档v12替换再次`transfer_failed`；下一轮先确认版本不变再重试，不创建重复文件。
 - [x] 核验Run14最终FAIL并保存Artifact 10944040093、完整日志、逐题回答和哈希。
 - [x] 确认双模拟器均31 PASS / 38 FAIL / 31 MANUAL_REVIEW / 0 NOT_RUN；Q100历史传递PASS，0超时、0崩溃。
 - [x] 将manual通用最低预算从512提高到768；按prompt+rubric长度选择最复杂manual代表题；工作流上限300分钟。
 - [ ] 跟踪Run15；代表manual若仍耗尽则只修预算/生成相关原因，不进入全量100题。
 - [ ] 代表题通过后核对双模拟器全量统计、性能、APK签名/ABI/权限；4公式和10数值错误仍需后续真实能力改进。
 - [ ] 31道人工题等待人工复核，未经复核保持PENDING_MANUAL_REVIEW；vivo X300 Pro与Lenovo Y900保持NOT_RUN。
+
+## 历史状态
+## 当前队列 · Run15代表题失败后
+
+- [x] 核验Run15最终FAIL并保存Artifact 10944975450、Q025双模拟器原始回答和哈希。
+- [x] 确认构建/lint、34核心、11报告、6验证和基础双模拟器离线回归PASS。
+- [x] 确认Q025双端均768/768截断；conversation与100题NOT_RUN，不沿用Run14统计。
+- [x] manual最低预算提高至1024硬上限，并加入通用多部分紧凑完整回答策略；冻结题库/答案/评分不变。
+- [ ] 下一Run先核对Q025是否不再耗尽及conversation PASS；失败只修相关原因。
+- [ ] 代表题通过后核对全量100题、性能、APK签名/ABI/权限；公式/数值能力错误继续如实FAIL。
+- [ ] 人工题未经复核保持PENDING_MANUAL_REVIEW；vivo X300 Pro与Lenovo Y900保持NOT_RUN。
 
 ## 历史状态

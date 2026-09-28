@@ -223,6 +223,16 @@ project_id=personal-ai-center-20260909
 - 手机/平板API35 x86_64均31 PASS / 38 FAIL / 31 MANUAL_REVIEW / 0 NOT_RUN；24项manual预算耗尽、4公式错误、10数值错误；0超时、0崩溃。
 - 代表Q001 manual以512预算生成314 tokens未耗尽；代表Q100 conversation PASS。新批次以768通用manual预算和最复杂manual代表预检验证剩余截断。
 - APK 1368423001字节，SHA-256 `3303280e0d0ce04e9f5f9bb2a3c5582e8a31f122285c8879f7c854dc8cc181ff`，signed=true，仅USE_BIOMETRIC、无INTERNET；测试APK 59892字节，SHA-256 `e2f420d41d790076c35622a8bf33b22c122c06fe7e76b33acc3ca61b47ba7571`。
-- Artifact 10944040093；ZIP SHA-256 `6b1112e3ac9cd3b8941af9dbb04c926fc1272fbd418798a67ade317d136ece7c`；2026-10-11T22:16:37Z到期。本段随下一提交同步。
+- Artifact 10944040093；ZIP SHA-256 `6b1112e3ac9cd3b8941af9dbb04c926fc1272fbd418798a67ade317d136ece7c`；2026-10-11T22:16:37Z到期。提交`74bf12e196c1a57ed9435fdffa5a4cf2effa00f5`，Run15 `36357175571`当前IN_PROGRESS。
+- Library持久保存：目标仍为PROJECT_STATE v14、源码归档v12；本轮两项版本保护替换均`transfer_failed`，未更新。
+
+## 历史状态
+## Run15最终状态 / 下一Run待验证
+
+- Run15 `36357175571`: FAILURE；Android构建、签名、lint、基础离线功能均PASS，代表题门禁正确提前停止。
+- 手机/平板Q025均768/768 tokens截断，0超时、0应用崩溃；conversation代表题与全量100题均NOT_RUN。
+- APK 1368423001字节，SHA-256 `3f41c729ae453ba24e12554229d88f35a11686e175bb938770964f69d64995fb`，signed=true，仅USE_BIOMETRIC、无INTERNET；测试APK 59892字节，SHA-256 `e8b19708de9eb53b95f1ce8a6774067e97bdbd64db04ed342f9ae26796318380`。
+- Artifact 10944975450；ZIP SHA-256 `2aeccf858a983c765f6fd7dfe9b206774c7b6fc90e88a4422f3d6b43db151dfd`；2026-10-11T23:19:45Z到期。
+- 下一批将manual预算提高至1024并增强通用紧凑覆盖提示；真实结果待下一Run。
 
 ## 历史状态

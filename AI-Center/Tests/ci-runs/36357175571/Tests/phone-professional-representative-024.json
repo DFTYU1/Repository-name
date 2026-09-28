@@ -1,0 +1,87 @@
+{
+  "suite": "professional-100-v1",
+  "suite_sha256": "1aa91413320a38b6b6701596acfb9f0b2cc1dcf7795b731354423c98842f5ec7",
+  "commit": "74bf12e196c1a57ed9435fdffa5a4cf2effa00f5",
+  "model": {
+    "id": "Qwen3.5-2B-Q4_K_M",
+    "repository": "unsloth/Qwen3.5-2B-GGUF",
+    "revision": "f6d5376be1edb4d416d56da11e5397a961aca8ae",
+    "filename": "Qwen3.5-2B-Q4_K_M.gguf",
+    "sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+    "bytes": 1280835840,
+    "license": "Apache-2.0",
+    "scope": "Stronger text-only integration candidate; final device choice still requires vivo/Y900 benchmarks"
+  },
+  "device": {
+    "model": "sdk_gphone64_x86_64",
+    "api": 35,
+    "abis": [
+      "x86_64",
+      "arm64-v8a"
+    ]
+  },
+  "engine_revision": "f072b103714dfa1eee531f80b24512faf38e3dd2",
+  "offline": true,
+  "physical_devices": "NOT_RUN",
+  "start": 24,
+  "count": 1,
+  "started_utc_ms": 1790550782032,
+  "status": "EXECUTED",
+  "results": [
+    {
+      "id": "Q025",
+      "category": "QE_QC_SixSigma",
+      "difficulty": "advanced",
+      "provenance": {
+        "commit": "74bf12e196c1a57ed9435fdffa5a4cf2effa00f5",
+        "model": {
+          "id": "Qwen3.5-2B-Q4_K_M",
+          "repository": "unsloth/Qwen3.5-2B-GGUF",
+          "revision": "f6d5376be1edb4d416d56da11e5397a961aca8ae",
+          "filename": "Qwen3.5-2B-Q4_K_M.gguf",
+          "sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+          "bytes": 1280835840,
+          "license": "Apache-2.0",
+          "scope": "Stronger text-only integration candidate; final device choice still requires vivo/Y900 benchmarks"
+        },
+        "device": {
+          "model": "sdk_gphone64_x86_64",
+          "api": 35,
+          "abis": [
+            "x86_64",
+            "arm64-v8a"
+          ]
+        },
+        "engine_revision": "f072b103714dfa1eee531f80b24512faf38e3dd2"
+      },
+      "expected_rule": {
+        "id": "Q025",
+        "category": "QE_QC_SixSigma",
+        "prompt": "夹片螺母螺丝咬牙：给出问题定义、原因分类、来料检查、量具、螺纹规、扭矩、材料、热处理、镀层、装配及验证方案。",
+        "kind": "manual",
+        "max_tokens": 256,
+        "timeout_ms": 180000,
+        "rubric": "覆盖全部11项；区分待验证假设；螺纹规格配合通止规、扭矩记录、交叉配对；不得捏造现场结果。",
+        "difficulty": "advanced",
+        "source": "Synthetic acceptance fixture; USER_REQUIREMENTS 50-53, 55"
+      },
+      "input": "夹片螺母螺丝咬牙：给出问题定义、原因分类、来料检查、量具、螺纹规、扭矩、材料、热处理、镀层、装配及验证方案。",
+      "rubric": "覆盖全部11项；区分待验证假设；螺纹规格配合通止规、扭矩记录、交叉配对；不得捏造现场结果。",
+      "output": "### 夹片螺母螺丝咬牙问题分析方案\n\n#### 1. 问题定义\n夹片螺母螺丝在装配后出现**咬牙**（牙纹磨损、断裂或无法旋紧）现象，导致连接失效或需要额外扭矩。\n\n#### 2. 原因分类\n*   **材料因素**：\n    *   夹片螺母或螺丝材料硬度不足，耐磨性差。\n    *   材料内部存在夹杂物或晶粒粗大，导致疲劳强度低。\n*   **热处理因素**：\n    *   热处理工艺不当（如退火过度、淬火硬度不足或回火温度/时间控制错误），导致表面硬度不够或内部应力过大。\n    *   热处理后未进行充分的时效处理，导致应力释放不充分。\n*   **镀层因素**：\n    *   镀层厚度不足或镀层结合力差，导致螺纹表面粗糙度增加，摩擦系数增大。\n    *   镀层存在针孔、气泡或剥落，造成局部应力集中。\n*   **装配因素**：\n    *   装配时未使用专用工具，导致螺纹牙纹被人为磨损。\n    *   装配扭矩过大，超过材料屈服极限。\n    *   装配过程中夹片螺母与螺丝发生相对滑动，导致牙纹磨损。\n*   **设计因素**：\n    *   螺纹规格与材料强度不匹配。\n    *   螺纹牙型角设计不合理，导致受力不均。\n\n#### 3. 来料检查\n*   **外观检查**：检查夹片螺母和螺丝表面是否有裂纹、划痕、镀层脱落或镀层厚度不均。\n*   **尺寸测量**：使用千分尺测量螺纹公称直径、螺距及牙型角，确保符合图纸要求。\n*   **硬度测试**：使用洛氏硬度计或维氏硬度计测试关键受力部位（如牙顶、牙底）的硬度，对比标准值。\n*   **镀层检查**：使用镀层测厚仪或金相显微镜检查镀层厚度及结合质量。\n*   **材质验证**：核对材质证明书，确认化学成分及金相组织符合标准。\n\n#### 4. 量具\n*   **螺纹规**：专用螺纹规（用于检查牙型角和螺纹精度）。\n*   **硬度计**：洛氏硬度计或维氏硬度计。\n*   **镀层测厚仪**：用于测量镀层厚度。\n*   **扭矩扳手**：用于测试装配扭矩。\n*   **显微镜**：用于观察镀层结合情况及表面缺陷。\n\n#### 5. 螺纹规\n*   使用**专用螺纹规**（如 1/4\"-20 螺纹规）检查夹片螺母和螺丝的螺纹牙型角（通常为 60°）和螺距。\n*   检查螺纹是否顺畅旋入，牙纹是否被磨损。\n\n#### 6. 扭矩\n*   使用**扭矩扳手**对夹片螺母和螺丝进行预紧力测试。\n*   记录实测扭矩值，并与设计扭矩值对比。\n*   若实测扭矩显著高于设计值，需排查装配过紧或材料强度不足。\n\n#### 7. 材料\n*   查阅**材质证明书**，确认材料牌号、化学成分及热处理工艺参数。\n*   对比标准材料（如 ISO 标准或客户指定标准）的硬度值。\n*   分析材料是否因热处理不当导致硬度偏低或韧性",
+      "status": "FAIL",
+      "crash": false,
+      "timeout": false,
+      "cancelled": false,
+      "ttft_ms": 10246.789382,
+      "tokens_per_second": 5.758165886314718,
+      "generation_budget_tokens": 768,
+      "generated_tokens": 768,
+      "native_total_ms": 143621.464177,
+      "reason": "generation_budget_exhausted; answer may be truncated",
+      "elapsed_ms": 143712,
+      "peak_pss_kb": 1413522,
+      "pss_sample_interval_ms": 250
+    }
+  ],
+  "finished_utc_ms": 1790550928071
+}

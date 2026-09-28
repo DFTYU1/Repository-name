@@ -223,8 +223,20 @@ project_id=personal-ai-center-20260909
 - Run14 https://github.com/DFTYU1/Repository-name/actions/runs/36341960326 于2026-09-27T22:17:17Z结束FAIL；核心34项、专业报告11项、项目验证6项、签名APK/测试APK和lint均PASS，双模拟器专业门禁因NOT_ACCEPTED正确失败。
 - API35 x86_64手机/平板均为31 PASS / 38 FAIL / 31 MANUAL_REVIEW / 0 NOT_RUN，0超时、0崩溃。Q001代表manual以512预算生成314 tokens且未耗尽；Q100连续对话PASS，证明生产历史接线生效。相对Run12，连续对话增加1项PASS，11道manual由FAIL转MANUAL_REVIEW。
 - 仍有24道manual恰好耗尽512 tokens并在句子、表格或代码中截断；另有4公式和10数值确定性错误，继续如实FAIL。人工题未经人工复核不得PASS，专业状态仍NOT_ACCEPTED。
-- 本批不改冻结100题、答案和评分：manual通用最低预算提高到768；代表manual改为按prompt+rubric长度选最复杂题，仍加conversation代表题；工作流上限提高到300分钟。本段随下一提交同步，Run15待触发并先验证代表题。
+- 本批不改冻结100题、答案和评分：manual通用最低预算提高到768；代表manual改为按prompt+rubric长度选最复杂题，仍加conversation代表题；工作流上限提高到300分钟。提交`74bf12e196c1a57ed9435fdffa5a4cf2effa00f5`已触发Run15 https://github.com/DFTYU1/Repository-name/actions/runs/36357175571 ，当前IN_PROGRESS；结束前不并发提交。
 - Run14 APK 1368423001字节，SHA-256 `3303280e0d0ce04e9f5f9bb2a3c5582e8a31f122285c8879f7c854dc8cc181ff`，已签名，仅USE_BIOMETRIC、无INTERNET。Artifact `AI-Center-diagnostics-14` ID 10944040093，ZIP SHA-256 `6b1112e3ac9cd3b8941af9dbb04c926fc1272fbd418798a67ade317d136ece7c`，有效至2026-10-11T22:16:37Z；证据保存于`Tests/ci-runs/36341960326/`。
-- vivo X300 Pro与Lenovo Y900仍NOT_RUN；Phase1未完成。Library持久版本更新以正式返回为准。
+- vivo X300 Pro与Lenovo Y900仍NOT_RUN；Phase1未完成。已确认Library仍为PROJECT_STATE v14与源码归档v12；本轮按版本保护替换再次均明确返回`transfer_failed`，未创建重复文件、未声称持久更新成功。
+
+## 历史状态（以下仅供追溯）
+## 当前有效断点 · 2026-09-28 Run15代表题失败与1024-token紧凑回答修复
+
+project_id=personal-ai-center-20260909
+
+- Run15 https://github.com/DFTYU1/Repository-name/actions/runs/36357175571 于2026-09-27T23:20:26Z结束FAIL。核心34项、专业报告11项、项目验证6项、签名APK/测试APK和lint均PASS；双模拟器在最复杂manual代表题Q025处正确提前失败。
+- 手机与平板Q025均使用768预算、生成768 tokens后截断，状态FAIL；0超时、0应用崩溃。conversation代表题与全量100题均NOT_RUN，禁止沿用Run14统计冒充Run15结果。
+- 失败输出只覆盖到11项要求中的第7项且在“材料”段中断，证明仅把512提高到768仍不足；代表门禁已成功阻止约数小时的无效全量运行。
+- 本批只修相关通用生成策略：manual最低预算提高到1024硬上限；原生系统提示要求多部分请求使用紧凑编号、优先完整覆盖、删去引言/结论/重复及未要求示例。冻结题库、答案、评分和确定性错误判定不变，不按题号硬编码。
+- Run15 APK 1368423001字节，SHA-256 `3f41c729ae453ba24e12554229d88f35a11686e175bb938770964f69d64995fb`，已签名，仅USE_BIOMETRIC、无INTERNET。Artifact `AI-Center-diagnostics-15` ID 10944975450，ZIP SHA-256 `2aeccf858a983c765f6fd7dfe9b206774c7b6fc90e88a4422f3d6b43db151dfd`，有效至2026-10-11T23:19:45Z；证据保存于`Tests/ci-runs/36357175571/`。
+- 下一Run先验证Q025与conversation代表题；代表题通过后才执行双模拟器100题。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
 
 ## 历史状态（以下仅供追溯）

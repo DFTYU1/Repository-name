@@ -46,7 +46,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
         check(); const auto *vocab=llama_model_get_vocab(model.get());
         // Fixed ChatML template is the verified text-only, thinking-disabled
         // Qwen3.5 format. No external server, network or shell is involved.
-        const std::string system="You are a helpful local assistant. Answer accurately and concisely in the user's language. Never claim to execute a tool unless a tool result is provided.";
+        const std::string system="You are a helpful local assistant. Answer accurately and concisely in the user's language. For multi-part requests, cover every requested point with compact numbered items; prioritize complete coverage over elaboration, and omit introductions, conclusions, repetition, and unrequested examples. Never claim to execute a tool unless a tool result is provided.";
         llama_chat_message messages[]={{"system",system.c_str()},{"user",prompt.c_str()}};
         int size=llama_chat_apply_template("chatml",messages,2,true,nullptr,0);
         if(size<0) throw std::runtime_error("Chat template failed");

@@ -2,7 +2,7 @@ package local.aicenter.core;
 
 /** Applies capability-wide generation limits without inspecting question ids or answer keys. */
 public final class GenerationBudget {
-    private static final int LONG_FORM_MINIMUM = 768;
+    private static final int LONG_FORM_MINIMUM = 1024;
     private static final int HARD_MAXIMUM = 1024;
     private GenerationBudget() {}
 

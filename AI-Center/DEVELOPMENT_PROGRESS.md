@@ -212,6 +212,15 @@ Phase 2–11 尚未进入。需求保持不变。
 - 生产聊天历史已由Q100 PASS验证。512预算使11道manual从截断转为MANUAL_REVIEW，但24道仍在512 tokens截断；4公式、10数值错误未改评分掩盖。
 - 保存Run14完整日志、逐题原始输出、性能、截图及Artifact校验到`Tests/ci-runs/36341960326/`。
 - 通用manual最低预算提高到768；CI用prompt+rubric最长的manual作为代表预检，并保留conversation预检；工作流上限300分钟。冻结题库、答案与评分不变。
-- 本段随下一提交同步；Run15先验证最复杂manual不再预算耗尽与conversation PASS，再决定是否进入全量100题。
+- 提交`74bf12e196c1a57ed9435fdffa5a4cf2effa00f5`已触发Run15 `36357175571`；先验证最复杂manual不再预算耗尽与conversation PASS，再决定是否进入全量100题。
+- Library目标版本仍为PROJECT_STATE v14、源码归档v12；版本保护替换再次均返回`transfer_failed`，本地检查点保留，未创建副本。
+
+## 历史状态
+## 2026-09-28 Run15代表题结果与紧凑回答修复
+
+- Run15构建、签名、lint、34核心、11报告、6项目验证PASS；手机/平板基础离线回归PASS。
+- 最复杂manual代表题Q025在两端均达到768/768 tokens并于第7项中截断；conversation及全量100题因先行门禁而NOT_RUN。
+- 保存Run15 Artifact、Q025完整输入输出、APK报告与运行日志到`Tests/ci-runs/36357175571/`。
+- manual通用最低预算提高到1024；原生系统提示增加“多部分请求紧凑编号、优先完整覆盖、避免引言/结论/重复/未要求示例”。题库和评分不变。
 
 ## 历史状态

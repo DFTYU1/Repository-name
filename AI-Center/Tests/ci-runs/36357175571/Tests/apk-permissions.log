@@ -1,0 +1,2 @@
+package: local.aicenter.app.dev
+uses-permission: name='android.permission.USE_BIOMETRIC'
