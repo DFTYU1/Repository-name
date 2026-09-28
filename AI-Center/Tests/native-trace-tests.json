@@ -1,0 +1,6 @@
+{
+  "scope": "Host test of production PhaseTrace; Android and actual inference NOT_RUN",
+  "compile_exit": 0,
+  "test_exit": 0,
+  "output": "PASS cancellation unwinding, request reset, EOG, budget, error phase, stage totals (host only)\n"
+}

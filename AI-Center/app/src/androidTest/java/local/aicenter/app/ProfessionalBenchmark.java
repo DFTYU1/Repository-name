@@ -110,10 +110,43 @@ final class ProfessionalBenchmark {
         finally{
             sampling.set(false);sampler.join(2000);
             if(inference.isAlive()){app.disconnect();inference.join(10000);}
+            String diagnosticKind=question.getString("kind");
+            if(!inference.isAlive()&&(diagnosticKind.equals("manual")||diagnosticKind.equals("formula")||diagnosticKind.equals("number"))){
+                double[] m=app.localModel.lastMetrics();
+                JSONObject timing=new JSONObject();
+                String[] names={"ttft_ms","generated_tokens","native_total_ms","tokens_per_second","model_load_ms","template_tokenize_ms","context_sampler_ms","prefill_ms","decode_cleanup_ms","last_phase","termination","prompt_tokens","java_lock_wait_ms","java_total_ms"};
+                for(int i=0;i<names.length;i++)timing.put(names[i],m[i]);
+                item.put("phase_timing",timing).put("partial_output",app.localModel.lastPartialOutput());
+                item.put("generated_tokens",m[1]).put("native_total_ms",m[2]);
+                item.put("diagnostic_scope","current raw-model call after worker joined; termination 1=eog 2=budget 3=cancel 4=error");
+            }
             item.put("elapsed_ms",SystemClock.elapsedRealtime()-begin).put("peak_pss_kb",peak.get()).put("pss_sample_interval_ms",250);
             save();
         }
         require(!unsafeNativeWorker&&!inference.isAlive(),"Native worker failed to stop; aborting batch without concurrent inference");
+        if(item.optBoolean("timeout")&&"true".equals(options.getString("timeout_recovery","false"))){
+            // The failed call's snapshot above stays intact; recovery is a separate observation.
+            app.stop.resume();StopController.Token recoveryToken=app.stop.begin();
+            FutureTask<String> recovery=new FutureTask<>(()->app.localModel.generate("Reply with exactly READY.","",16,recoveryToken));
+            Thread recoveryThread=new Thread(recovery,"timeout-recovery");long recoveryStart=SystemClock.elapsedRealtime();
+            JSONObject recovered=new JSONObject().put("status","RUNNING");item.put("post_timeout_recovery",recovered);save();
+            recoveryThread.start();
+            try{
+                String value=recovery.get(90,TimeUnit.SECONDS);
+                recovered.put("output",value).put("status",value.trim().equals("READY")?"PASS":"FAIL")
+                    .put("reason",value.trim().equals("READY")?"new_request_completed":"recovery_output_mismatch");
+            }catch(TimeoutException e){app.disconnect();recovered.put("status","FAIL").put("reason","recovery_timeout");}
+            catch(ExecutionException e){recovered.put("status","FAIL").put("reason",e.getCause().getClass().getSimpleName());}
+            finally{
+                if(recoveryThread.isAlive()){app.disconnect();recoveryThread.join(10000);}
+                recovered.put("elapsed_ms",SystemClock.elapsedRealtime()-recoveryStart);
+                if(!recoveryThread.isAlive()){
+                    double[] m=app.localModel.lastMetrics();recovered.put("generated_tokens",m[1]).put("native_total_ms",m[2]).put("termination",m[10]);
+                }
+                save();
+            }
+            require(!recoveryThread.isAlive(),"Recovery worker failed to stop");
+        }
     }
     private String answer(JSONObject q,JSONObject item)throws Exception{
         String kind=q.getString("kind"),prompt=q.getString("prompt");

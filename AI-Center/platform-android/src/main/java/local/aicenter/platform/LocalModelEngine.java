@@ -19,7 +19,8 @@ public final class LocalModelEngine implements ModelEngine {
     private final StopController stop;
     private volatile File file;
     private volatile String modelId="model-initializing";
-    private volatile double[] metrics=new double[4];
+    private volatile double[] metrics=new double[14];
+    private volatile String partialOutput="";
     public LocalModelEngine(Context context,StopController stop){this.context=context.getApplicationContext();this.stop=stop;}
     public void installBundled()throws Exception{
         JSONObject spec;
@@ -59,24 +60,35 @@ public final class LocalModelEngine implements ModelEngine {
     public boolean isLocal(){return true;}
     public boolean isPaid(){return false;}
     public boolean ready(){return file!=null;}
+    public String lastPartialOutput(){return partialOutput;}
     public double[] lastMetrics(){return metrics.clone();}
     public String generate(String prompt,StopController.Token token)throws Exception{return generate(prompt,"",384,token);}
     public String generate(String prompt,String grammar,int maxTokens,StopController.Token token)throws Exception{
+        long queued=android.os.SystemClock.elapsedRealtime();
         synchronized(LOCK){
+            long entered=android.os.SystemClock.elapsedRealtime();
+            metrics=new double[14];partialOutput="";
             token.check();if(!ready())throw new IllegalStateException("Local model is not ready");
             long request=++sequence;nativePrepare(request);
             try(AutoCloseable hook=stop.onStop(token,()->nativeCancel(request))){
                 token.check();
                 byte[] result=nativeGenerate(file.getAbsolutePath().getBytes(StandardCharsets.UTF_8),prompt.getBytes(StandardCharsets.UTF_8),
                     grammar.getBytes(StandardCharsets.UTF_8),maxTokens,Math.max(1,Math.min(4,Runtime.getRuntime().availableProcessors())));
-                token.check();metrics=nativeStats();
+                token.check();
                 String text=new String(result,StandardCharsets.UTF_8).trim();
                 if(text.isEmpty())throw new IllegalStateException("The model returned no answer");return text;
             }catch(Exception e){token.check();throw e;}
+            finally{
+                // Snapshot after cancellation as well as success, while still holding LOCK.
+                double[] snapshot=java.util.Arrays.copyOf(nativeStats(),14);
+                snapshot[12]=entered-queued;snapshot[13]=android.os.SystemClock.elapsedRealtime()-queued;
+                partialOutput=new String(nativePartial(),StandardCharsets.UTF_8);metrics=snapshot;
+            }
         }
     }
     private static native void nativePrepare(long request);
     private static native void nativeCancel(long request);
     private static native byte[] nativeGenerate(byte[] path,byte[] prompt,byte[] grammar,int maxTokens,int threads);
     private static native double[] nativeStats();
+    private static native byte[] nativePartial();
 }

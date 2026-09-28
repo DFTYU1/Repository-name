@@ -3,5 +3,10 @@
   "project_state_version": 18,
   "source_archive_version": 16,
   "previous_error": "transfer_failed",
-  "recovery": "Source/state to be persisted via authorized GitHub commit; Library not updated"
+  "recovery": "Authoritative public source and latest state committed on ai-center-build. Library versions unchanged.",
+  "github_source_commit": "6ea9df7d2e30b81bedf90f97b018b305ffa567a6",
+  "github_status": "BRANCH_FAST_FORWARD_CONFIRMED",
+  "last_persisted_github_commit": "6ea9df7d2e30b81bedf90f97b018b305ffa567a6",
+  "run20": "FAIL; complete diagnostics downloaded; next fix staged",
+  "library_status": "PROJECT_STATE v18, source v16 observed earlier; not claimed updated"
 }

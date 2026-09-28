@@ -39,6 +39,7 @@ jobs:
       - name: Compile and test Java core
         run: |
           python3 scripts/test_core.py
+          python3 scripts/test_native_trace.py
           python3 scripts/test_professional_report.py
       - name: Verify project and evidence contracts
         run: |
@@ -51,6 +52,8 @@ jobs:
         env:
           AI_CENTER_PROFESSIONAL_BENCHMARK: "true"
           AI_CENTER_VALIDATION_SCOPE: "tool_chat"
+          AI_CENTER_TOOL_CHAT_SMOKE: "true"
+          AI_CENTER_TIMEOUT_BASELINE: "Tests/ci-runs/36384039111"
         run: python3 scripts/android_ci.py test
 
       - name: Print runtime diagnostics on failure

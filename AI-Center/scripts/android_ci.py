@@ -206,7 +206,7 @@ def test():
                 if not re.search(r'^Status: ok$', started, re.M):
                     raise RuntimeError('Activity launch did not report success')
                 output = adb('shell', 'am', 'instrument', '-w', '-r', '-e', 'profile', profile,
-                    '-e','tool_chat','true', '-e', 'fixture_password', fixture_password, '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
+                    '-e','tool_chat','true','-e','tool_chat_smoke',os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE','false'), '-e', 'fixture_password', fixture_password, '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
                     TEST_PACKAGE + '/local.aicenter.app.FoundationInstrumentation', timeout=1800)
                 (OUT / (profile + '-instrumentation.log')).write_text(output)
                 profile_result = parse_instrumentation(output, profile)
@@ -228,6 +228,26 @@ def test():
                     profile_result['scope']='TARGETED_TOOL_CHAT_ONLY'
                     profile_result['professional_status']='NOT_RUN'
                     profile_result['formal_acceptance']='NOT_ACCEPTED'
+                    baseline=os.environ.get('AI_CENTER_TIMEOUT_BASELINE')
+                    if baseline:
+                        from timeout_probe import select
+                        cases=json.loads((ROOT/'app/src/androidTest/assets/professional-100.json').read_text())
+                        selected=select(json.loads((ROOT/baseline/f'{profile}-comparison.json').read_text()),cases)
+                        profile_result['timeout_probe']={}
+                        for index,qid in selected:
+                            raw=adb('shell','am','instrument','-w','-r','-e','professional_suite','true',
+                                '-e','timeout_recovery','true','-e','fixture_password',fixture_password,
+                                '-e','case_start',str(index),'-e','case_count','1','-e','commit',os.environ.get('GITHUB_SHA','UNKNOWN'),
+                                '-e','engine_revision',json.loads((ROOT/'ci/native-lock.json').read_text())['llama_commit'],
+                                TEST_PACKAGE+'/local.aicenter.app.FoundationInstrumentation',timeout=500)
+                            (OUT/f'{profile}-timeout-probe-{qid}.log').write_text(raw)
+                            captured=subprocess.run([str(x) for x in adb_command]+['exec-out','run-as',PACKAGE,'cat','files/ci-professional-benchmark.json'],capture_output=True,timeout=30)
+                            if captured.returncode or 'benchmark_status=EXECUTED' not in raw:raise RuntimeError('Timeout probe infrastructure failed')
+                            evidence=json.loads(captured.stdout);result=evidence['results'][0]
+                            (OUT/f'{profile}-timeout-probe-{qid}.json').write_text(json.dumps(evidence,ensure_ascii=False,indent=2)+'\n')
+                            if 'phase_timing' not in result:raise RuntimeError('Missing phase diagnostics')
+                            profile_result['timeout_probe'][qid]={'status':result['status'],'recovery':result.get('post_timeout_recovery',{'status':'NOT_NEEDED'})}
+                            if result['status']=='FAIL' or result.get('post_timeout_recovery',{}).get('status')=='FAIL':profile_result['status']='FAIL'
                 elif profile_result['status'] == 'PASS':
                     suite=json.loads((ROOT/'app/src/androidTest/assets/professional-100.json').read_text())
                     manual_indices=[i for i,q in enumerate(suite['cases']) if q['kind']=='manual']

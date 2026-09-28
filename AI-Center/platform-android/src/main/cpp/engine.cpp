@@ -1,9 +1,11 @@
 #include <jni.h>
 #include "llama.h"
+#include "inference_trace.h"
 #include <atomic>
 #include <algorithm>
 #include <chrono>
 #include <memory>
+#include <iterator>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -13,7 +15,9 @@
 static std::atomic<int64_t> active_request{0};
 static std::unique_ptr<llama_model, decltype(&llama_model_free)> model(nullptr, llama_model_free);
 static std::string model_path;
-static double stats[4]{};
+// Read only after nativeGenerate exits under the Java serialization lock.
+static double stats[12]{};
+static std::string partial_answer;
 static bool abort_decode(void *) { return (active_request.load()==0); }
 static bool loading(float, void *) { return !(active_request.load()==0); }
 static void check() { if((active_request.load()==0)) throw std::runtime_error("Inference cancelled"); }
@@ -24,13 +28,18 @@ static std::string bytes(JNIEnv *env, jbyteArray input) {
 static double milliseconds(std::chrono::steady_clock::time_point start) {
     return std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
 }
-extern "C" JNIEXPORT void JNICALL Java_local_aicenter_platform_LocalModelEngine_nativePrepare(JNIEnv *,jclass,jlong request) { active_request=request; }
+extern "C" JNIEXPORT void JNICALL Java_local_aicenter_platform_LocalModelEngine_nativePrepare(JNIEnv *,jclass,jlong request) { active_request=request;std::fill(std::begin(stats),std::end(stats),0.0);partial_answer.clear(); }
 extern "C" JNIEXPORT void JNICALL Java_local_aicenter_platform_LocalModelEngine_nativeCancel(JNIEnv *,jclass,jlong request) { int64_t expected=request; active_request.compare_exchange_strong(expected,0); }
 extern "C" JNIEXPORT jdoubleArray JNICALL Java_local_aicenter_platform_LocalModelEngine_nativeStats(JNIEnv *env,jclass) {
-    auto result=env->NewDoubleArray(4); env->SetDoubleArrayRegion(result,0,4,stats); return result;
+    auto result=env->NewDoubleArray(12); env->SetDoubleArrayRegion(result,0,12,stats); return result;
+}
+extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelEngine_nativePartial(JNIEnv *env,jclass) {
+    auto result=env->NewByteArray(partial_answer.size());
+    env->SetByteArrayRegion(result,0,partial_answer.size(),reinterpret_cast<const jbyte *>(partial_answer.data()));return result;
 }
 extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelEngine_nativeGenerate(
     JNIEnv *env,jclass,jbyteArray path_bytes,jbyteArray prompt_bytes,jbyteArray grammar_bytes,jint limit,jint threads) {
+    PhaseTrace trace(stats,active_request);
     try {
         check(); auto started=std::chrono::steady_clock::now();
         auto path=bytes(env,path_bytes), prompt=bytes(env,prompt_bytes), grammar=bytes(env,grammar_bytes);
@@ -43,7 +52,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
             if(!model) throw std::runtime_error("Unable to load verified local GGUF");
             model_path=path;
         }
-        check(); const auto *vocab=llama_model_get_vocab(model.get());
+        trace.next(5);check(); const auto *vocab=llama_model_get_vocab(model.get());
         // Fixed ChatML template is the verified text-only, thinking-disabled
         // Qwen3.5 format. No external server, network or shell is involved.
         const std::string system="You are a concise local assistant. Answer accurately in the user's language. If the user requests only a formula, number, code, or other exact format, output only that requested value with no numbering, label, explanation, or extra text. Use numbered items only when the request explicitly asks for multiple distinct points. For such multi-part requests, follow the requested order, use one short sentence or compact semicolon-separated phrases per item, cover every point, and finish below 450 tokens. Do not use a title, introduction, conclusion, nested bullets, repetition, or unrequested examples. 若用户要求仅输出公式、数字、代码或指定格式，只输出所需值，不加编号、标签、解释或其他文字。只有明确的多项请求才按原顺序逐项编号，每项一个短句，总回答少于450个token；不要标题、引言、结论、子项目、重复或未要求的例子。 Never claim to execute a tool unless a tool result is provided.";
@@ -58,6 +67,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
         std::vector<llama_token> tokens(count);
         if(llama_tokenize(vocab,formatted.data(),formatted.size(),tokens.data(),count,true,true)!=count)
             throw std::runtime_error("Tokenization failed");
+        stats[11]=count;trace.next(6);
         auto cp=llama_context_default_params(); cp.n_ctx=2048; cp.n_batch=256; cp.n_ubatch=256;
         cp.n_threads=threads; cp.n_threads_batch=threads;
         cp.abort_callback=abort_decode; cp.abort_callback_data=nullptr;
@@ -71,26 +81,29 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
             llama_sampler_chain_add(sampler.get(),g);
         }
         llama_sampler_chain_add(sampler.get(),llama_sampler_init_greedy());
+        trace.next(7);
         for(int offset=0;offset<count;offset+=256) {
             check(); auto b=llama_batch_get_one(tokens.data()+offset,std::min(256,count-offset));
             if(llama_decode(ctx.get(),b)!=0) throw std::runtime_error("Prompt evaluation failed");
         }
-        std::string answer; int generated=0; double first=0;
+        trace.next(8);
+        std::string &answer=partial_answer; int generated=0; double first=0;
         auto decode_started=std::chrono::steady_clock::now();
         for(int i=0;i<limit;i++) {
             check(); auto token=llama_sampler_sample(sampler.get(),ctx.get(),-1);
-            if(llama_vocab_is_eog(vocab,token)) break;
+            if(llama_vocab_is_eog(vocab,token)){stats[10]=1;break;}
             std::vector<char> piece(256);
             int n=llama_token_to_piece(vocab,token,piece.data(),piece.size(),0,false);
             if(n<0) {piece.resize(-n); n=llama_token_to_piece(vocab,token,piece.data(),piece.size(),0,false);}
             if(n<0) throw std::runtime_error("Token decoding failed");
             answer.append(piece.data(),n); if(generated++==0) first=milliseconds(started);
+            stats[0]=first;stats[1]=generated;
             if(i+1<limit) {
                 auto b=llama_batch_get_one(&token,1);
                 if(llama_decode(ctx.get(),b)!=0) throw std::runtime_error("Token evaluation failed");
             }
         }
-        check(); stats[0]=first; stats[1]=generated; stats[2]=milliseconds(started);
+        check(); if(stats[10]==0)stats[10]=2;stats[0]=first; stats[1]=generated; stats[2]=milliseconds(started);
         stats[3]=generated*1000.0/std::max(1.0,milliseconds(decode_started));
         auto result=env->NewByteArray(answer.size());
         env->SetByteArrayRegion(result,0,answer.size(),reinterpret_cast<const jbyte *>(answer.data())); return result;

@@ -1,0 +1,151 @@
+{
+  "run": 20,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/36412645674",
+  "source_commit": "6ea9df7d2e30b81bedf90f97b018b305ffa567a6",
+  "conclusion": "failure",
+  "artifact": {
+    "id": 10967146022,
+    "sha256": "80a50f723cb432324f4a58a40db6e533d024d7f05ac0f090f299606851a34c82"
+  },
+  "scope": "production UI tool-assisted, 10 synthetic cases per profile",
+  "professional_100": "NOT_RUN",
+  "formal_acceptance": "NOT_ACCEPTED",
+  "profiles": {
+    "phone": {
+      "counts": {
+        "PASS": 0,
+        "FAIL": 10
+      },
+      "cases": [
+        {
+          "input": "新问题：检查560件，不良7件，计算不良百分比，请说明计算参数。",
+          "status": "FAIL",
+          "actual_output": "应用已用：1.37 GB / 30 GB 目标\n普通缓存：0.00 GB / 8 GB 默认上限\n设备剩余：2.60 GB\n\n普通缓存连续 15 天未使用自动清除。收藏、知识库、笔记、主动下载及工作文件不自动删除。",
+          "elapsed_ms": 44740
+        },
+        {
+          "input": "New calculation: find the mean of -4, 8 and 17, all dimensionless. Explain the operation.",
+          "status": "FAIL",
+          "actual_output": "进行中 · 任务记录 · 正在处理\n已完成 · 查看存储 · 结果已保存\n已完成 · 查看存储 · 结果已保存\n上次中断 · 本地任务 · 应用重启后保留记录\n",
+          "elapsed_ms": 45132
+        },
+        {
+          "input": "新问题：0.1kg加0.2kg，共多少kg？说明参数。",
+          "status": "FAIL",
+          "actual_output": "应用已用：1.37 GB / 30 GB 目标\n普通缓存：0.00 GB / 8 GB 默认上限\n设备剩余：2.60 GB\n\n普通缓存连续 15 天未使用自动清除。收藏、知识库、笔记、主动下载及工作文件不自动删除。",
+          "elapsed_ms": 45064
+        },
+        {
+          "input": "新问题：计算Cpk，上限20mm，下限2mm，均值8mm；标准差未知。",
+          "status": "FAIL",
+          "actual_output": "导入的文本中没有找到相关内容。可以换个关键词，或先导入资料。",
+          "elapsed_ms": 45584
+        },
+        {
+          "input": "补充刚才的Cpk：过程稳定，组内标准差为2mm，请计算并说明参数。",
+          "status": "FAIL",
+          "actual_output": "需要澄清：请明确计算操作、各数值的含义和单位；缺少或存在冲突的参数不能推算。",
+          "elapsed_ms": 146410
+        },
+        {
+          "input": "新问题：无量纲8除以0等于多少？",
+          "status": "FAIL",
+          "actual_output": "导入的文本中没有找到相关内容。可以换个关键词，或先导入资料。",
+          "elapsed_ms": 44236
+        },
+        {
+          "input": "新问题：总数可能560也可能600，不良7件，计算准确不良率。",
+          "status": "FAIL",
+          "actual_output": "导入的文本中没有找到相关内容。可以换个关键词，或先导入资料。",
+          "elapsed_ms": 46066
+        },
+        {
+          "input": "新问题：5mm与5kg相加，给出结果。",
+          "status": "FAIL",
+          "actual_output": "导入的文本中没有找到相关内容。可以换个关键词，或先导入资料。",
+          "elapsed_ms": 44837
+        },
+        {
+          "input": "只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F9)",
+          "status": "FAIL",
+          "actual_output": "还没有导入文件。可以选择 TXT 或 Markdown 文件，原文件保留。",
+          "elapsed_ms": 45823
+        },
+        {
+          "input": "只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F8)",
+          "status": "FAIL",
+          "actual_output": "应用已用：1.37 GB / 30 GB 目标\n普通缓存：0.00 GB / 8 GB 默认上限\n设备剩余：2.60 GB\n\n普通缓存连续 15 天未使用自动清除。收藏、知识库、笔记、主动下载及工作文件不自动删除。",
+          "elapsed_ms": 44847
+        }
+      ]
+    },
+    "tablet": {
+      "counts": {
+        "PASS": 0,
+        "FAIL": 10
+      },
+      "cases": [
+        {
+          "input": "新问题：检查560件，不良7件，计算不良百分比，请说明计算参数。",
+          "status": "FAIL",
+          "actual_output": "应用已用：1.43 GB / 30 GB 目标\n普通缓存：0.00 GB / 8 GB 默认上限\n设备剩余：2.53 GB\n\n普通缓存连续 15 天未使用自动清除。收藏、知识库、笔记、主动下载及工作文件不自动删除。",
+          "elapsed_ms": 44802
+        },
+        {
+          "input": "New calculation: find the mean of -4, 8 and 17, all dimensionless. Explain the operation.",
+          "status": "FAIL",
+          "actual_output": "进行中 · 任务记录 · 正在处理\n已完成 · 查看存储 · 结果已保存\n已完成 · 查看存储 · 结果已保存\n上次中断 · 本地任务 · 应用重启后保留记录\n",
+          "elapsed_ms": 45729
+        },
+        {
+          "input": "新问题：0.1kg加0.2kg，共多少kg？说明参数。",
+          "status": "FAIL",
+          "actual_output": "应用已用：1.43 GB / 30 GB 目标\n普通缓存：0.00 GB / 8 GB 默认上限\n设备剩余：2.53 GB\n\n普通缓存连续 15 天未使用自动清除。收藏、知识库、笔记、主动下载及工作文件不自动删除。",
+          "elapsed_ms": 46500
+        },
+        {
+          "input": "新问题：计算Cpk，上限20mm，下限2mm，均值8mm；标准差未知。",
+          "status": "FAIL",
+          "actual_output": "导入的文本中没有找到相关内容。可以换个关键词，或先导入资料。",
+          "elapsed_ms": 45891
+        },
+        {
+          "input": "补充刚才的Cpk：过程稳定，组内标准差为2mm，请计算并说明参数。",
+          "status": "FAIL",
+          "actual_output": "需要澄清：请明确计算操作、各数值的含义和单位；缺少或存在冲突的参数不能推算。",
+          "elapsed_ms": 144272
+        },
+        {
+          "input": "新问题：无量纲8除以0等于多少？",
+          "status": "FAIL",
+          "actual_output": "导入的文本中没有找到相关内容。可以换个关键词，或先导入资料。",
+          "elapsed_ms": 43038
+        },
+        {
+          "input": "新问题：总数可能560也可能600，不良7件，计算准确不良率。",
+          "status": "FAIL",
+          "actual_output": "导入的文本中没有找到相关内容。可以换个关键词，或先导入资料。",
+          "elapsed_ms": 44377
+        },
+        {
+          "input": "新问题：5mm与5kg相加，给出结果。",
+          "status": "FAIL",
+          "actual_output": "导入的文本中没有找到相关内容。可以换个关键词，或先导入资料。",
+          "elapsed_ms": 42952
+        },
+        {
+          "input": "只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F9)",
+          "status": "FAIL",
+          "actual_output": "还没有导入文件。可以选择 TXT 或 Markdown 文件，原文件保留。",
+          "elapsed_ms": 44623
+        },
+        {
+          "input": "只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F8)",
+          "status": "FAIL",
+          "actual_output": "应用已用：1.43 GB / 30 GB 目标\n普通缓存：0.00 GB / 8 GB 默认上限\n设备剩余：2.53 GB\n\n普通缓存连续 15 天未使用自动清除。收藏、知识库、笔记、主动下载及工作文件不自动删除。",
+          "elapsed_ms": 45607
+        }
+      ]
+    }
+  }
+}

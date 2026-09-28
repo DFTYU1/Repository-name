@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import local.aicenter.core.AgentRuntime;
+import local.aicenter.core.ReadOnlyToolIntent;
 import local.aicenter.core.StopController;
 import local.aicenter.platform.StorageManager;
 
@@ -166,7 +167,13 @@ public final class MainActivity extends Activity {
                 else if(text.equals("查看空间")||text.equals("查看存储"))tool="storage";
                 else if(text.equals("查看任务"))tool="tasks";
                 else if(text.startsWith("查找：")||text.startsWith("查找:")){tool="search";arg=text.substring(3).trim();}
-                else tool=app.planTool(text,token);
+                else {
+                    String candidate=ReadOnlyToolIntent.candidate(text);
+                    if(!candidate.equals("chat")){
+                        String selected=app.planTool(text,token);
+                        tool=candidate.equals(selected)?selected:"chat";
+                    }
+                }
                 stage="执行任务";answer=app.agent.execute(Collections.singletonList(new AgentRuntime.Step(tool,arg)),token).output;
                 stage="保存结果";token.check();app.db.message("assistant",answer);
             }catch(StopController.Stopped e){answer="任务已停止，已有内容保留。";}

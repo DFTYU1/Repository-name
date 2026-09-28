@@ -31,6 +31,10 @@ public final class ToolCalculationTest {
   checks++;if(!chat.answer("总数560件，不良数量未知",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
   eq(new ToolChat((p,t)->"CHAT").answer("你好",stop.begin()),null);
   checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("长度有5mm也有5cm，怎么算？",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
+  eq(ReadOnlyToolIntent.candidate("请检查设备剩余存储空间"),"storage");
+  eq(ReadOnlyToolIntent.candidate("请列出已经导入的文件"),"files");
+  eq(ReadOnlyToolIntent.candidate("请查询已有任务执行记录"),"tasks");
+  for(String query:new String[]{"检查560件，不良7件，计算不良百分比","检查Cpk，上限20mm，下限2mm","只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F9)","解释磁盘存储的定义","请计算现有任务的平均耗时"})eq(ReadOnlyToolIntent.candidate(query),"chat");
   System.out.println("PASS "+checks+" checks; planner fixtures only, NOT real-model validation");
  }
 }
