@@ -1,0 +1,43 @@
+{
+  "run_id": 36361478841,
+  "run_url": "https://github.com/DFTYU1/Repository-name/actions/runs/36361478841",
+  "commit": "77c1980d7ac7389f4de5d145a897508bd8416dcb",
+  "conclusion": "failure",
+  "completed_utc": "2026-09-28T00:35:01Z",
+  "core_tests": {"passed": 34, "status": "PASS"},
+  "professional_report_tests": {"passed": 11, "status": "PASS"},
+  "project_verification": {"passed": 6, "status": "PASS"},
+  "build_and_lint": "PASS",
+  "failed_gate": "Q025 long-form representative exhausted the 1024-token hard budget on both emulator profiles",
+  "phone_representative": {
+    "id": "Q025", "budget_tokens": 1024, "generated_tokens": 1024,
+    "status": "FAIL", "timeout": false, "crash": false,
+    "ttft_ms": 10560.464038, "tokens_per_second": 6.49765836699932,
+    "peak_pss_kb": 1419031
+  },
+  "tablet_representative": {
+    "id": "Q025", "budget_tokens": 1024, "generated_tokens": 1024,
+    "status": "FAIL", "timeout": false, "crash": false,
+    "ttft_ms": 10275.78511, "tokens_per_second": 7.220461809255376,
+    "peak_pss_kb": 1420525
+  },
+  "representative_conversation": "NOT_RUN",
+  "professional_100": "NOT_RUN",
+  "apk": {
+    "bytes": 1368423001,
+    "sha256": "2b27603540bbbda4f21d9bdbc453f1a56d26a361ae1b4caaac23553f1d24f454",
+    "signed": true,
+    "internet_permission": false
+  },
+  "test_apk": {
+    "bytes": 59892,
+    "sha256": "b374b231bf38ca17632f272a1d98db616eb3cea0e0857c97a70464297ad44e84",
+    "signed": true
+  },
+  "artifact": {
+    "name": "AI-Center-diagnostics-16",
+    "id": 10946207474,
+    "zip_sha256": "bf9cfeb035d3d9db421a34dd7865108e01b6a1ded807f56bd3eecfc6292a5e82",
+    "expires_utc": "2026-10-12T00:34:15Z"
+  }
+}

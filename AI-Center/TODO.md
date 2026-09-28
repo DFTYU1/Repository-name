@@ -233,6 +233,16 @@ project_id=personal-ai-center-20260909
 - [x] 确认构建/lint、34核心、11报告、6验证和基础双模拟器离线回归PASS。
 - [x] 确认Q025双端均768/768截断；conversation与100题NOT_RUN，不沿用Run14统计。
 - [x] manual最低预算提高至1024硬上限，并加入通用多部分紧凑完整回答策略；冻结题库/答案/评分不变。
+- [x] 提交`77c1980d7ac7389f4de5d145a897508bd8416dcb`并启动Run16 `36361478841`。
+
+## 当前队列 · Run16代表题失败后
+
+- [x] 核验Run16最终FAIL并保存Artifact 10946207474、双模拟器Q025完整输出、APK与运行证据。
+- [x] 确认两端Q025均为1024/1024预算耗尽，conversation代表题和100题均NOT_RUN。
+- [x] 仅强化生产系统提示的通用紧凑多项回答约束；不提高硬上限、不修改冻结题库/答案/评分。
+- [ ] 提交最小修复并启动下一Run；先验证Q025，再验证conversation，全部代表题通过后才运行双模拟器100题。
+- [ ] 取得无FAIL的全量结果后保留manual为PENDING_MANUAL_REVIEW，等待人工复核，不自动标PASS。
+- [ ] Library同一PROJECT_STATE v14与源码归档v12替换再次`transfer_failed`；下轮先确认版本不变再重试，不创建重复文件。
 - [ ] 下一Run先核对Q025是否不再耗尽及conversation PASS；失败只修相关原因。
 - [ ] 代表题通过后核对全量100题、性能、APK签名/ABI/权限；公式/数值能力错误继续如实FAIL。
 - [ ] 人工题未经复核保持PENDING_MANUAL_REVIEW；vivo X300 Pro与Lenovo Y900保持NOT_RUN。

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "status": "real_runtime_integrated_professional_acceptance_pending",
+  "default_route": "local",
+  "modes": {
+    "fast": null,
+    "standard": null,
+    "deep": null
+  },
+  "embedding": null,
+  "models": [
+    {
+      "id": "Qwen3.5-2B-Q4_K_M",
+      "repository": "unsloth/Qwen3.5-2B-GGUF",
+      "revision": "f6d5376be1edb4d416d56da11e5397a961aca8ae",
+      "filename": "Qwen3.5-2B-Q4_K_M.gguf",
+      "sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+      "bytes": 1280835840,
+      "license": "Apache-2.0",
+      "scope": "Stronger text-only integration candidate; final device choice still requires vivo/Y900 benchmarks",
+      "verified_devices": [
+        "API35 x86_64 phone/tablet emulator: Run9 baseline only"
+      ],
+      "physical_devices": {
+        "vivo_X300_Pro": "NOT_RUN",
+        "Lenovo_Y900": "NOT_RUN"
+      }
+    }
+  ],
+  "initial_delivery_target_bytes": 15000000000,
+  "total_runtime_target_bytes": 30000000000,
+  "cache_default_bytes": 8000000000,
+  "cache_expire_unused_days": 15,
+  "large_models_sync": false,
+  "api_keys": "Android Keystore encrypted only; no key is present in this file",
+  "required_model_fields": [
+    "id",
+    "upstream_revision",
+    "filename",
+    "sha256",
+    "size_bytes",
+    "format",
+    "quantization",
+    "license",
+    "source_url",
+    "verified_devices"
+  ],
+  "acceptance_rule": "No final strongest-model choice before sustained benchmarks on both target devices.",
+  "runtime": {
+    "engine": "llama.cpp",
+    "revision": "f072b103714dfa1eee531f80b24512faf38e3dd2",
+    "abis": [
+      "arm64-v8a",
+      "x86_64"
+    ]
+  },
+  "professional_acceptance": {
+    "commit": "649c54c717974e460ec514227dd735a44707e96f",
+    "run": 36341960326,
+    "status": "NOT_ACCEPTED",
+    "counts": {
+      "PASS": 31,
+      "FAIL": 38,
+      "MANUAL_REVIEW": 31,
+      "NOT_RUN": 0
+    }
+  },
+  "pending_validation": {
+    "commit": "77c1980d7ac7389f4de5d145a897508bd8416dcb",
+    "run": 36361478841,
+    "status": "FAIL_REPRESENTATIVE_Q025_1024_EXHAUSTED",
+    "conversation_representative": "NOT_RUN",
+    "professional_100": "NOT_RUN"
+  }
+}

@@ -234,5 +234,15 @@ project_id=personal-ai-center-20260909
 - APK 1368423001字节，SHA-256 `3f41c729ae453ba24e12554229d88f35a11686e175bb938770964f69d64995fb`，signed=true，仅USE_BIOMETRIC、无INTERNET；测试APK 59892字节，SHA-256 `e8b19708de9eb53b95f1ce8a6774067e97bdbd64db04ed342f9ae26796318380`。
 - Artifact 10944975450；ZIP SHA-256 `2aeccf858a983c765f6fd7dfe9b206774c7b6fc90e88a4422f3d6b43db151dfd`；2026-10-11T23:19:45Z到期。
 - 下一批将manual预算提高至1024并增强通用紧凑覆盖提示；真实结果待下一Run。
+- 提交`77c1980d7ac7389f4de5d145a897508bd8416dcb`，Run16 `36361478841`当前IN_PROGRESS。
+
+## Run16最终状态 / 下一Run待验证
+
+- Run16 `36361478841`: FAILURE；构建、签名APK/测试APK、lint、34核心、11报告、6验证及基础双模拟器离线检查PASS。
+- 失败门禁：手机/平板Q025均1024/1024 tokens、generation_budget_exhausted；0超时、0崩溃。conversation代表题、全量100题NOT_RUN。
+- APK 1368423001字节，SHA-256 `2b27603540bbbda4f21d9bdbc453f1a56d26a361ae1b4caaac23553f1d24f454`；测试APK 59892字节，SHA-256 `b374b231bf38ca17632f272a1d98db616eb3cea0e0857c97a70464297ad44e84`；均signed=true，仅USE_BIOMETRIC、无INTERNET。
+- Artifact 10946207474；ZIP SHA-256 `bf9cfeb035d3d9db421a34dd7865108e01b6a1ded807f56bd3eecfc6292a5e82`；2026-10-12T00:34:15Z到期。
+- 下一Run只验证强化后的通用紧凑生成策略；真实结果出来前不宣称长回答、conversation或100题通过。
+- Library持久保存仍为PROJECT_STATE v14、源码归档v12；本轮两项版本保护替换再次`transfer_failed`。
 
 ## 历史状态

@@ -57,6 +57,9 @@ def professional_definition():
     assert len(q)==100 and len({x['id'] for x in q})==100
     assert {'tool','cancel','conversation','number','formula','manual'} <= {x['kind'] for x in q}
     assert all(x['rubric'] and x['source'] and x['difficulty'] for x in q)
+    engine=(ROOT/'platform-android/src/main/cpp/engine.cpp').read_text()
+    assert 'complete answer below 700 tokens' in engine and 'exactly one short numbered item' in engine
+    assert 'Q025' not in engine and q[24]['prompt'] not in engine and q[24]['rubric'] not in engine
 def checkpoint_roundtrip():
     with tempfile.TemporaryDirectory() as tmp:
         output=Path(tmp)/'checkpoint.zip';info=create_checkpoint(ROOT,output,'automated checkpoint round-trip')

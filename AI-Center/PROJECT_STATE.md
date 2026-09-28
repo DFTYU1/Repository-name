@@ -237,6 +237,17 @@ project_id=personal-ai-center-20260909
 - 失败输出只覆盖到11项要求中的第7项且在“材料”段中断，证明仅把512提高到768仍不足；代表门禁已成功阻止约数小时的无效全量运行。
 - 本批只修相关通用生成策略：manual最低预算提高到1024硬上限；原生系统提示要求多部分请求使用紧凑编号、优先完整覆盖、删去引言/结论/重复及未要求示例。冻结题库、答案、评分和确定性错误判定不变，不按题号硬编码。
 - Run15 APK 1368423001字节，SHA-256 `3f41c729ae453ba24e12554229d88f35a11686e175bb938770964f69d64995fb`，已签名，仅USE_BIOMETRIC、无INTERNET。Artifact `AI-Center-diagnostics-15` ID 10944975450，ZIP SHA-256 `2aeccf858a983c765f6fd7dfe9b206774c7b6fc90e88a4422f3d6b43db151dfd`，有效至2026-10-11T23:19:45Z；证据保存于`Tests/ci-runs/36357175571/`。
-- 下一Run先验证Q025与conversation代表题；代表题通过后才执行双模拟器100题。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
+- 提交`77c1980d7ac7389f4de5d145a897508bd8416dcb`已触发Run16 https://github.com/DFTYU1/Repository-name/actions/runs/36361478841 ，当前IN_PROGRESS；先验证Q025与conversation代表题，代表题通过后才执行双模拟器100题。运行结束前不并发提交。Library版本确认仍为PROJECT_STATE v14、源码归档v12，本轮版本保护替换再次均`transfer_failed`，未创建重复文件。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
+
+## 当前有效断点 · 2026-09-28 Run16代表题失败与更强通用紧凑策略
+
+project_id=personal-ai-center-20260909
+
+- Run16 https://github.com/DFTYU1/Repository-name/actions/runs/36361478841 于2026-09-28T00:35:01Z结束FAIL。核心34项、专业报告11项、项目验证6项、签名APK/测试APK、lint及手机/平板基础离线回归PASS。
+- 手机Q025与平板Q025均使用1024预算并生成1024 tokens后截断，状态FAIL；手机TTFT 10560.46ms、6.50 tokens/s、峰值1419031KiB，平板TTFT 10275.79ms、7.22 tokens/s、峰值1420525KiB；均0超时、0应用崩溃。conversation代表题与全量100题NOT_RUN，不沿用Run14统计。
+- Run16 APK 1368423001字节，SHA-256 `2b27603540bbbda4f21d9bdbc453f1a56d26a361ae1b4caaac23553f1d24f454`；测试APK 59892字节，SHA-256 `b374b231bf38ca17632f272a1d98db616eb3cea0e0857c97a70464297ad44e84`；两者已签名，仅USE_BIOMETRIC、无INTERNET。
+- Artifact `AI-Center-diagnostics-16` ID 10946207474，ZIP SHA-256 `bf9cfeb035d3d9db421a34dd7865108e01b6a1ded807f56bd3eecfc6292a5e82`，有效至2026-10-12T00:34:15Z；完整证据保存于`Tests/ci-runs/36361478841/`，公开仓库仅同步扫描后的结构化摘要。
+- 本批不提高1024硬上限、不改2048上下文、不改冻结题库/答案/评分。只强化生产原生系统提示为双语能力级约束：多项请求按原顺序、每项一个短编号句、整答少于700 tokens，禁止标题/引言/结论/嵌套项目/重复/未要求示例；不读取题号、rubric或答案。
+- 下一Run仍先验证Q025，不通过则conversation和全量100题继续NOT_RUN；通过后才核对conversation及双模拟器全量。vivo X300 Pro与Lenovo Y900仍NOT_RUN，Phase1未完成。
 
 ## 历史状态（以下仅供追溯）
