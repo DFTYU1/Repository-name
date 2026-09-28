@@ -33,6 +33,11 @@ public final class ToolCalculationTest {
   ToolChat reversedEnglish=new ToolChat((p,t)->"CALC|fraction|count|percent|explained|800,12");
   checks++;if(!reversedEnglish.answer("Inspected 800 units; 12 rejected. Calculate the defect percentage.",stop.begin()).contains("本地计算结果：1.5"))throw new AssertionError();
   checks++;if(!chat.answer("总数560件，不良数量未知",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
+  ToolChat conservative=new ToolChat((p,t)->"CLARIFY");
+  checks++;if(!conservative.answer("检查800件，其中12件不良，计算不良百分比",stop.begin()).contains("1.5"))throw new AssertionError();
+  checks++;if(!conservative.answer("Inspected 250 units; 5 rejected. Calculate the defect percentage.",stop.begin()).contains("2"))throw new AssertionError();
+  checks++;if(!conservative.answer("总数560件，总数600件，不良7件，计算不良率",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
+  checks++;if(!conservative.answer("总数560件，不良数量未知，计算不良率",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
   eq(new ToolChat((p,t)->"CHAT").answer("你好",stop.begin()),null);
   checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("长度有5mm也有5cm，怎么算？",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
   eq(ReadOnlyToolIntent.candidate("请检查设备剩余存储空间"),"storage");
