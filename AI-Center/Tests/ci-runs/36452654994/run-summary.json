@@ -1,0 +1,21 @@
+{
+  "run_id": 36452654994,
+  "run_url": "https://github.com/DFTYU1/Repository-name/actions/runs/36452654994",
+  "commit": "091f7b85a4f0e82cf1e02fa71252108a252b367d",
+  "conclusion": "failure",
+  "formal_acceptance": "NOT_ACCEPTED",
+  "scope": "dual-emulator targeted production UI and timeout diagnostics; full 100 NOT_RUN",
+  "profiles": {
+    "phone": {"percentage": "FAIL", "missing_cpk_sigma": "PASS", "Q013_timeout": false, "Q013_generated_tokens": 640, "Q013_native_total_ms": 107018.218066, "Q073_timeout": false, "Q073_generated_tokens": 640, "Q073_native_total_ms": 104650.045796},
+    "tablet": {"percentage": "FAIL", "missing_cpk_sigma": "PASS", "Q013_timeout": false, "Q013_generated_tokens": 640, "Q013_native_total_ms": 102757.311177, "Q073_timeout": false, "Q073_generated_tokens": 640, "Q073_native_total_ms": 105337.037848}
+  },
+  "diagnosis": {
+    "percentage": "model plan preserved textual values as 560,7 although fraction protocol requires part,total; calculator rejected invalid part > total and returned clarification",
+    "Q013_Q073": "prefill completed; decode entered repetitive cycles until the 640-token budget; no Java lock wait and no 180-second timeout"
+  },
+  "apk": {"bytes": 1368455769, "sha256": "317b3c162e872dd68f1a3fa085049315f476a9299d12763acbccb800c31b57e8", "signed": true},
+  "test_apk": {"bytes": 74440, "sha256": "03c452e68837ac2aa69e0b15f53ad5ee2f011392bacf5b0a1cb499f68caf22d4", "signed": true},
+  "artifact": {"id": 10985487877, "name": "AI-Center-diagnostics-21", "zip_sha256": "89c726e38346d8df146465311885852cc70be14d807e786ca85147eea7811935"},
+  "raw_model_100": {"status": "NOT_RUN", "unchanged_baseline_run": 36384039111, "baseline": {"pass": 25, "fail": 22, "manual_review": 53, "not_run": 0}},
+  "physical_devices": {"vivo_X300_Pro": "NOT_RUN", "Lenovo_Y900": "NOT_RUN"}
+}

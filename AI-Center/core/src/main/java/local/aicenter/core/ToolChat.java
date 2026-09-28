@@ -38,9 +38,31 @@ public final class ToolChat {
             Matcher m=Pattern.compile("(?<![A-Za-z0-9.])[+-]?[0-9]+(?:\\.[0-9]+)?(?![A-Za-z0-9.])").matcher(context);
             while(m.find())literals.add(new BigDecimal(m.group()).stripTrailingZeros());
             for(String operand:operands){if(!literals.contains(new BigDecimal(operand).stripTrailingZeros()))return clarification();}
+            if(p[1].equals("fraction"))operands=validatedFractionRoles(context,operands);
             token.check();String value=LocalCalculation.calculate(p[1],p[2],p[3],operands);token.check();
-            return p[4].equals("value")?value:"本地计算结果："+value+"（"+p[3]+"；操作："+p[1]+"；参数："+p[5]+"）。请核对参数是否符合你的原意。";
+            return p[4].equals("value")?value:"本地计算结果："+value+"（"+p[3]+"；操作："+p[1]+"；参数："+String.join(",",operands)+"）。请核对参数是否符合你的原意。";
         }catch(IllegalArgumentException|ArithmeticException e){return "需要澄清："+e.getMessage()+"。请提供操作、完整参数及统一单位。";}
+    }
+    private static String[] validatedFractionRoles(String context,String[] proposed){
+        if(proposed.length!=2)return proposed;
+        String latest=context.substring(Math.max(context.lastIndexOf("user:"),context.lastIndexOf("用户："))+1);
+        BigDecimal total=uniqueRole(latest,"(?:检查|抽检|检验|样本|总数|合计|total|inspected|sample(?:d)?)[^0-9+-]{0,10}([+-]?[0-9]+(?:\\.[0-9]+)?)|([+-]?[0-9]+(?:\\.[0-9]+)?)\\s*(?:件|个|units?)?\\s*(?:为|是)?\\s*(?:总数|合计|total|inspected|sample(?:d)?)");
+        BigDecimal part=uniqueRole(latest,"(?:不良|缺陷|不合格|拒收|失败|defect(?:ive)?|reject(?:ed)?|fail(?:ed)?)[^0-9+-]{0,10}([+-]?[0-9]+(?:\\.[0-9]+)?)|([+-]?[0-9]+(?:\\.[0-9]+)?)\\s*(?:件|个|units?)?\\s*(?:为|是)?\\s*(?:不良|缺陷|不合格|拒收|失败|defect(?:ive)?|reject(?:ed)?|fail(?:ed)?)");
+        if(total==null||part==null)return proposed;
+        Set<BigDecimal> proposedValues=new HashSet<>();
+        for(String value:proposed)proposedValues.add(new BigDecimal(value).stripTrailingZeros());
+        if(!proposedValues.contains(total)||!proposedValues.contains(part))throw new IllegalArgumentException("模型提取的数值角色与原文不一致");
+        return new String[]{part.toPlainString(),total.toPlainString()};
+    }
+    private static BigDecimal uniqueRole(String text,String expression){
+        Matcher matcher=Pattern.compile(expression,Pattern.CASE_INSENSITIVE).matcher(text);BigDecimal found=null;
+        while(matcher.find()){
+            String raw=matcher.group(1)!=null?matcher.group(1):matcher.group(2);
+            BigDecimal value=new BigDecimal(raw).stripTrailingZeros();
+            if(found!=null&&found.compareTo(value)!=0)throw new IllegalArgumentException("同一参数存在多个冲突数值");
+            found=value;
+        }
+        return found;
     }
     private static String clarification(){return "需要澄清：请明确计算操作、各数值的含义和单位；缺少或存在冲突的参数不能推算。";}
 }

@@ -28,6 +28,10 @@ public final class ToolCalculationTest {
   eq(chat.answer("检查560件，发现7件不良，求百分数数值",stop.begin()),"1.25");
   eq(chat.answer("Inspected 560 units; 7 rejected. Give percent only.",stop.begin()),"1.25");
   eq(chat.answer("user: 求不良率，总数560件\nassistant: 不良数？\nuser: 7件，仅数值",stop.begin()),"1.25");
+  ToolChat reversed=new ToolChat((p,t)->"CALC|fraction|count|percent|explained|560,7");
+  checks++;if(!reversed.answer("检查560件，其中不良7件，计算不良百分比",stop.begin()).contains("本地计算结果：1.25"))throw new AssertionError();
+  ToolChat reversedEnglish=new ToolChat((p,t)->"CALC|fraction|count|percent|explained|800,12");
+  checks++;if(!reversedEnglish.answer("Inspected 800 units; 12 rejected. Calculate the defect percentage.",stop.begin()).contains("本地计算结果：1.5"))throw new AssertionError();
   checks++;if(!chat.answer("总数560件，不良数量未知",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
   eq(new ToolChat((p,t)->"CHAT").answer("你好",stop.begin()),null);
   checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("长度有5mm也有5cm，怎么算？",stop.begin()).startsWith("需要澄清"))throw new AssertionError();

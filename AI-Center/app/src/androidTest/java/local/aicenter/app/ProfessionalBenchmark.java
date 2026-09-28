@@ -103,6 +103,7 @@ final class ProfessionalBenchmark {
             if((kind.equals("manual")||kind.equals("formula")||kind.equals("number"))&&m[1]>=generationBudget){
                 status="FAIL";item.put("reason","generation_budget_exhausted; answer may be truncated");
             }
+            if(m[10]==5){status="FAIL";item.put("reason","repetitive_generation_stopped");}
             item.put("status",status).put("crash",false);
             if(!item.has("reason"))item.put("reason",status.equals("FAIL")?"deterministic_rule_mismatch":status.equals("MANUAL_REVIEW")?"requires_human_rubric_review":"deterministic_rule_satisfied");
         }catch(TimeoutException error){app.disconnect();item.put("status","FAIL").put("cancelled",true).put("timeout",true).put("reason","question_timeout");}
@@ -118,7 +119,7 @@ final class ProfessionalBenchmark {
                 for(int i=0;i<names.length;i++)timing.put(names[i],m[i]);
                 item.put("phase_timing",timing).put("partial_output",app.localModel.lastPartialOutput());
                 item.put("generated_tokens",m[1]).put("native_total_ms",m[2]);
-                item.put("diagnostic_scope","current raw-model call after worker joined; termination 1=eog 2=budget 3=cancel 4=error");
+                item.put("diagnostic_scope","current raw-model call after worker joined; termination 1=eog 2=budget 3=cancel 4=error 5=repetition");
             }
             item.put("elapsed_ms",SystemClock.elapsedRealtime()-begin).put("peak_pss_kb",peak.get()).put("pss_sample_interval_ms",250);
             save();

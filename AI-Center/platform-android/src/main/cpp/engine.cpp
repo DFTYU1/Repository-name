@@ -28,6 +28,17 @@ static std::string bytes(JNIEnv *env, jbyteArray input) {
 static double milliseconds(std::chrono::steady_clock::time_point start) {
     return std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
 }
+static bool repeated_cycle(const std::vector<llama_token> &tokens) {
+    // Stop only after four identical consecutive token cycles. This catches
+    // deterministic degeneration without treating ordinary repeated words or
+    // short lists as completion.
+    for(size_t period=4;period<=64 && period*4<=tokens.size();period++) {
+        bool same=true; const size_t end=tokens.size();
+        for(size_t i=0;i<period*3;i++) if(tokens[end-1-i]!=tokens[end-1-period-i]){same=false;break;}
+        if(same)return true;
+    }
+    return false;
+}
 extern "C" JNIEXPORT void JNICALL Java_local_aicenter_platform_LocalModelEngine_nativePrepare(JNIEnv *,jclass,jlong request) { active_request=request;std::fill(std::begin(stats),std::end(stats),0.0);partial_answer.clear(); }
 extern "C" JNIEXPORT void JNICALL Java_local_aicenter_platform_LocalModelEngine_nativeCancel(JNIEnv *,jclass,jlong request) { int64_t expected=request; active_request.compare_exchange_strong(expected,0); }
 extern "C" JNIEXPORT jdoubleArray JNICALL Java_local_aicenter_platform_LocalModelEngine_nativeStats(JNIEnv *env,jclass) {
@@ -87,7 +98,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
             if(llama_decode(ctx.get(),b)!=0) throw std::runtime_error("Prompt evaluation failed");
         }
         trace.next(8);
-        std::string &answer=partial_answer; int generated=0; double first=0;
+        std::string &answer=partial_answer; int generated=0; double first=0;std::vector<llama_token> generated_tokens;
         auto decode_started=std::chrono::steady_clock::now();
         for(int i=0;i<limit;i++) {
             check(); auto token=llama_sampler_sample(sampler.get(),ctx.get(),-1);
@@ -96,8 +107,9 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
             int n=llama_token_to_piece(vocab,token,piece.data(),piece.size(),0,false);
             if(n<0) {piece.resize(-n); n=llama_token_to_piece(vocab,token,piece.data(),piece.size(),0,false);}
             if(n<0) throw std::runtime_error("Token decoding failed");
-            answer.append(piece.data(),n); if(generated++==0) first=milliseconds(started);
+            answer.append(piece.data(),n);generated_tokens.push_back(token);if(generated++==0) first=milliseconds(started);
             stats[0]=first;stats[1]=generated;
+            if(repeated_cycle(generated_tokens)){stats[10]=5;break;}
             if(i+1<limit) {
                 auto b=llama_batch_get_one(&token,1);
                 if(llama_decode(ctx.get(),b)!=0) throw std::runtime_error("Token evaluation failed");

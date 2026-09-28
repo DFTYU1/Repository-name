@@ -14,3 +14,12 @@ Run20 https://github.com/DFTYU1/Repository-name/actions/runs/36412645674 源提�
 # 工具辅助模型验证
 
 仍使用既有固定Qwen3.5-2B-Q4_K_M及原生引擎锁定版本。新增生产规划器调用使用256-token预算，不修改裸模型100题参数。确定性计算不等于模型理解正确。真实UI参数提取、普通聊天回退延迟和多轮歧义处理尚待定向Android验证。Run19原始双端成绩25/22/53/0保留。
+## 当前有效断点 · 2026-09-28 Run21结果与定向修复
+
+- Run21 https://github.com/DFTYU1/Repository-name/actions/runs/36452654994 源提交 `091f7b85a4f0e82cf1e02fa71252108a252b367d`，结束FAIL；构建、签名APK/测试APK、lint、34核心、40计算夹具前一版对应检查、11报告、6项目验证及双端基础离线功能PASS。
+- 双端生产UI代表测试相同：百分比FAIL，缺少sigma的Cpk澄清PASS。百分比实际输出为通用澄清；证据显示路由已进入chat，但模型计划把文本顺序`560,7`误当成fraction参数顺序`part,total`，校验器正确拒绝，未进行猜算。
+- Q013/Q073双端均不再超时：Q013 640 tokens、102.8–107.1秒，Q073 640 tokens、104.8–105.5秒；Java锁等待0，约18–19.5秒prefill，其余为decode。两题均出现明显循环重复并因预算耗尽FAIL，不是取消/锁死；取消后恢复探针因无timeout而NOT_NEEDED。完整100题NOT_RUN，Run19裸模型25/22/53/0基线不变。
+- Artifact `AI-Center-diagnostics-21` ID 10985487877，ZIP SHA256 `89c726e38346d8df146465311885852cc70be14d807e786ca85147eea7811935`。APK 1368455769字节，SHA256 `317b3c162e872dd68f1a3fa085049315f476a9299d12763acbccb800c31b57e8`；测试APK 74440字节，SHA256 `03c452e68837ac2aa69e0b15f53ad5ee2f011392bacf5b0a1cb499f68caf22d4`，均signed。
+- 已实现通用修复：ToolChat按总数/不良数的中英文语义角色校验fraction参数并仅在模型提取值与原文一致时重排；冲突/歧义继续澄清。原生解码仅在四次相同连续token周期时停止，termination=5；报告明确标为`repetitive_generation_stopped`，不得转MANUAL_REVIEW。
+- 本地验证：34核心、40工具/公式夹具、原生重复/计时宿主测试、11报告、6项目验证PASS。真实Android验证尚未运行；下一Run仍只跑双端代表百分比、缺参Cpk及Q013/Q073，再决定恢复10项UI，不启动完整100题。冻结题库/答案/评分；53人工题PENDING_MANUAL_REVIEW，vivo X300 Pro/Lenovo Y900 NOT_RUN，Phase1未完成。
+
