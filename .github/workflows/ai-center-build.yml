@@ -52,9 +52,9 @@ jobs:
         env:
           AI_CENTER_PROFESSIONAL_BENCHMARK: "true"
           AI_CENTER_VALIDATION_SCOPE: "tool_chat"
-          AI_CENTER_TOOL_CHAT_SMOKE: "false"
-          # Run all ten production-chat tool-assisted UI cases on both emulators.
-          # Raw-model 100-question scores remain a separate frozen baseline.
+          AI_CENTER_TOOL_CHAT_SMOKE: "simple"
+          # Target the two Run 29 failures plus two established control cases.
+          # Restore all ten only after this real Android gate passes.
         run: python3 scripts/android_ci.py test
 
       - name: Print runtime diagnostics on failure

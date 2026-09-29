@@ -98,8 +98,11 @@ def parse_instrumentation(output, profile):
         expected.add('lease_expires_after_real_five_minutes')
     expected.update({'real_model_verified_and_network_permission_absent','real_offline_chinese','real_offline_english','real_offline_qe','real_offline_excel','real_model_agent_tool_call','real_native_cancel_and_resume'})
     expected.update({'tool_chat_ui_percentage','tool_chat_ui_missing','tool_chat_ui_followup'})
-    if os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE') == 'true':
+    tool_chat_smoke = os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE', 'false')
+    if tool_chat_smoke in {'true', 'context'}:
         expected.add('tool_chat_ui_percentage_changed')
+    elif tool_chat_smoke == 'simple':
+        expected.update({'tool_chat_ui_mean','tool_chat_ui_decimal'})
     else:
         expected.update({'tool_chat_ui_mean','tool_chat_ui_decimal','tool_chat_ui_zero','tool_chat_ui_ambiguous',
                          'tool_chat_ui_units','tool_chat_ui_formula','tool_chat_ui_invalid_range'})
@@ -234,7 +237,8 @@ def test():
                     profile_result['scope']='TARGETED_TOOL_CHAT_ONLY'
                     profile_result['professional_status']='NOT_RUN'
                     profile_result['formal_acceptance']='NOT_ACCEPTED'
-                    profile_result['tool_chat_scope']='FOUR_CONTEXT_REGRESSIONS' if os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE') == 'true' else 'TEN_TOOL_CHAT_CASES'
+                    smoke=os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE','false')
+                    profile_result['tool_chat_scope']='FOUR_CONTEXT_REGRESSIONS' if smoke in {'true','context'} else ('FOUR_SIMPLE_CALC_REGRESSIONS' if smoke == 'simple' else 'TEN_TOOL_CHAT_CASES')
                     profile_result['timeout_probe_status']='NOT_RUN'
                     baseline=os.environ.get('AI_CENTER_TIMEOUT_BASELINE')
                     if baseline:

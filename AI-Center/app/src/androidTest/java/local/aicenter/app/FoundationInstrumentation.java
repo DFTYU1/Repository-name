@@ -154,13 +154,18 @@ public final class FoundationInstrumentation extends Instrumentation {
                 });
             }
             if("true".equals(options.getString("tool_chat","false"))){
+                String toolChatSmoke=options.getString("tool_chat_smoke","false");
                 test("tool_chat_ui_percentage",()->chatUi("新问题：检查560件，不良7件，计算不良百分比，请说明计算参数。","(?s).*本地计算结果：1\\.25.*"));
                 test("tool_chat_ui_missing",()->chatUi("新问题：计算Cpk，上限20mm，下限2mm，均值8mm；标准差未知。","(?s).*需要澄清.*"));
-                if("true".equals(options.getString("tool_chat_smoke","false"))){
+                if("true".equals(toolChatSmoke)||"context".equals(toolChatSmoke)){
                     test("tool_chat_ui_percentage_changed",()->chatUi("新问题：不良12件，检查800件，计算不良百分比。","(?s).*本地计算结果：1\\.5[（\\s].*"));
                     test("tool_chat_ui_followup",()->chatUi("补充刚才的Cpk：过程稳定，组内标准差为2mm，请计算并说明参数。","(?s).*本地计算结果：1[（\\s].*"));
                 }
-                if(!"true".equals(options.getString("tool_chat_smoke","false"))){
+                if("simple".equals(toolChatSmoke)){
+                test("tool_chat_ui_mean",()->chatUi("New calculation: find the mean of -4, 8 and 17, all dimensionless. Explain the operation.","(?s).*本地计算结果：7.*"));
+                test("tool_chat_ui_decimal",()->chatUi("新问题：0.1kg加0.2kg，共多少kg？说明参数。","(?s).*本地计算结果：0\\.3.*"));
+                }
+                if("false".equals(toolChatSmoke)){
                 test("tool_chat_ui_mean",()->chatUi("New calculation: find the mean of -4, 8 and 17, all dimensionless. Explain the operation.","(?s).*本地计算结果：7.*"));
                 test("tool_chat_ui_decimal",()->chatUi("新问题：0.1kg加0.2kg，共多少kg？说明参数。","(?s).*本地计算结果：0\\.3.*"));
                 test("tool_chat_ui_followup",()->chatUi("补充刚才的Cpk：过程稳定，组内标准差为2mm，请计算并说明参数。","(?s).*本地计算结果：1[（\\s].*"));

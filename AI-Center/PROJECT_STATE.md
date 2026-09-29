@@ -1,29 +1,19 @@
-# 唯一当前断点 · 2026-09-29 · 完整工具聊天界面门禁
+# 唯一当前断点 · 2026-09-29 · Run29均值与同单位求和修复
 
-项目：personal-ai-center-20260909。分支：ai-center-build。
-当前已验证源码提交：30fa82bdc5c9138fa53461ac766660e9dd53928a。以包含本文件的后续 Git 提交为新断点；历史“当前/等待/禁止并发”只描述当时状态，不据此回退。
+项目：personal-ai-center-20260909。分支：ai-center-build。基线提交：`91a4cc364635a7f901ba7cc9fe24a8635493a453`。
 
-## Run 28 已完成结果
-Run28 https://github.com/DFTYU1/Repository-name/actions/runs/36522761552 于 2026-09-29T05:02:55Z 结束 SUCCESS。核心编译与测试、项目验证、签名 APK/测试 APK、lint、手机和平板 API35 x86_64 基础检查全部 PASS。
+## Run29真实结果
+Run29 https://github.com/DFTYU1/Repository-name/actions/runs/36531833687 于 2026-09-29T07:14:47Z 结束 FAIL。核心34项、工具夹具63项（该提交版本）、报告11项、项目验证6项、签名APK/测试APK、lint及双端基础离线功能PASS。
 
-双端生产聊天工具辅助界面 4/4 PASS：
-- 560 总数、7 缺陷的百分比：1.25；手机约579ms，平板约119ms。
-- 缺少标准差的 Cpk：两端均要求澄清；手机约61.2s，平板约59.5s。
-- 800 总数、12 缺陷的百分比：1.5；手机约138ms，平板约418ms。
-- 多轮补充 Cpk：结果1，参数2/20/8/2；手机约243ms，平板约289ms。
-手机和平板 aicenter_failures 均为0。Q013/Q073 与完整裸模型100题在本轮 NOT_RUN，不沿用其他 Run 冒充本轮结果。
+手机、平板生产聊天工具辅助测试均为8 PASS / 2 FAIL：百分比、缺参Cpk、多轮Cpk、除零、歧义、单位冲突、有效公式、无效范围PASS；英文无量纲均值与同单位小数加法均错误返回澄清。完整裸模型100题及Q013/Q073本轮NOT_RUN。
 
-Artifact AI-Center-diagnostics-28，ID 11013986950，ZIP SHA256 60d8d6fd1dfac14e6c6b15240761fe2d80818f49aec5bdf3141d4a834cc873e3，有效至 2026-10-13T05:01:58Z。公开仓库只保存结构化合成摘要和哈希，不提交诊断 ZIP、APK、模型、凭据或私人数据。
+Artifact `AI-Center-diagnostics-29`，ID `11018161571`，ZIP SHA256 `9972dee715bc44b5d1dd7e900976e8498667bde73a0bc71811db23b75ab4b8be`，有效至2026-10-13T07:14:17Z。应用APK 1368488537字节，SHA256 `f81d09990f4c2a617d57bac4994e1b88c85af397ab954e352a555aeb7165b5e4`；测试APK 75432字节，SHA256 `467412d1fa8bc2bd98d8c8929a3d9d547d8ebc8817ea6c021fc243bb69d7b909`；均signed，仅USE_BIOMETRIC、无INTERNET。
 
-应用 APK：1368488537 字节，SHA256 c949d2808e0f41bfc9b91f8ddb894e129f54376e07468458804739810d02afff，signed=true。
-测试 APK：75432 字节，SHA256 10f5d57cecb48c95781c65cfb62ab75058baa25e7adb2e5c5dc36ccfae4a948d，signed=true。
+## 当前未验证修复
+生产ToolChat新增受限显式均值/求和路径：仅从当前用户消息提取字面量；要求明确mean/average或求和意图；无量纲须明确声明，物理量须每个数值带同一支持单位；混合单位、缺参或多操作继续澄清。模型不提供或修改操作数，不能执行任意表达式/代码。
 
-## 基线与下一门禁
-冻结的裸模型100题基线仍为 Run18 双端各 25 PASS / 22 FAIL / 53 MANUAL_REVIEW / 0 NOT_RUN；工具结果不得覆盖该成绩。Q025 仅完整结束，仍为 PENDING_MANUAL_REVIEW。53道人工题不自动标记 PASS。
+本地已通过34核心、69工具/公式断言、原生计时测试、11报告测试、6项目验证；包含变数均值、变数kg求和、缺参及混合单位。Android真实结果尚未取得。
 
-下一轮仅把已经通过的4项生产聊天界面冒烟扩展为全部10项工具辅助端到端用例，在手机和平板分别执行。先读取逐项真实结果；若失败只修首个可复现生产调用链根因，再做针对性 Android 验证。完整裸模型100题、Q013/Q073 不属于该轮范围，均明确 NOT_RUN。
+下一Run只在双模拟器执行Run29两项失败及百分比/缺参Cpk两个已通过控制项；通过后恢复完整10项。冻结裸模型100题基线仍为Run18双端各25 PASS / 22 FAIL / 53 MANUAL_REVIEW / 0 NOT_RUN，工具结果不得覆盖。53人工题保持PENDING_MANUAL_REVIEW；vivo X300 Pro与Lenovo Y900 NOT_RUN；Phase1未完成。
 
-## 接续规则
-每次提交前检查远程 SHA 和活跃 Run，单一写入者、仅快进、不强推。保存完整日志与产物哈希；失败、待人工审核、未执行分别记录，不降低冻结题库、答案或评分。
-vivo X300 Pro 与 Lenovo Y900 真机保持 NOT_RUN；Phase1 未完成，不进入 Phase2。
-持久恢复以 Git 中已提交源码和状态为准；旧文件副本不得覆盖当前工程。
+提交前复查远程SHA与活跃Run，单一写入者、仅快进、不强推。持久恢复以Git源码和本文件为准，旧文件副本不得覆盖当前工程。

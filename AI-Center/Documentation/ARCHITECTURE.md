@@ -1,3 +1,7 @@
+## 受限显式均值与求和 · 2026-09-29
+
+生产聊天的简单计算采用“用户表达操作与参数，闭合工具执行”边界。ToolChat只从当前用户轮提取mean/sum字面量；要求明确无量纲或全部数值具有同一单位，并复用LocalCalculation的Decimal白名单。模型无法补充操作数，历史助手内容不能成为参数，任意表达式和代码执行均不可达。混合单位、缺参、多操作及无法判定语义时返回澄清。
+
 ## Run20结果与定向修复 · 2026-09-28
 
 Run20 https://github.com/DFTYU1/Repository-name/actions/runs/36412645674 源提交6ea9df7d2e30b81bedf90f97b018b305ffa567a6，结束FAIL。34核心、30工具夹具、11报告、6项目验证、签名APK/测试APK及lint PASS。手机/平板10项真实UI工具辅助测试全部FAIL，完整100题NOT_RUN，专业状态NOT_ACCEPTED。失败根因优先定位生产MainActivity无条件调用planTool：该小模型把百分数误选storage、均值误选tasks、公式误选files或storage，其它误选search；只有Cpk追问进入chat但返回澄清。每端逐项原输入、输出、耗时见Tests/ci-runs/36412645674/run-summary.json。Artifact10967146022 SHA256 80a50f723cb432324f4a58a40db6e533d024d7f05ac0f090f299606851a34c82，完整诊断仅本地保存，不上传ZIP。前一轮裸模型Run19成绩25/22/53/0不变。
@@ -161,5 +165,4 @@ The immutable professional suite completed on both API-35 emulator profiles. Com
 - Artifact `AI-Center-diagnostics-21` ID 10985487877，ZIP SHA256 `89c726e38346d8df146465311885852cc70be14d807e786ca85147eea7811935`。APK 1368455769字节，SHA256 `317b3c162e872dd68f1a3fa085049315f476a9299d12763acbccb800c31b57e8`；测试APK 74440字节，SHA256 `03c452e68837ac2aa69e0b15f53ad5ee2f011392bacf5b0a1cb499f68caf22d4`，均signed。
 - 已实现通用修复：ToolChat按总数/不良数的中英文语义角色校验fraction参数并仅在模型提取值与原文一致时重排；冲突/歧义继续澄清。原生解码仅在四次相同连续token周期时停止，termination=5；报告明确标为`repetitive_generation_stopped`，不得转MANUAL_REVIEW。
 - 本地验证：34核心、40工具/公式夹具、原生重复/计时宿主测试、11报告、6项目验证PASS。真实Android验证尚未运行；下一Run仍只跑双端代表百分比、缺参Cpk及Q013/Q073，再决定恢复10项UI，不启动完整100题。冻结题库/答案/评分；53人工题PENDING_MANUAL_REVIEW，vivo X300 Pro/Lenovo Y900 NOT_RUN，Phase1未完成。
-
 

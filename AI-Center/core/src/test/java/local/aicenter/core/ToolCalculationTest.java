@@ -66,6 +66,13 @@ public final class ToolCalculationTest {
   checks++;if(!explicit.answer(percentage,stop.begin()).contains("本地计算结果：1.25"))throw new AssertionError();
   checks++;if(!explicit.answer("不良12件，检查800件，计算不良百分比",stop.begin()).contains("本地计算结果：1.5"))throw new AssertionError();
   checks++;if(!explicit.answer("检查560kg，不良7mm，计算不良百分比",stop.begin()).startsWith("需要澄清"))throw new AssertionError("mixed units accepted");
+  ToolChat explicitSimple=new ToolChat((p,t)->{throw new AssertionError("Explicit mean/sum should not depend on a planner guess");});
+  checks++;if(!explicitSimple.answer("New calculation: find the mean of -4, 8 and 17, all dimensionless. Explain the operation.",stop.begin()).contains("本地计算结果：7（scalar；操作：mean；参数：-4,8,17）"))throw new AssertionError("explicit English mean failed");
+  checks++;if(!explicitSimple.answer("Find the average of 3, 9 and 12; all dimensionless.",stop.begin()).contains("本地计算结果：8（scalar；操作：mean；参数：3,9,12）"))throw new AssertionError("changed mean failed");
+  checks++;if(!explicitSimple.answer("新问题：0.1kg加0.2kg，共多少kg？说明参数。",stop.begin()).contains("本地计算结果：0.3（kg；操作：sum；参数：0.1,0.2）"))throw new AssertionError("decimal kg sum failed");
+  checks++;if(!explicitSimple.answer("把1.25kg与2.75kg相加",stop.begin()).contains("本地计算结果：4（kg；操作：sum；参数：1.25,2.75）"))throw new AssertionError("changed kg sum failed");
+  checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("把1kg和500g相加",stop.begin()).startsWith("需要澄清"))throw new AssertionError("mixed units accepted by simple path");
+  checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("求3和未知值的平均值，均为无量纲",stop.begin()).startsWith("需要澄清"))throw new AssertionError("missing mean operand accepted");
   ToolChat cpk=new ToolChat((p,t)->"CALC|cpk|mm|scalar|explained|2,20,8,2");
   ToolChat noPlannerCpk=new ToolChat((p,t)->{throw new AssertionError("Explicit complete Cpk should use the validated calculator");});
   checks++;if(!noPlannerCpk.answer("过程稳定，规格下限1mm，规格上限13mm，均值7mm，组内标准差为1mm，计算Cpk",stop.begin()).startsWith("本地计算结果：2（"))throw new AssertionError();

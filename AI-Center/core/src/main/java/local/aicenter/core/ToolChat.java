@@ -22,6 +22,8 @@ public final class ToolChat {
         if(fraction!=null)return fraction;
         String capability=validatedCapability(request);
         if(capability!=null)return capability;
+        String simple=validatedSimpleCalculation(request);
+        if(simple!=null)return simple;
         String plan=planner.generate(
             "Route the user request. Return exactly one line, without markdown. Never calculate numbers yourself. "
             +"For ordinary conversation return CHAT. For missing, conflicting, ambiguous values/units or unsupported calculation return CLARIFY. "
@@ -75,6 +77,48 @@ public final class ToolChat {
                 lower.value.toPlainString(),upper.value.toPlainString(),mean.value.toPlainString(),sigma.value.toPlainString()});
             return "本地计算结果："+value+"（scalar；操作：cpk；参数："+lower.value.toPlainString()+","+
                 upper.value.toPlainString()+","+mean.value.toPlainString()+","+sigma.value.toPlainString()+"）。请核对参数是否符合你的原意。";
+        }catch(IllegalArgumentException|ArithmeticException e){return clarification();}
+    }
+    /**
+     * Executes only closed, fully explicit mean/sum requests.  The model still
+     * identifies more complex operations, but it cannot veto an unambiguous
+     * request or supply operands that are absent from the current user turn.
+     */
+    private static String validatedSimpleCalculation(CalculationRequest request){
+        String text=request.current;
+        if(!CalculationRequest.family(text).isEmpty())return null;
+        boolean mean=Pattern.compile("(?:平均值|均值|\\b(?:mean|average)\\b)",Pattern.CASE_INSENSITIVE).matcher(text).find();
+        boolean sum=Pattern.compile("(?:相加|加起来|求和|总和|(?:[0-9]|mm|cm|kg|mg|m|g|毫米|厘米|千克|公斤|克|米)\\s*加\\s*[+-]?[0-9]|\\b(?:sum|add|plus)\\b)",Pattern.CASE_INSENSITIVE).matcher(text).find();
+        if(mean==sum)return null;
+        try{
+            List<String> values=new ArrayList<>();
+            String unit;
+            boolean scalar=Pattern.compile("(?:无量纲|纯数值|\\b(?:dimensionless|scalar)\\b)",Pattern.CASE_INSENSITIVE).matcher(text).find();
+            Matcher quantity=Pattern.compile("(?<![A-Za-z0-9.])([+-]?[0-9]+(?:\\.[0-9]+)?)\\s*(mm|cm|kg|mg|m|g|毫米|厘米|千克|公斤|克|米)(?![A-Za-z])",Pattern.CASE_INSENSITIVE).matcher(text);
+            String foundUnit=null;
+            while(quantity.find()){
+                String next=normalizeUnit(quantity.group(2));
+                if(foundUnit!=null&&!foundUnit.equals(next))return clarification();
+                foundUnit=next;values.add(new BigDecimal(quantity.group(1)).stripTrailingZeros().toPlainString());
+            }
+            if(scalar){
+                if(foundUnit!=null)return clarification();
+                Matcher number=Pattern.compile("(?<![A-Za-z0-9.])[+-]?[0-9]+(?:\\.[0-9]+)?(?![0-9.])").matcher(text);
+                while(number.find())values.add(new BigDecimal(number.group()).stripTrailingZeros().toPlainString());
+                unit="scalar";
+            }else{
+                if(foundUnit==null)return null;
+                // Every numeric literal must belong to one of the explicit quantities.
+                int literalCount=0;Matcher number=Pattern.compile("(?<![A-Za-z0-9.])[+-]?[0-9]+(?:\\.[0-9]+)?(?![0-9.])").matcher(text);
+                while(number.find())literalCount++;
+                if(literalCount!=values.size())return clarification();
+                unit=foundUnit;
+            }
+            if(values.size()<2)return clarification();
+            String operation=mean?"mean":"sum";
+            String value=LocalCalculation.calculate(operation,unit,unit,values.toArray(new String[0]));
+            if(Pattern.compile("仅(?:输出)?(?:数值|数字)|(?:数值|数字)即可|\\b(?:number|value) only\\b",Pattern.CASE_INSENSITIVE).matcher(text).find())return value;
+            return "本地计算结果："+value+"（"+unit+"；操作："+operation+"；参数："+String.join(",",values)+"）。请核对参数是否符合你的原意。";
         }catch(IllegalArgumentException|ArithmeticException e){return clarification();}
     }
     private static Quantity quantityRole(String text,String role){

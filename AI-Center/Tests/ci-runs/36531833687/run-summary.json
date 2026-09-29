@@ -1,0 +1,22 @@
+{
+  "run": 29,
+  "run_id": 36531833687,
+  "head_sha": "91a4cc364635a7f901ba7cc9fe24a8635493a453",
+  "conclusion": "failure",
+  "completed_at": "2026-09-29T07:14:47Z",
+  "scope": "TEN_TOOL_CHAT_CASES",
+  "phone": {"PASS": 8, "FAIL": 2, "failed": ["tool_chat_ui_mean", "tool_chat_ui_decimal"]},
+  "tablet": {"PASS": 8, "FAIL": 2, "failed": ["tool_chat_ui_mean", "tool_chat_ui_decimal"]},
+  "failure_evidence": {
+    "mean": {"prompt": "mean of -4, 8 and 17, all dimensionless", "actual": "CLARIFY", "expected": "7"},
+    "decimal": {"prompt": "0.1kg + 0.2kg", "actual": "CLARIFY", "expected": "0.3kg"}
+  },
+  "raw_model_100": "NOT_RUN",
+  "q013_q073": "NOT_RUN",
+  "apk": {"bytes": 1368488537, "sha256": "f81d09990f4c2a617d57bac4994e1b88c85af397ab954e352a555aeb7165b5e4", "signed": true},
+  "instrumentation_apk": {"bytes": 75432, "sha256": "467412d1fa8bc2bd98d8c8929a3d9d547d8ebc8817ea6c021fc243bb69d7b909", "signed": true},
+  "permissions": ["android.permission.USE_BIOMETRIC"],
+  "artifact": {"name": "AI-Center-diagnostics-29", "id": 11018161571, "sha256": "9972dee715bc44b5d1dd7e900976e8498667bde73a0bc71811db23b75ab4b8be", "expires_at": "2026-10-13T07:14:17Z"},
+  "physical_devices": {"vivo_x300_pro": "NOT_RUN", "lenovo_y900": "NOT_RUN"},
+  "phase1_complete": false
+}

@@ -1,12 +1,9 @@
 {
-  "status": "REMOTE_VERSIONS_UNCHANGED",
-  "project_state_version": 18,
-  "source_archive_version": 16,
-  "previous_error": "transfer_failed",
-  "recovery": "Authoritative public source and latest state committed on ai-center-build. Library versions unchanged.",
-  "github_source_commit": "6ea9df7d2e30b81bedf90f97b018b305ffa567a6",
-  "github_status": "BRANCH_FAST_FORWARD_CONFIRMED",
-  "last_persisted_github_commit": "6ea9df7d2e30b81bedf90f97b018b305ffa567a6",
-  "run20": "FAIL; complete diagnostics downloaded; next fix staged",
-  "library_status": "PROJECT_STATE v18, source v16 observed earlier; not claimed updated"
+  "status": "LOCAL_CHECKPOINT_CREATED_GIT_PERSIST_PENDING",
+  "project_id": "personal-ai-center-20260909",
+  "based_on_github_commit": "91a4cc364635a7f901ba7cc9fe24a8635493a453",
+  "checkpoint": "CREATED_AND_VERIFIED; archive metadata is emitted by scripts/checkpoint.py",
+  "run29": "FAIL; dual emulator tool UI 8 PASS / 2 FAIL; evidence saved",
+  "library_status": "Older Library copies not used to overwrite current Git source; no Library update claimed",
+  "recovery": "Commit public source, synthetic evidence and current state to ai-center-build using a fast-forward update"
 }
