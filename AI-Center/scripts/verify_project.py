@@ -73,6 +73,17 @@ def android_ci_scope_contract():
     assert {'tool_chat_ui_percentage_changed','tool_chat_ui_followup'} <= context
     full=module.expected_instrumentation_tests('tablet','false')
     assert {'tool_chat_ui_followup','tool_chat_ui_zero','tool_chat_ui_invalid_range'} <= full
+def android_ci_storage_contract():
+    source=(ROOT/'scripts/android_ci.py').read_text()
+    assert "'-partition-size', '8192'" in source
+    assert "'_' + profile" in source and "fresh_isolated_avd" in source
+    assert "profile + '-install-capacity.json'" in source
+    assert 'conservative_required_bytes' in source and 'requirement_basis' in source
+    assert "stop_profile_emulator(process, emulator_log)" in source
+    assert "adb('install', '--streaming', ROOT / build['apk']['path']" in source
+    assert "adb('install', '--streaming', ROOT / build['instrumentation_apk']['path']" in source
+    assert "adb('install', '--no-streaming'" not in source
+    assert "profile + '-storage.log'" in source
 def checkpoint_roundtrip():
     with tempfile.TemporaryDirectory() as tmp:
         output=Path(tmp)/'checkpoint.zip';info=create_checkpoint(ROOT,output,'automated checkpoint round-trip')
@@ -96,6 +107,7 @@ try:
     test('Android manifest requests no broad access or network',manifest_scope)
     test('100 fixed professional questions and execution kinds',professional_definition)
     test('Android CI validates only tests selected by each smoke scope',android_ci_scope_contract)
+    test('Android CI isolates profile AVDs and proves install capacity',android_ci_storage_contract)
     test('Checkpoint restore and tamper detection',checkpoint_roundtrip)
 except Exception as e:
     status='FAIL';error=str(e);print('FAIL',error)

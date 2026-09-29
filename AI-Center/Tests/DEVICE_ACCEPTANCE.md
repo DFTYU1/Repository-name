@@ -1,3 +1,11 @@
+## Run31手机完整10项与平板安装阻塞 · 2026-09-29
+
+Run31 https://github.com/DFTYU1/Repository-name/actions/runs/36556762569 源提交`b401bfa0e9735127a743d3a063e492a1c3c7e963`。手机API35 x86_64完整10项生产UI全部PASS且无缺失；平板安装应用APK时报`INSTALL_FAILED_INSUFFICIENT_STORAGE`，基础与10项均NOT_RUN。
+
+Artifact `AI-Center-diagnostics-31` ID `11028806904`，ZIP SHA256 `e225fcaa0782b46527abda4cdfbc7c5244128d28e2c43f361aebaabe5cd0a342`，有效至2026-10-13T11:00:02Z。应用APK 1368488537字节，SHA256 `da6d98b8128f20d75c2b6aeb76b275809d85ba212ab1ad35635813401d8db5d8`；测试APK 76484字节，SHA256 `92caefb6b9598ab5829cdefcbf4f4b496acbf22edbadd5e1720f3858c76cee6f`；均signed，仅USE_BIOMETRIC、无INTERNET。
+
+已改为手机/平板各自新建隔离的8GB AVD、streaming安装，并增加安装前设备/宿主容量与需求日志；真实平板结果待下一Run。vivo X300 Pro、Lenovo Y900仍NOT_RUN，Phase1未完成。
+
 ## Run30双模拟器定向工具聊天 · 2026-09-29
 
 Run30 https://github.com/DFTYU1/Repository-name/actions/runs/36546356854 源提交`939e0d0a4af7552fa8368acfd767c298ac03f7f8`。手机/平板API35 x86_64的4项生产UI均4 PASS / 0 FAIL：百分比1.25、缺参Cpk澄清、均值7、同单位小数和0.3kg。完整10项与裸模型100题NOT_RUN。

@@ -1,0 +1,56 @@
+{
+  "run": 36556762569,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/36556762569",
+  "source_commit": "b401bfa0e9735127a743d3a063e492a1c3c7e963",
+  "conclusion": "failure",
+  "finished_utc": "2026-09-29T11:00:33Z",
+  "artifact": {
+    "name": "AI-Center-diagnostics-31",
+    "id": 11028806904,
+    "zip_sha256": "e225fcaa0782b46527abda4cdfbc7c5244128d28e2c43f361aebaabe5cd0a342"
+  },
+  "build": {
+    "apk_bytes": 1368488537,
+    "apk_sha256": "da6d98b8128f20d75c2b6aeb76b275809d85ba212ab1ad35635813401d8db5d8",
+    "test_apk_bytes": 76484,
+    "test_apk_sha256": "92caefb6b9598ab5829cdefcbf4f4b496acbf22edbadd5e1720f3858c76cee6f",
+    "signed": true,
+    "permissions": ["android.permission.USE_BIOMETRIC"]
+  },
+  "phone_tool_chat": {
+    "status": "PASS",
+    "missing_tests": [],
+    "cases": {
+      "percentage": "PASS",
+      "missing_cpk_sigma": "PASS",
+      "mean": "PASS",
+      "decimal_sum": "PASS",
+      "cpk_followup": "PASS",
+      "divide_by_zero": "PASS",
+      "ambiguous_numbers": "PASS",
+      "mixed_units": "PASS",
+      "valid_formula_structure": "PASS",
+      "invalid_formula_range": "PASS"
+    }
+  },
+  "tablet_tool_chat": {
+    "status": "NOT_RUN",
+    "missing_tests": [
+      "percentage",
+      "missing_cpk_sigma",
+      "mean",
+      "decimal_sum",
+      "cpk_followup",
+      "divide_by_zero",
+      "ambiguous_numbers",
+      "mixed_units",
+      "valid_formula_structure",
+      "invalid_formula_range"
+    ],
+    "blocker": "INSTALL_FAILED_INSUFFICIENT_STORAGE: Failed to override installation location"
+  },
+  "raw_model_100": "NOT_RUN",
+  "q013_q073": "NOT_RUN",
+  "formal_acceptance": "NOT_ACCEPTED",
+  "evidence_note": "The APK push completed before PackageManager rejected the tablet install. Run31 did not capture df /data, so the exact free-byte value at failure is unavailable."
+}

@@ -4,6 +4,8 @@
 
 Run30双端生产UI已验证均值7与0.3kg求和，且百分比/缺参控制项未退化。CI执行范围与结果门禁采用同一scope映射：simple只要求四项，context要求变化百分比和多轮补参，full要求完整十项。scope只决定本轮执行集合，不改变任何用例判定或正式验收状态。
 
+Run31手机完整十项通过，平板未进入应用验证。模拟器安装层现在为手机、平板分别创建全新8GB数据分区AVD，使用streaming APK传输，并在安装前记录设备与宿主机容量及需求依据；这是CI隔离与可诊断性修复，不改变应用存储预算或生产权限。
+
 ## Run20结果与定向修复 · 2026-09-28
 
 Run20 https://github.com/DFTYU1/Repository-name/actions/runs/36412645674 源提交6ea9df7d2e30b81bedf90f97b018b305ffa567a6，结束FAIL。34核心、30工具夹具、11报告、6项目验证、签名APK/测试APK及lint PASS。手机/平板10项真实UI工具辅助测试全部FAIL，完整100题NOT_RUN，专业状态NOT_ACCEPTED。失败根因优先定位生产MainActivity无条件调用planTool：该小模型把百分数误选storage、均值误选tasks、公式误选files或storage，其它误选search；只有Cpk追问进入chat但返回澄清。每端逐项原输入、输出、耗时见Tests/ci-runs/36412645674/run-summary.json。Artifact10967146022 SHA256 80a50f723cb432324f4a58a40db6e533d024d7f05ac0f090f299606851a34c82，完整诊断仅本地保存，不上传ZIP。前一轮裸模型Run19成绩25/22/53/0不变。

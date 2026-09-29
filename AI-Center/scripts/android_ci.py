@@ -154,61 +154,126 @@ def test():
         if not os.access('/dev/kvm', os.R_OK | os.W_OK):
             # Ephemeral Linux runner access only; never ROOT or change Android security.
             run(['sudo', 'setfacl', '-m', 'u:' + getpass.getuser() + ':rw', '/dev/kvm'])
-        avd_name = 'aicenter_ci_' + str(os.getpid())
         # Both SDK tools must resolve the same isolated AVD registry. Runner defaults
         # can give avdmanager and emulator different Android user directories.
         avd_home = Path(tempfile.mkdtemp(prefix='aicenter-avd-', dir=os.environ.get('RUNNER_TEMP')))
         emulator_env = dict(os.environ, ANDROID_AVD_HOME=str(avd_home))
         manager = cli_tool('avdmanager')
-        created = run([manager, 'create', 'avd', '--name', avd_name, '--package', LOCK['emulator_image'],
-             '--device', 'pixel_6', '--path', str(avd_home / (avd_name + '.avd'))],
-             timeout=120, input_text='no\n', env=emulator_env)
-        (OUT / 'avd-create.log').write_text(created)
-        available = run([sdk / 'emulator/emulator', '-list-avds'], env=emulator_env)
-        (OUT / 'avd-list.log').write_text(available)
-        if avd_name not in available.splitlines():
-            raise RuntimeError('Created AVD is not visible to emulator; inspect avd-create.log and avd-list.log')
-        # Refuse to use any pre-existing device on the selected port.
-        devices = run([sdk / 'platform-tools/adb', 'devices'])
-        if 'emulator-5554' in devices:
-            raise RuntimeError('Emulator port already in use; existing device will not be changed')
-        emulator_log = (OUT / 'emulator.log').open('w')
-        process = subprocess.Popen([str(sdk / 'emulator/emulator'), '-avd', avd_name,
-            '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot',
-            '-gpu', 'swiftshader_indirect', '-accel', 'on', '-memory', '4096', '-cores', '2'],
-            stdout=emulator_log, stderr=subprocess.STDOUT, env=emulator_env)
-        deadline = time.monotonic() + 300
-        while True:
-            if process.poll() is not None:
-                raise RuntimeError('Emulator exited during startup; inspect emulator.log')
-            if adb('shell', 'getprop', 'sys.boot_completed', timeout=15, check=False).strip() == '1':
-                break
-            if time.monotonic() > deadline:
-                raise RuntimeError('Emulator boot timed out')
-            time.sleep(2)
-        if adb('shell', 'getprop', 'ro.kernel.qemu').strip() != '1':
-            raise RuntimeError('Refusing to run CI data operations on a physical device')
-        adb('shell', 'input', 'keyevent', '82')
-        adb('shell', 'settings', 'put', 'system', 'accelerometer_rotation', '0')
-        adb('shell', 'settings', 'put', 'system', 'user_rotation', '0')
-        adb('shell', 'settings', 'put', 'system', 'screen_off_timeout', '1800000')
-        report['device'] = {'model': adb('shell', 'getprop', 'ro.product.model').strip(),
-                            'api': adb('shell', 'getprop', 'ro.build.version.sdk').strip(),
-                            'abi': adb('shell', 'getprop', 'ro.product.cpu.abi').strip()}
+        report['devices'] = {}
+
+        def stop_profile_emulator(active_process, active_log):
+            if active_process is not None and active_process.poll() is None:
+                adb('emu', 'kill', timeout=15, check=False)
+                try:
+                    active_process.wait(timeout=30)
+                except subprocess.TimeoutExpired:
+                    active_process.terminate()
+                    try:
+                        active_process.wait(timeout=15)
+                    except subprocess.TimeoutExpired:
+                        active_process.kill()
+                        active_process.wait(timeout=15)
+            if active_log:
+                active_log.close()
+            deadline = time.monotonic() + 30
+            while 'emulator-5554' in run([sdk / 'platform-tools/adb', 'devices'], check=False):
+                if time.monotonic() > deadline:
+                    raise RuntimeError('Isolated emulator did not disconnect after shutdown')
+                time.sleep(1)
+
+        def start_profile_emulator(profile):
+            avd_name = 'aicenter_ci_' + str(os.getpid()) + '_' + profile
+            created = run([manager, 'create', 'avd', '--name', avd_name,
+                '--package', LOCK['emulator_image'], '--device', 'pixel_6',
+                '--path', str(avd_home / (avd_name + '.avd'))], timeout=120,
+                input_text='no\n', env=emulator_env)
+            (OUT / (profile + '-avd-create.log')).write_text(created)
+            available = run([sdk / 'emulator/emulator', '-list-avds'], env=emulator_env)
+            (OUT / (profile + '-avd-list.log')).write_text(available)
+            if avd_name not in available.splitlines():
+                raise RuntimeError('Created isolated ' + profile + ' AVD is not visible to emulator')
+            if 'emulator-5554' in run([sdk / 'platform-tools/adb', 'devices']):
+                raise RuntimeError('Emulator port already in use; existing device will not be changed')
+            active_log = (OUT / (profile + '-emulator.log')).open('w')
+            active_process = subprocess.Popen([str(sdk / 'emulator/emulator'), '-avd', avd_name,
+                '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot',
+                '-gpu', 'swiftshader_indirect', '-accel', 'on', '-memory', '4096', '-cores', '2',
+                '-partition-size', '8192'], stdout=active_log, stderr=subprocess.STDOUT,
+                env=emulator_env)
+            try:
+                deadline = time.monotonic() + 300
+                while True:
+                    if active_process.poll() is not None:
+                        raise RuntimeError(profile + ' emulator exited during startup')
+                    if adb('shell', 'getprop', 'sys.boot_completed', timeout=15, check=False).strip() == '1':
+                        break
+                    if time.monotonic() > deadline:
+                        raise RuntimeError(profile + ' emulator boot timed out')
+                    time.sleep(2)
+                if adb('shell', 'getprop', 'ro.kernel.qemu').strip() != '1':
+                    raise RuntimeError('Refusing to run CI data operations on a physical device')
+                adb('shell', 'input', 'keyevent', '82')
+                adb('shell', 'settings', 'put', 'system', 'accelerometer_rotation', '0')
+                adb('shell', 'settings', 'put', 'system', 'user_rotation', '0')
+                adb('shell', 'settings', 'put', 'system', 'screen_off_timeout', '1800000')
+                device = {'avd': avd_name, 'fresh_isolated_avd': True,
+                          'partition_size_mib': 8192,
+                          'model': adb('shell', 'getprop', 'ro.product.model').strip(),
+                          'api': adb('shell', 'getprop', 'ro.build.version.sdk').strip(),
+                          'abi': adb('shell', 'getprop', 'ro.product.cpu.abi').strip()}
+                return active_process, active_log, device
+            except Exception:
+                stop_profile_emulator(active_process, active_log)
+                raise
+
+        def parse_data_capacity(df_output):
+            rows = [line.split() for line in df_output.splitlines() if line.strip()]
+            if len(rows) < 2 or len(rows[-1]) < 4:
+                raise RuntimeError('Cannot parse emulator /data capacity')
+            try:
+                return {'total_bytes': int(rows[-1][1]) * 1024,
+                        'used_bytes': int(rows[-1][2]) * 1024,
+                        'available_bytes': int(rows[-1][3]) * 1024}
+            except ValueError as error:
+                raise RuntimeError('Non-numeric emulator /data capacity') from error
+
         fixture_password = secrets.token_hex(24)
         for profile, size, density in [('phone', '1080x2400', '420'), ('tablet', '2560x1600', '240')]:
+            process = None
+            emulator_log = None
             try:
-                if profile == 'tablet':
-                    # Only app/test data created in the preceding fresh CI run is removed.
-                    adb('uninstall', TEST_PACKAGE)
-                    adb('uninstall', PACKAGE)
+                process, emulator_log, device = start_profile_emulator(profile)
+                report['devices'][profile] = device
+                data_df = adb('shell', 'df', '-k', '/data')
+                apk_bytes = (ROOT / build['apk']['path']).stat().st_size
+                test_apk_bytes = (ROOT / build['instrumentation_apk']['path']).stat().st_size
+                # Capacity covers the installed APK, a model/asset extraction copy and
+                # PackageManager/runtime headroom. Streaming avoids another full APK in
+                # /data/local/tmp, but the check deliberately retains a conservative margin.
+                required = 3 * (apk_bytes + test_apk_bytes) + 512 * 1024 * 1024
+                capacity = {'profile': profile, 'streaming_install': True,
+                            'apk_bytes': apk_bytes, 'test_apk_bytes': test_apk_bytes,
+                            'conservative_required_bytes': required,
+                            'requirement_basis': '3x APKs for install plus model/asset extraction, plus 512 MiB runtime margin',
+                            'device_data': parse_data_capacity(data_df),
+                            'host_workspace': dict(zip(('total_bytes', 'used_bytes', 'available_bytes'),
+                                                       shutil.disk_usage(ROOT)))}
+                (OUT / (profile + '-install-capacity.json')).write_text(
+                    json.dumps(capacity, indent=2) + '\n')
+                (OUT / (profile + '-storage.log')).write_text('before_install\n' + data_df)
+                if capacity['device_data']['available_bytes'] < required:
+                    raise RuntimeError(profile + ' emulator /data capacity below conservative install requirement')
+                if capacity['host_workspace']['available_bytes'] < required + apk_bytes:
+                    raise RuntimeError('Runner workspace capacity below isolated emulator requirement')
                 if adb('shell', 'pm', 'path', PACKAGE, check=False).strip():
                     raise RuntimeError('App already installed before CI fixture setup; existing data left intact')
                 adb('shell', 'wm', 'size', size)
                 adb('shell', 'wm', 'density', density)
                 time.sleep(2)
-                adb('install', '--no-streaming', ROOT / build['apk']['path'], timeout=300)
-                adb('install', '--no-streaming', ROOT / build['instrumentation_apk']['path'], timeout=90)
+                # Stream large APKs so the fresh device does not need another full APK
+                # copy in /data/local/tmp during PackageManager installation.
+                adb('install', '--streaming', ROOT / build['apk']['path'], timeout=300)
+                adb('install', '--streaming', ROOT / build['instrumentation_apk']['path'], timeout=90)
                 adb('shell', 'cmd', 'connectivity', 'airplane-mode', 'enable')
                 adb('shell', 'svc', 'wifi', 'disable')
                 adb('shell', 'svc', 'data', 'disable')
@@ -312,6 +377,15 @@ def test():
                 except (OSError, subprocess.TimeoutExpired):
                     report['profiles'][profile]['diagnostic_collection_failed'] = True
                 print(profile + ': FAIL', flush=True)
+            finally:
+                try:
+                    stop_profile_emulator(process, emulator_log)
+                except (OSError, RuntimeError, subprocess.TimeoutExpired) as cleanup_error:
+                    report['profiles'].setdefault(profile, {'status': 'FAIL'})
+                    report['profiles'][profile]['status'] = 'FAIL'
+                    report['profiles'][profile]['emulator_cleanup_error'] = str(cleanup_error)
+                process = None
+                emulator_log = None
         if len(report['profiles']) == 2 and all(p['status'] == 'PASS' for p in report['profiles'].values()):
             report['status'] = 'PASS'
     except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:
