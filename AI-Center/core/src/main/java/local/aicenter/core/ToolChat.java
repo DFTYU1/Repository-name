@@ -20,6 +20,8 @@ public final class ToolChat {
         // independent of whether the small model emits a valid planning protocol.
         String fraction=validatedFraction(request);
         if(fraction!=null)return fraction;
+        String capability=validatedCapability(request);
+        if(capability!=null)return capability;
         String plan=planner.generate(
             "Route the user request. Return exactly one line, without markdown. Never calculate numbers yourself. "
             +"For ordinary conversation return CHAT. For missing, conflicting, ambiguous values/units or unsupported calculation return CLARIFY. "
@@ -56,6 +58,45 @@ public final class ToolChat {
             token.check();String value=LocalCalculation.calculate(p[1],p[2],p[3],operands);token.check();
             return p[4].equals("value")?value:"本地计算结果："+value+"（"+p[3]+"；操作："+p[1]+"；参数："+String.join(",",operands)+"）。请核对参数是否符合你的原意。";
         }catch(IllegalArgumentException|ArithmeticException e){return "需要澄清："+e.getMessage()+"。请提供操作、完整参数及统一单位。";}
+    }
+    private static String validatedCapability(CalculationRequest request){
+        String source=request.source;
+        if(!"cpk".equals(CalculationRequest.family(source)))return null;
+        if(!Pattern.compile("过程稳定|process\\s+(?:is\\s+)?stable",Pattern.CASE_INSENSITIVE).matcher(source).find())return null;
+        try{
+            Quantity lower=quantityRole(source,"(?:规格下限|下限|LSL|lower(?: specification)? limit)");
+            Quantity upper=quantityRole(source,"(?:规格上限|上限|USL|upper(?: specification)? limit)");
+            Quantity mean=quantityRole(source,"(?:均值|平均值|mean|average)");
+            Quantity sigma=quantityRole(source,"(?:组内标准差|within.process\\s+(?:sigma|standard deviation))");
+            if(lower==null||upper==null||mean==null||sigma==null)return null;
+            String unit=lower.unit;
+            if(unit.isEmpty()||!unit.equals(upper.unit)||!unit.equals(mean.unit)||!unit.equals(sigma.unit))return clarification();
+            String value=LocalCalculation.calculate("cpk",unit,"scalar",new String[]{
+                lower.value.toPlainString(),upper.value.toPlainString(),mean.value.toPlainString(),sigma.value.toPlainString()});
+            return "本地计算结果："+value+"（scalar；操作：cpk；参数："+lower.value.toPlainString()+","+
+                upper.value.toPlainString()+","+mean.value.toPlainString()+","+sigma.value.toPlainString()+"）。请核对参数是否符合你的原意。";
+        }catch(IllegalArgumentException|ArithmeticException e){return clarification();}
+    }
+    private static Quantity quantityRole(String text,String role){
+        Matcher matcher=Pattern.compile(role+"\\s*(?:为|是|=|:|：)?\\s*([+-]?[0-9]+(?:\\.[0-9]+)?)\\s*(mm|cm|kg|mg|m|g|毫米|厘米|千克|公斤|克|米)",Pattern.CASE_INSENSITIVE).matcher(text);
+        Quantity found=null;
+        while(matcher.find()){
+            BigDecimal value=new BigDecimal(matcher.group(1)).stripTrailingZeros();
+            String unit=normalizeUnit(matcher.group(2));
+            if(found!=null&&(found.value.compareTo(value)!=0||!found.unit.equals(unit)))throw new IllegalArgumentException("同一参数存在多个冲突数值");
+            found=new Quantity(value,unit);
+        }
+        return found;
+    }
+    private static String normalizeUnit(String unit){
+        String value=unit.toLowerCase(Locale.ROOT);
+        if(value.equals("毫米"))return "mm";if(value.equals("厘米"))return "cm";
+        if(value.equals("千克")||value.equals("公斤"))return "kg";if(value.equals("克"))return "g";
+        if(value.equals("米"))return "m";return value;
+    }
+    private static final class Quantity{
+        final BigDecimal value;final String unit;
+        Quantity(BigDecimal value,String unit){this.value=value;this.unit=unit;}
     }
     private static String validatedFraction(CalculationRequest request){
         try{

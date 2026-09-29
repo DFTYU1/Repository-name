@@ -67,6 +67,10 @@ public final class ToolCalculationTest {
   checks++;if(!explicit.answer("不良12件，检查800件，计算不良百分比",stop.begin()).contains("本地计算结果：1.5"))throw new AssertionError();
   checks++;if(!explicit.answer("检查560kg，不良7mm，计算不良百分比",stop.begin()).startsWith("需要澄清"))throw new AssertionError("mixed units accepted");
   ToolChat cpk=new ToolChat((p,t)->"CALC|cpk|mm|scalar|explained|2,20,8,2");
+  ToolChat noPlannerCpk=new ToolChat((p,t)->{throw new AssertionError("Explicit complete Cpk should use the validated calculator");});
+  checks++;if(!noPlannerCpk.answer("过程稳定，规格下限1mm，规格上限13mm，均值7mm，组内标准差为1mm，计算Cpk",stop.begin()).startsWith("本地计算结果：2（"))throw new AssertionError();
+  checks++;if(!noPlannerCpk.answer("Process is stable. LSL 0 mm, USL 12 mm, mean 6 mm, within-process sigma 2 mm. Calculate Cpk.",stop.begin()).startsWith("本地计算结果：1（"))throw new AssertionError();
+  checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("过程稳定，规格下限1mm，规格上限13mm，均值7mm，组内标准差为1cm，计算Cpk",stop.begin()).startsWith("需要澄清"))throw new AssertionError("mixed Cpk units accepted");
   checks++;if(!cpk.answer(missing,history,stop.begin()).startsWith("需要澄清"))throw new AssertionError("missing sigma inferred from lower limit");
   history.add(new String[]{"assistant","过程稳定，组内标准差为2mm"});
   checks++;if(!cpk.answer("补充刚才的Cpk：请直接计算",history,stop.begin()).startsWith("需要澄清"))throw new AssertionError("assistant supplied sigma");
