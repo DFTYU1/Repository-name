@@ -35,7 +35,7 @@ public final class ToolChat {
             if(p.length!=6||!p[0].equals("CALC")||!Arrays.asList("value","explained").contains(p[4]))return clarificationOrValidatedFraction(context);
             String[] operands=p[5].split(",",-1);
             Set<BigDecimal> literals=new HashSet<>();
-            Matcher m=Pattern.compile("(?<![A-Za-z0-9.])[+-]?[0-9]+(?:\\.[0-9]+)?(?![A-Za-z0-9.])").matcher(context);
+            Matcher m=Pattern.compile("(?<![A-Za-z0-9.])[+-]?[0-9]+(?:\\.[0-9]+)?(?![A-Za-z0-9.])").matcher(latest);
             while(m.find())literals.add(new BigDecimal(m.group()).stripTrailingZeros());
             for(String operand:operands){if(!literals.contains(new BigDecimal(operand).stripTrailingZeros()))return clarification();}
             if(p[1].equals("fraction"))operands=validatedFractionRoles(context,operands);
@@ -53,7 +53,19 @@ public final class ToolChat {
             return "本地计算结果："+value+"（percent；操作：fraction；参数："+part.toPlainString()+","+total.toPlainString()+"）。请核对参数是否符合你的原意。";
         }catch(IllegalArgumentException|ArithmeticException e){return clarification();}
     }
-    private static String latestTurn(String context){return context.substring(Math.max(context.lastIndexOf("user:"),context.lastIndexOf("用户："))+1);}
+    private static String latestTurn(String context){
+        int bracket=context.lastIndexOf("[user]\n");
+        if(bracket>=0){
+            int start=bracket+"[user]\n".length();
+            int end=context.indexOf("\n[",start);
+            if(end<0)end=context.indexOf("\n</conversation>",start);
+            return context.substring(start,end<0?context.length():end);
+        }
+        int english=context.lastIndexOf("user:"),chinese=context.lastIndexOf("用户：");
+        int marker=Math.max(english,chinese);
+        if(marker<0)return context;
+        return context.substring(marker+(english>=chinese?"user:".length():"用户：".length()));
+    }
     private static BigDecimal totalRole(String text){return uniqueRole(text,"(?:检查|抽检|检验|样本|总数|合计|total|inspected|sample(?:d)?)[^0-9+-]{0,10}([+-]?[0-9]+(?:\\.[0-9]+)?)|([+-]?[0-9]+(?:\\.[0-9]+)?)\\s*(?:件|个|units?)?\\s*(?:为|是)?\\s*(?:总数|合计|total|inspected|sample(?:d)?)");}
     private static BigDecimal partRole(String text){return uniqueRole(text,"(?:不良|缺陷|不合格|拒收|失败|defect(?:ive)?|reject(?:ed)?|fail(?:ed)?)[^0-9+-]{0,10}([+-]?[0-9]+(?:\\.[0-9]+)?)|([+-]?[0-9]+(?:\\.[0-9]+)?)\\s*(?:件|个|units?)?\\s*(?:为|是)?\\s*(?:不良|缺陷|不合格|拒收|失败|defect(?:ive)?|reject(?:ed)?|fail(?:ed)?)");}
     private static String[] validatedFractionRoles(String context,String[] proposed){

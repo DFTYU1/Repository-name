@@ -38,6 +38,16 @@ public final class ToolCalculationTest {
   checks++;if(!conservative.answer("Inspected 250 units; 5 rejected. Calculate the defect percentage.",stop.begin()).contains("2"))throw new AssertionError();
   checks++;if(!conservative.answer("总数560件，总数600件，不良7件，计算不良率",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
   checks++;if(!conservative.answer("总数560件，不良数量未知，计算不良率",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
+  java.util.List<String[]> history=new java.util.ArrayList<>();
+  history.add(new String[]{"user","What is 3 plus 4?"});
+  history.add(new String[]{"assistant","7"});
+  String productionPercent=ConversationPrompt.build(history,"新问题：检查560件，不良7件，计算不良百分比，请说明计算参数。",12000);
+  checks++;if(!conservative.answer(productionPercent,stop.begin()).contains("1.25"))throw new AssertionError();
+  history.add(new String[]{"user","检查560件，不良7件，计算不良百分比"});
+  history.add(new String[]{"assistant","本地计算结果：1.25"});
+  String productionCpk=ConversationPrompt.build(history,"新问题：计算Cpk，上限20mm，下限2mm，均值8mm；标准差未知。",12000);
+  ToolChat stalePlan=new ToolChat((p,t)->"CALC|fraction|count|percent|explained|7,560");
+  checks++;if(!stalePlan.answer(productionCpk,stop.begin()).startsWith("需要澄清"))throw new AssertionError();
   eq(new ToolChat((p,t)->"CHAT").answer("你好",stop.begin()),null);
   checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("长度有5mm也有5cm，怎么算？",stop.begin()).startsWith("需要澄清"))throw new AssertionError();
   eq(ReadOnlyToolIntent.candidate("请检查设备剩余存储空间"),"storage");
