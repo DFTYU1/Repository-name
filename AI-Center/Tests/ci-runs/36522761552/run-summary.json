@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "run": 28,
+  "run_id": 36522761552,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/36522761552",
+  "head_sha": "30fa82bdc5c9138fa53461ac766660e9dd53928a",
+  "conclusion": "success",
+  "completed_at": "2026-09-29T05:02:55Z",
+  "scope": "tool_chat_smoke",
+  "raw_model_100": {
+    "status": "NOT_RUN",
+    "frozen_baseline_run": 18,
+    "per_device": {
+      "PASS": 25,
+      "FAIL": 22,
+      "MANUAL_REVIEW": 53,
+      "NOT_RUN": 0
+    }
+  },
+  "devices": {
+    "phone_api35_x86_64": {
+      "result": "PASS",
+      "failures": 0,
+      "cases": [
+        {
+          "name": "percentage_560_7",
+          "result": "PASS",
+          "answer": "1.25",
+          "elapsed_ms": 579
+        },
+        {
+          "name": "cpk_missing_sigma",
+          "result": "PASS",
+          "answer_type": "CLARIFICATION",
+          "elapsed_ms": 61200
+        },
+        {
+          "name": "percentage_800_12",
+          "result": "PASS",
+          "answer": "1.5",
+          "elapsed_ms": 138
+        },
+        {
+          "name": "cpk_follow_up",
+          "result": "PASS",
+          "answer": "1",
+          "arguments": [
+            "2",
+            "20",
+            "8",
+            "2"
+          ],
+          "elapsed_ms": 243
+        }
+      ]
+    },
+    "tablet_api35_x86_64": {
+      "result": "PASS",
+      "failures": 0,
+      "cases": [
+        {
+          "name": "percentage_560_7",
+          "result": "PASS",
+          "answer": "1.25",
+          "elapsed_ms": 119
+        },
+        {
+          "name": "cpk_missing_sigma",
+          "result": "PASS",
+          "answer_type": "CLARIFICATION",
+          "elapsed_ms": 59500
+        },
+        {
+          "name": "percentage_800_12",
+          "result": "PASS",
+          "answer": "1.5",
+          "elapsed_ms": 418
+        },
+        {
+          "name": "cpk_follow_up",
+          "result": "PASS",
+          "answer": "1",
+          "arguments": [
+            "2",
+            "20",
+            "8",
+            "2"
+          ],
+          "elapsed_ms": 289
+        }
+      ]
+    }
+  },
+  "apk": {
+    "app": {
+      "bytes": 1368488537,
+      "sha256": "c949d2808e0f41bfc9b91f8ddb894e129f54376e07468458804739810d02afff",
+      "signed": true
+    },
+    "instrumentation": {
+      "bytes": 75432,
+      "sha256": "10f5d57cecb48c95781c65cfb62ab75058baa25e7adb2e5c5dc36ccfae4a948d",
+      "signed": true
+    }
+  },
+  "artifact": {
+    "name": "AI-Center-diagnostics-28",
+    "id": 11013986950,
+    "sha256": "60d8d6fd1dfac14e6c6b15240761fe2d80818f49aec5bdf3141d4a834cc873e3",
+    "expires_at": "2026-10-13T05:01:58Z"
+  },
+  "phase1_complete": false,
+  "physical_devices": {
+    "vivo_x300_pro": "NOT_RUN",
+    "lenovo_y900": "NOT_RUN"
+  }
+}
