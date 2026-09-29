@@ -49,7 +49,7 @@ public final class ToolChat {
             if(!Pattern.compile("(百分比|百分数|不良率|缺陷率|percentage|percent|rate)",Pattern.CASE_INSENSITIVE).matcher(latest).find())return clarification();
             BigDecimal total=totalRole(latest),part=partRole(latest);
             if(total==null||part==null)return clarification();
-            String value=LocalCalculation.calculate("fraction","count","percent",part.toPlainString(),total.toPlainString());
+            String value=LocalCalculation.calculate("fraction","count","percent",new String[]{part.toPlainString(),total.toPlainString()});
             return "本地计算结果："+value+"（percent；操作：fraction；参数："+part.toPlainString()+","+total.toPlainString()+"）。请核对参数是否符合你的原意。";
         }catch(IllegalArgumentException|ArithmeticException e){return clarification();}
     }
