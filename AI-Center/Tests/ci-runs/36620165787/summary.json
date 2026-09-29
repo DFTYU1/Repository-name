@@ -1,0 +1,40 @@
+{
+  "run_id": 36620165787,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/36620165787",
+  "source_sha": "c664379e7cb4bfed9761d4311d0b49ecb4731df6",
+  "conclusion": "success",
+  "artifact": {
+    "id": 11059338393,
+    "name": "AI-Center-diagnostics-33",
+    "sha256": "2315b9aeefdda3c674b0e49b8b55cbc3ca5c86229f42b051a3a8bdae0724e064"
+  },
+  "application_apk": {
+    "name": "AI-Center-c664379e7cb4-internal.apk",
+    "version_code": "2",
+    "version_name": "0.2.0-offline-dev",
+    "bytes": 1368488537,
+    "sha256": "97e0b87f6337f7202cdeb8fe1d760023b9eb056740ddefc7b439b53002d8ee0a",
+    "signed": true,
+    "arm64_libraries": ["lib/arm64-v8a/libaicenter.so", "lib/arm64-v8a/libc++_shared.so"],
+    "bundled_model_sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+    "recommended_free_bytes": 5923172363,
+    "download": "NOT_AVAILABLE: public-repository artifact upload intentionally skipped"
+  },
+  "phone": {
+    "tool_chat": {"PASS": 10, "FAIL": 0, "NOT_RUN": 0},
+    "data_available_bytes": 7503470592,
+    "required_bytes": 4642565975,
+    "kvm_access_after_fix": true
+  },
+  "tablet": {
+    "tool_chat": {"PASS": 10, "FAIL": 0, "NOT_RUN": 0},
+    "data_available_bytes": 7506661376,
+    "required_bytes": 4642565975,
+    "kvm_access_before_fix": false,
+    "kvm_access_after_fix": true
+  },
+  "raw_model_100": "NOT_RUN",
+  "Q013_Q073": "NOT_RUN",
+  "physical_devices": "NOT_RUN",
+  "formal_acceptance": "NOT_ACCEPTED"
+}

@@ -1,6 +1,7 @@
 #include <jni.h>
 #include "llama.h"
 #include "inference_trace.h"
+#include "repetition_guard.h"
 #include <atomic>
 #include <algorithm>
 #include <chrono>
@@ -109,7 +110,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
             if(n<0) throw std::runtime_error("Token decoding failed");
             answer.append(piece.data(),n);generated_tokens.push_back(token);if(generated++==0) first=milliseconds(started);
             stats[0]=first;stats[1]=generated;
-            if(repeated_cycle(generated_tokens)){stats[10]=5;break;}
+            if(repeated_cycle(generated_tokens)||repeated_numbered_body(answer)){stats[10]=5;break;}
             if(i+1<limit) {
                 auto b=llama_batch_get_one(&token,1);
                 if(llama_decode(ctx.get(),b)!=0) throw std::runtime_error("Token evaluation failed");

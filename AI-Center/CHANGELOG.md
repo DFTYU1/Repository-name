@@ -36,3 +36,9 @@
 - Recheck ephemeral-runner KVM ACL before every isolated emulator profile.
 - Add application-only internal delivery staging with signature, version, SHA-256, ARM64 library and pinned model validation.
 - Add first-use storage basis and physical-device checklist; no APK/model is published by this change.
+# Run33 follow-up
+
+- Record successful double-emulator 10-case production UI result and verified ARM64 application metadata.
+- Stop three consecutive long numbered items only when their normalized bodies are identical despite changing numbers.
+- Preserve the existing exact-token cycle guard and add normal-list/short-list/interruption regression cases.
+- Add Q013/Q073 targeted probes; no frozen question, answer or grading change.

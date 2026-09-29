@@ -13,3 +13,8 @@
 - Implemented per-profile KVM access proof, ARM64/model/signature/package verification, private-build staging and a user/device test checklist.
 - Local: 34 core, 69 tool fixtures, native trace, 11 report, 8 project checks and 3 synthetic package cases PASS. Real APK delivery and real Android effects remain unverified.
 - Next: build the new commit; privately persist its verified application APK; execute vivo then Y900 checklist. Q013/Q073 repetition and 53 manual reviews remain separate open work.
+# Run33 verified
+
+- Phone and tablet: 10/10 production tool-chat UI PASS with isolated AVDs.
+- ARM64 engine, bundled model, signing and storage metadata verified against the real application APK.
+- Added host-tested numbered-body repetition detection for Q013/Q073-style degeneration; next Android run includes only the targeted probes after the 10-case regression.

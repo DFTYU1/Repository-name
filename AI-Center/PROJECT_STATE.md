@@ -1,4 +1,14 @@
-# 唯一当前断点 · 2026-09-29 · Run32与内部APK交付
+# 唯一当前断点 · 2026-09-30 · Run33双端通过、重复检测定向验证
+
+Run33 https://github.com/DFTYU1/Repository-name/actions/runs/36620165787 在提交`c664379e7cb4bfed9761d4311d0b49ecb4731df6`上SUCCESS。手机/平板各自新建8GiB API35 x86_64 AVD，生产聊天工具UI均10 PASS/0 FAIL/0 NOT_RUN；基础离线中英、QE、Excel、工具、取消恢复也PASS。平板KVM权限由启动前不可用变为ACL修复后可用。手机/平板/data可用分别7503470592/7506661376字节，均高于4642565975字节安装门槛。
+
+应用APK `0.2.0-offline-dev`（versionCode 2）1368488537字节，SHA256 `97e0b87f6337f7202cdeb8fe1d760023b9eb056740ddefc7b439b53002d8ee0a`，签名通过，含ARM64 `libaicenter.so`/`libc++_shared.so`及哈希正确的内置Qwen3.5-2B模型；建议真机空余5923172363字节。公开仓库的APK上传按规则跳过，因此没有下载链接，不宣称已交付。
+
+Run33 Artifact11059338393，ZIP SHA256 `2315b9aeefdda3c674b0e49b8b55cbc3ca5c86229f42b051a3a8bdae0724e064`。裸模型100题、Q013/Q073、两台真机均NOT_RUN；53人工题待审，正式状态NOT_ACCEPTED，Phase1未完成。
+
+本批针对Q013/Q073新增窄范围生产重复保护：仅当连续3个、至少20字节的编号项去除变化编号后正文完全相同才停止；普通不同正文列表、短值列表、中断序列不触发。原token精确周期检测保留。主机合成回归通过；真实模型/Android结果NOT_RUN。下一Run仅在双端10项后追加既有Q013/Q073定向探针，不执行完整100题。
+
+## 历史：Run32与内部APK交付
 
 当前证据源码：c650ec9a644dadc5cc41ab571f8afc3b4263e205。Run32 https://github.com/DFTYU1/Repository-name/actions/runs/36584118980 已FAIL。手机10项UI全部PASS，平板启动失败，10项全部NOT_RUN。tablet-emulator.log明确报告KVM权限不足；不是本轮安装空间错误。手机/data可用7522869248字节，需求4642565975字节；宿主机可用75804385280字节。平板未到安装阶段，无容量实测。Artifact11042316262，SHA256 e56bb2e11e92166a3ef7ad5ffec507989c237c680ecfa48d7fc50ce4ac1df701。
 

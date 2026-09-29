@@ -37,3 +37,6 @@ Run20 https://github.com/DFTYU1/Repository-name/actions/runs/36412645674 源提�
 # Run32 binary gate
 
 Tool-assisted UI evidence remains separate from the raw-model benchmark. An installable internal application must additionally prove ARM64 engine presence and the exact pinned bundled model hash. This packaging proof does not convert any raw-model FAIL or MANUAL_REVIEW to PASS.
+# Run33 separation
+
+Double-emulator tool-assisted UI: 10/10 PASS per profile. Raw-model 100 cases and Q013/Q073 were NOT_RUN and retain their prior evidence. The new repetition guard is a resource/termination control only; stopped but incomplete or incorrect content remains FAIL under frozen grading.

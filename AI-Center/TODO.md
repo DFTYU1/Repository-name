@@ -12,3 +12,8 @@
 - [ ] Confirm per-profile KVM proof and tablet 10-case execution on the next real Android run.
 - [ ] Run vivo X300 Pro first, then Lenovo Y900 using `Documentation/REAL_DEVICE_TEST.md`; retain NOT_RUN until evidence exists.
 - [ ] Fix Q013/Q073 numbered-body repetition without weakening answer acceptance.
+# After Run33
+
+- [x] Confirm isolated phone/tablet capacity, KVM recovery and 10 production tool-chat UI cases.
+- [ ] Verify numbered-body repetition guard on real Android Q013/Q073; a controlled stop does not make an incorrect answer PASS.
+- [ ] Privately deliver the verified ARM64 application APK and run vivo X300 Pro, then Lenovo Y900.

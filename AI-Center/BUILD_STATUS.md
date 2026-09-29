@@ -11,3 +11,8 @@
 Run32 (`36584118980`, source `c650ec9a644dadc5cc41ab571f8afc3b4263e205`) built and signed successfully. Phone 10/10 tool-chat UI tests passed. Tablet 10/10 were NOT_RUN because the fresh tablet emulator exited before boot after reporting inaccessible `/dev/kvm`; it never reached capacity check or APK install. Phone `/data` available 7,522,869,248 bytes versus conservative requirement 4,642,565,975 bytes.
 
 The next batch rechecks KVM ACL for each profile and stages a separately verified ARM64 application APK immediately after build. Public-repository artifact upload remains disabled because APK/model publication is not authorized. Physical devices and the produced delivery APK remain NOT_RUN/NOT_DELIVERED until an actual binary is built and privately saved.
+# Run33 success / repetition guard candidate
+
+Run33 is SUCCESS: both isolated phone and tablet profiles passed all ten production UI tool cases, capacity gates and KVM proof. The verified application metadata is preserved in `Tests/ci-runs/36620165787/summary.json`; binary download remains unavailable because public APK/model upload was skipped.
+
+The next candidate adds a narrowly bounded numbered-body repetition guard and targeted real-Android Q013/Q073 probes. Host regression is PASS; actual model behavior remains NOT_RUN until that workflow completes.
