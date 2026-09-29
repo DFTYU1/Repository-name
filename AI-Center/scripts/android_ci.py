@@ -182,6 +182,17 @@ def test():
                 time.sleep(1)
 
         def start_profile_emulator(profile):
+            # ACLs may change during the long phone run; recheck each new VM.
+            kvm = Path('/dev/kvm')
+            before = os.access(kvm, os.R_OK | os.W_OK)
+            if kvm.exists() and not before:
+                run(['sudo', 'setfacl', '-m', 'u:' + getpass.getuser() + ':rw', str(kvm)])
+            after = os.access(kvm, os.R_OK | os.W_OK)
+            (OUT / (profile + '-kvm.json')).write_text(json.dumps({
+                'accessible_before': before, 'accessible_after': after,
+                'scope': 'ephemeral CI runner only'}))
+            if not after:
+                raise RuntimeError(profile + ' KVM access unavailable; device tests NOT_RUN')
             avd_name = 'aicenter_ci_' + str(os.getpid()) + '_' + profile
             created = run([manager, 'create', 'avd', '--name', avd_name,
                 '--package', LOCK['emulator_image'], '--device', 'pixel_6',

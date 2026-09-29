@@ -1,4 +1,14 @@
-# 唯一当前断点 · 2026-09-29 · Run31手机10项通过、平板存储阻塞修复
+# 唯一当前断点 · 2026-09-29 · Run32与内部APK交付
+
+当前证据源码：c650ec9a644dadc5cc41ab571f8afc3b4263e205。Run32 https://github.com/DFTYU1/Repository-name/actions/runs/36584118980 已FAIL。手机10项UI全部PASS，平板启动失败，10项全部NOT_RUN。tablet-emulator.log明确报告KVM权限不足；不是本轮安装空间错误。手机/data可用7522869248字节，需求4642565975字节；宿主机可用75804385280字节。平板未到安装阶段，无容量实测。Artifact11042316262，SHA256 e56bb2e11e92166a3ef7ad5ffec507989c237c680ecfa48d7fc50ce4ac1df701。
+
+本批：每个profile启动前重新检查/修复临时runner KVM ACL并记录前后结果；新增应用APK交付校验与元数据、真机清单。实际APK必须含ARM64 libaicenter.so及哈希正确的内置模型；应用包与测试包分离。合成包3种场景及项目8项检查通过；真实Android修复效果NOT_RUN。
+
+交付阻塞：Run32只保存诊断，无可下载APK。当前公开仓库此前被明确禁止公开APK/模型；已准备私有仓库自动保存流程，公开下载未授权，未上传APK。待确认下载访问权限后开启构建后独立保存。暂无实际APK链接，不宣称已交付。真机均NOT_RUN，53人工题待审核，Q013/Q073重复未解决，Phase1未完成。
+
+下步：新Run确认KVM及双端10项；独立推进内部包下载权限与实际二进制校验。旧Library副本不代表当前Git断点。
+
+## 历史：Run31
 
 项目：personal-ai-center-20260909。分支：ai-center-build。Run31源码提交：`b401bfa0e9735127a743d3a063e492a1c3c7e963`。
 

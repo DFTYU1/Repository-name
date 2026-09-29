@@ -169,3 +169,6 @@ The immutable professional suite completed on both API-35 emulator profiles. Com
 - Artifact `AI-Center-diagnostics-21` ID 10985487877，ZIP SHA256 `89c726e38346d8df146465311885852cc70be14d807e786ca85147eea7811935`。APK 1368455769字节，SHA256 `317b3c162e872dd68f1a3fa085049315f476a9299d12763acbccb800c31b57e8`；测试APK 74440字节，SHA256 `03c452e68837ac2aa69e0b15f53ad5ee2f011392bacf5b0a1cb499f68caf22d4`，均signed。
 - 已实现通用修复：ToolChat按总数/不良数的中英文语义角色校验fraction参数并仅在模型提取值与原文一致时重排；冲突/歧义继续澄清。原生解码仅在四次相同连续token周期时停止，termination=5；报告明确标为`repetitive_generation_stopped`，不得转MANUAL_REVIEW。
 - 本地验证：34核心、40工具/公式夹具、原生重复/计时宿主测试、11报告、6项目验证PASS。真实Android验证尚未运行；下一Run仍只跑双端代表百分比、缺参Cpk及Q013/Q073，再决定恢复10项UI，不启动完整100题。冻结题库/答案/评分；53人工题PENDING_MANUAL_REVIEW，vivo X300 Pro/Lenovo Y900 NOT_RUN，Phase1未完成。
+# Internal binary delivery boundary
+
+`package_internal_apk.py` is a post-build gate, not an acceptance shortcut. It accepts only the application APK, verifies its prior build digest and signing, requires `lib/arm64-v8a/libaicenter.so`, streams `assets/base.gguf` to verify pinned size/SHA-256, rejects INTERNET permission, and emits immutable source/version/size metadata. The instrumentation APK is excluded. The public repository must not publish the resulting APK or model; a separately authorized private channel is required.

@@ -6,3 +6,9 @@
 4. 继续人工审核53题；Q025不自动PASS。Q013/Q073重复生成仍是裸模型质量问题。
 5. vivo X300 Pro、Lenovo Y900保持NOT_RUN；完成Phase1其余真实功能和设备验收后才进入Phase2。
 6. 每批更新五份状态、模型/架构/验收说明，运行checkpoint并以Git持久保存公开源码和合成证据。
+# Current gate after Run32
+
+- [ ] Produce and privately deliver the verified ARM64 application APK; do not publish APK/model from this public repository.
+- [ ] Confirm per-profile KVM proof and tablet 10-case execution on the next real Android run.
+- [ ] Run vivo X300 Pro first, then Lenovo Y900 using `Documentation/REAL_DEVICE_TEST.md`; retain NOT_RUN until evidence exists.
+- [ ] Fix Q013/Q073 numbered-body repetition without weakening answer acceptance.

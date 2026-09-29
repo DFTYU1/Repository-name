@@ -1,0 +1,24 @@
+{
+  "run_id": 36584118980,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/36584118980",
+  "source_sha": "c650ec9a644dadc5cc41ab571f8afc3b4263e205",
+  "conclusion": "failure",
+  "artifact": {
+    "id": 11042316262,
+    "name": "AI-Center-diagnostics-32",
+    "sha256": "e56bb2e11e92166a3ef7ad5ffec507989c237c680ecfa48d7fc50ce4ac1df701"
+  },
+  "phone": {
+    "tool_chat": {"PASS": 10, "FAIL": 0, "NOT_RUN": 0},
+    "data_total_bytes": 8302063616,
+    "data_available_bytes": 7522869248,
+    "required_bytes": 4642565975
+  },
+  "tablet": {
+    "tool_chat": {"PASS": 0, "FAIL": 0, "NOT_RUN": 10},
+    "stage": "emulator_startup",
+    "reason": "x86_64 emulation requires hardware acceleration; runner user lacked /dev/kvm permission",
+    "capacity": "NOT_RUN"
+  },
+  "apk_delivery": "NOT_AVAILABLE; diagnostics artifact did not contain APK"
+}

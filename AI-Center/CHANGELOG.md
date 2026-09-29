@@ -30,3 +30,9 @@
 - 补真实生产序列化边界/参数来源回归，工具断言44→60；双端定向UI 2→4。
 - 本轮停止重跑与此修复无关的超时探针，显式NOT_RUN并保留旧FAIL；冻结100题/评分/预算不变。
 - 五份状态改为当前摘要，旧记录全部保留在父提交历史，避免过期“运行中/未提交”被当成当前任务。
+# Run32 delivery preparation
+
+- Preserved Run32 evidence: phone 10 UI PASS; tablet 10 NOT_RUN due to KVM permission failure before boot.
+- Recheck ephemeral-runner KVM ACL before every isolated emulator profile.
+- Add application-only internal delivery staging with signature, version, SHA-256, ARM64 library and pinned model validation.
+- Add first-use storage basis and physical-device checklist; no APK/model is published by this change.

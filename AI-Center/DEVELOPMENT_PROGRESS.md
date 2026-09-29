@@ -7,3 +7,9 @@
 - 本地：34核心、69工具/公式断言、原生测试、11报告、8项目验证PASS。
 - 下一门禁：双端完整10项复测，确认平板安装及执行完成，手机10项不退化。
 - 裸模型100题本批NOT_RUN，Run18基线25/22/53/0不变；53题人工审核、两台真机及Phase1其余功能仍未完成。
+# 2026-09-29 Run32 follow-up
+
+- Evidence: phone tool UI 10 PASS; tablet tool UI 10 NOT_RUN (KVM access lost before tablet boot).
+- Implemented per-profile KVM access proof, ARM64/model/signature/package verification, private-build staging and a user/device test checklist.
+- Local: 34 core, 69 tool fixtures, native trace, 11 report, 8 project checks and 3 synthetic package cases PASS. Real APK delivery and real Android effects remain unverified.
+- Next: build the new commit; privately persist its verified application APK; execute vivo then Y900 checklist. Q013/Q073 repetition and 53 manual reviews remain separate open work.

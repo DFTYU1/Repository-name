@@ -48,6 +48,21 @@ jobs:
       - name: Build signed debug APK and instrumentation APK, run lint
         run: python3 scripts/build_android.py
 
+      - name: Verify and stage ARM64 internal application delivery
+        run: python3 scripts/package_internal_apk.py
+
+      # Public APK/model distribution remains prohibited without separate approval.
+      # Private repositories preserve the application before any emulator step.
+      - name: Preserve internal application in private repository
+        if: github.event.repository.private == true
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-internal-app-${{ github.sha }}
+          path: AI-Center/build/internal-delivery/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
       - name: Launch fresh emulator and verify phone and tablet layouts
         env:
           AI_CENTER_PROFESSIONAL_BENCHMARK: "true"
