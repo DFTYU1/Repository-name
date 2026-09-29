@@ -85,27 +85,32 @@ def prepare():
     print('Official Android SDK packages installed; exact observed revisions recorded.')
 
 
-def parse_instrumentation(output, profile):
-    match = re.search(r'^INSTRUMENTATION_RESULT: aicenter_results=(.+)$', output, re.M)
-    failed = re.search(r'^INSTRUMENTATION_RESULT: aicenter_failures=(\d+)$', output, re.M)
-    if not match or not failed:
-        raise RuntimeError('Instrumentation did not return a complete test report')
-    tests = json.loads(match.group(1))
+def expected_instrumentation_tests(profile, tool_chat_smoke):
     expected = {'application_initialization', 'administrator_setup_via_real_ui', 'responsive_home_layout',
                 'android_sqlite_and_keystore_message_persistence', 'sandbox_copy_and_traversal_denial',
                 'interrupted_task_journal_recovery', 'disconnect_button_revokes_token_lease_and_close_hook'}
     if profile == 'phone':
         expected.add('lease_expires_after_real_five_minutes')
     expected.update({'real_model_verified_and_network_permission_absent','real_offline_chinese','real_offline_english','real_offline_qe','real_offline_excel','real_model_agent_tool_call','real_native_cancel_and_resume'})
-    expected.update({'tool_chat_ui_percentage','tool_chat_ui_missing','tool_chat_ui_followup'})
-    tool_chat_smoke = os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE', 'false')
+    expected.update({'tool_chat_ui_percentage','tool_chat_ui_missing'})
     if tool_chat_smoke in {'true', 'context'}:
-        expected.add('tool_chat_ui_percentage_changed')
+        expected.update({'tool_chat_ui_percentage_changed','tool_chat_ui_followup'})
     elif tool_chat_smoke == 'simple':
         expected.update({'tool_chat_ui_mean','tool_chat_ui_decimal'})
     else:
-        expected.update({'tool_chat_ui_mean','tool_chat_ui_decimal','tool_chat_ui_zero','tool_chat_ui_ambiguous',
+        expected.update({'tool_chat_ui_mean','tool_chat_ui_decimal','tool_chat_ui_followup','tool_chat_ui_zero','tool_chat_ui_ambiguous',
                          'tool_chat_ui_units','tool_chat_ui_formula','tool_chat_ui_invalid_range'})
+    return expected
+
+
+def parse_instrumentation(output, profile):
+    match = re.search(r'^INSTRUMENTATION_RESULT: aicenter_results=(.+)$', output, re.M)
+    failed = re.search(r'^INSTRUMENTATION_RESULT: aicenter_failures=(\d+)$', output, re.M)
+    if not match or not failed:
+        raise RuntimeError('Instrumentation did not return a complete test report')
+    tests = json.loads(match.group(1))
+    tool_chat_smoke = os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE', 'false')
+    expected = expected_instrumentation_tests(profile, tool_chat_smoke)
     names = {item['test'] for item in tests}
     passed = (int(failed.group(1)) == 0 and expected <= names and
               all(item['status'] == 'PASS' for item in tests))

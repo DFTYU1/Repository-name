@@ -3,6 +3,7 @@
 from pathlib import Path
 from datetime import datetime, timezone
 import json
+import importlib.util
 import sqlite3
 import subprocess
 import sys
@@ -62,6 +63,16 @@ def professional_definition():
     assert 'Q025' not in engine and q[24]['prompt'] not in engine and q[24]['rubric'] not in engine
     budget=(ROOT/'core/src/main/java/local/aicenter/core/GenerationBudget.java').read_text()
     assert 'LONG_FORM_MINIMUM = 640' in budget and 'HARD_MAXIMUM = 1024' in budget
+def android_ci_scope_contract():
+    spec=importlib.util.spec_from_file_location('android_ci',ROOT/'scripts/android_ci.py')
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    simple=module.expected_instrumentation_tests('tablet','simple')
+    assert {'tool_chat_ui_percentage','tool_chat_ui_missing','tool_chat_ui_mean','tool_chat_ui_decimal'} <= simple
+    assert 'tool_chat_ui_followup' not in simple
+    context=module.expected_instrumentation_tests('tablet','context')
+    assert {'tool_chat_ui_percentage_changed','tool_chat_ui_followup'} <= context
+    full=module.expected_instrumentation_tests('tablet','false')
+    assert {'tool_chat_ui_followup','tool_chat_ui_zero','tool_chat_ui_invalid_range'} <= full
 def checkpoint_roundtrip():
     with tempfile.TemporaryDirectory() as tmp:
         output=Path(tmp)/'checkpoint.zip';info=create_checkpoint(ROOT,output,'automated checkpoint round-trip')
@@ -84,6 +95,7 @@ try:
     test('Android Java syntax parsing only',syntax)
     test('Android manifest requests no broad access or network',manifest_scope)
     test('100 fixed professional questions and execution kinds',professional_definition)
+    test('Android CI validates only tests selected by each smoke scope',android_ci_scope_contract)
     test('Checkpoint restore and tamper detection',checkpoint_roundtrip)
 except Exception as e:
     status='FAIL';error=str(e);print('FAIL',error)

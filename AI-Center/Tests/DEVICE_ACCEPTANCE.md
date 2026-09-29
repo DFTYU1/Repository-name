@@ -1,3 +1,11 @@
+## Run30双模拟器定向工具聊天 · 2026-09-29
+
+Run30 https://github.com/DFTYU1/Repository-name/actions/runs/36546356854 源提交`939e0d0a4af7552fa8368acfd767c298ac03f7f8`。手机/平板API35 x86_64的4项生产UI均4 PASS / 0 FAIL：百分比1.25、缺参Cpk澄清、均值7、同单位小数和0.3kg。完整10项与裸模型100题NOT_RUN。
+
+工作流整体FAIL来自CI范围契约：simple模式没有运行followup，但解析器无条件把它列为必需，因此双端`missing_tests`只有`tool_chat_ui_followup`。Artifact `AI-Center-diagnostics-30` ID `11022994648`，ZIP SHA256 `cdaf3c582f4765d160009e6f22b776d84693707542b62679d0364ab109895fdf`，有效至2026-10-13T09:22:24Z。应用APK SHA256 `8dd68609ed2224b4b3822991875ba005185c3a3a2dd6d2de0cfe8fab65c9cd4c`；测试APK SHA256 `256ae8d86ca97b5a8bc28bceddc6f49e324e5990ddc05d4bdfb101d0eca9eb4f`，均signed，仅USE_BIOMETRIC、无INTERNET。
+
+已修复scope预期集合并增加本地回归；下一Run恢复完整10项。vivo X300 Pro、Lenovo Y900仍NOT_RUN，Phase1未完成。
+
 ## Run29双模拟器工具聊天 · 2026-09-29
 
 手机和平板API35 x86_64均完成10项生产聊天工具辅助UI：8 PASS / 2 FAIL。失败为英文无量纲均值与同单位小数加法返回澄清；其余百分比、缺参/多轮Cpk、除零、歧义、混合单位和两项公式结构检查PASS。裸模型100题与Q013/Q073本轮NOT_RUN。下一轮先跑两失败项及两控制项；真机vivo X300 Pro、Lenovo Y900仍NOT_RUN。
@@ -149,4 +157,3 @@ project_id=personal-ai-center-20260909
 - Artifact `AI-Center-diagnostics-21` ID 10985487877，ZIP SHA256 `89c726e38346d8df146465311885852cc70be14d807e786ca85147eea7811935`。APK 1368455769字节，SHA256 `317b3c162e872dd68f1a3fa085049315f476a9299d12763acbccb800c31b57e8`；测试APK 74440字节，SHA256 `03c452e68837ac2aa69e0b15f53ad5ee2f011392bacf5b0a1cb499f68caf22d4`，均signed。
 - 已实现通用修复：ToolChat按总数/不良数的中英文语义角色校验fraction参数并仅在模型提取值与原文一致时重排；冲突/歧义继续澄清。原生解码仅在四次相同连续token周期时停止，termination=5；报告明确标为`repetitive_generation_stopped`，不得转MANUAL_REVIEW。
 - 本地验证：34核心、40工具/公式夹具、原生重复/计时宿主测试、11报告、6项目验证PASS。真实Android验证尚未运行；下一Run仍只跑双端代表百分比、缺参Cpk及Q013/Q073，再决定恢复10项UI，不启动完整100题。冻结题库/答案/评分；53人工题PENDING_MANUAL_REVIEW，vivo X300 Pro/Lenovo Y900 NOT_RUN，Phase1未完成。
-

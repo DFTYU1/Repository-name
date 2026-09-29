@@ -1,0 +1,39 @@
+{
+  "run_id": 36546356854,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/36546356854",
+  "head_sha": "939e0d0a4af7552fa8368acfd767c298ac03f7f8",
+  "completed_utc": "2026-09-29T09:22:48Z",
+  "conclusion": "FAIL",
+  "failure_reason": "CI scope contract required tool_chat_ui_followup although simple scope did not select it",
+  "gates": {
+    "core": {"status": "PASS", "count": 34},
+    "tool_fixtures": {"status": "PASS", "count": 69},
+    "professional_report": {"status": "PASS", "count": 11},
+    "project_verification": {"status": "PASS", "count": 6},
+    "signed_apks_and_lint": "PASS",
+    "phone_foundation": "PASS",
+    "tablet_foundation": "PASS"
+  },
+  "targeted_tool_ui": {
+    "scope": "FOUR_SIMPLE_CALC_REGRESSIONS",
+    "phone": {"pass": 4, "fail": 0, "missing": ["tool_chat_ui_followup"]},
+    "tablet": {"pass": 4, "fail": 0, "missing": ["tool_chat_ui_followup"]},
+    "cases": [
+      {"name": "percentage", "expected": "1.25", "phone": "PASS", "tablet": "PASS"},
+      {"name": "missing_cpk_sigma", "expected": "CLARIFY", "phone": "PASS", "tablet": "PASS"},
+      {"name": "dimensionless_mean", "expected": "7", "phone": "PASS", "tablet": "PASS"},
+      {"name": "same_unit_decimal_sum", "expected": "0.3 kg", "phone": "PASS", "tablet": "PASS"}
+    ]
+  },
+  "not_run": ["full_10_tool_ui", "raw_model_100", "Q013_Q073_probe", "vivo_X300_Pro", "Lenovo_Y900"],
+  "apk": {"bytes": 1368488537, "sha256": "8dd68609ed2224b4b3822991875ba005185c3a3a2dd6d2de0cfe8fab65c9cd4c", "signed": true},
+  "test_apk": {"bytes": 76484, "sha256": "256ae8d86ca97b5a8bc28bceddc6f49e324e5990ddc05d4bdfb101d0eca9eb4f", "signed": true},
+  "permissions": ["android.permission.USE_BIOMETRIC"],
+  "artifact": {
+    "name": "AI-Center-diagnostics-30",
+    "id": 11022994648,
+    "zip_sha256": "cdaf3c582f4765d160009e6f22b776d84693707542b62679d0364ab109895fdf",
+    "expires_at": "2026-10-13T09:22:24Z"
+  },
+  "publication": "Structured synthetic summary only; no APK, GGUF, credential, private data or Release published"
+}

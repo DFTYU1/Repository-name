@@ -1,5 +1,5 @@
 {
-  "time_utc": "2026-09-29T08:52:37.426237+00:00",
+  "time_utc": "2026-09-29T10:33:39.851923+00:00",
   "status": "PASS",
   "passed": [
     "SQLite schema constraints and foreign keys",
@@ -7,6 +7,7 @@
     "Android Java syntax parsing only",
     "Android manifest requests no broad access or network",
     "100 fixed professional questions and execution kinds",
+    "Android CI validates only tests selected by each smoke scope",
     "Checkpoint restore and tamper detection"
   ],
   "error": null,

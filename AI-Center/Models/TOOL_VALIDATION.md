@@ -2,6 +2,10 @@
 
 Run29双端各8/10 PASS。模型对明确mean与同单位小数加法仍返回CLARIFY；本地Decimal实现本身正确。当前修复允许生产聊天在严格验证当前消息后直接执行mean/sum：操作意图唯一、至少两个字面量、明确无量纲或每个数值具相同支持单位。语法匹配不代表一般数学语义理解；不满足条件继续澄清。该应用工具成绩不得覆盖裸模型100题。
 
+## Run30真实生产UI · 2026-09-29
+
+手机/平板API35 x86_64的simple范围均4/4 PASS。英文mean(-4,8,17)返回7；0.1kg+0.2kg返回0.3kg；百分比控制返回1.25；缺少标准差的Cpk返回澄清。Run30工作流FAIL来自范围解析器多要求未选择的followup，不是工具输出失败。完整10项及裸模型100题NOT_RUN，不能据此扩大结论。
+
 ## Run20结果与定向修复 · 2026-09-28
 
 Run20 https://github.com/DFTYU1/Repository-name/actions/runs/36412645674 源提交6ea9df7d2e30b81bedf90f97b018b305ffa567a6，结束FAIL。34核心、30工具夹具、11报告、6项目验证、签名APK/测试APK及lint PASS。手机/平板10项真实UI工具辅助测试全部FAIL，完整100题NOT_RUN，专业状态NOT_ACCEPTED。失败根因优先定位生产MainActivity无条件调用planTool：该小模型把百分数误选storage、均值误选tasks、公式误选files或storage，其它误选search；只有Cpk追问进入chat但返回澄清。每端逐项原输入、输出、耗时见Tests/ci-runs/36412645674/run-summary.json。Artifact10967146022 SHA256 80a50f723cb432324f4a58a40db6e533d024d7f05ac0f090f299606851a34c82，完整诊断仅本地保存，不上传ZIP。前一轮裸模型Run19成绩25/22/53/0不变。
