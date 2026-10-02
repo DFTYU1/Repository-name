@@ -66,7 +66,8 @@ def main():
         recommended_free_bytes=3 * apk.stat().st_size + model['bytes'] + 512 * 1024**2,
         storage_basis='download + installed APK + installation staging + extracted model + 512 MiB reserve; vendor overhead may vary',
         known_issues=['Internal debug build; not Phase 1 acceptance',
-            'Q013/Q073 repetition unresolved', '53 manual reviews pending',
+            'Q013/Q073 response quality remains unacceptable; repetition controls are under targeted validation',
+            '53 manual reviews pending',
             'Physical vivo X300 Pro and Lenovo Y900 NOT_RUN',
             'Runner debug signing certificate may change; never uninstall existing data without backup'],
         instrumentation_apk_included=False)

@@ -171,3 +171,7 @@ Run32 phone: all ten production tool-chat UI cases PASS. Run32 tablet: all ten N
 # Run33
 
 Phone and tablet emulator profiles each passed all ten production tool-chat UI cases with no missing tests. This validates the application tool path, not the frozen raw-model 100-case suite and not physical devices. Q013/Q073 and both physical devices remain NOT_RUN; formal acceptance remains NOT_ACCEPTED.
+
+# Run34
+
+Phone and tablet again passed all ten production tool-chat UI cases. Q013 ended by repetition protection at 143/640 tokens in 40.376/44.138 seconds; content remains FAIL. Q073 exhausted 640/640 tokens in 112.177/114.583 seconds because it cycles through three long bodies in a single full-width-semicolon-separated numbered list. The candidate cycle guard has host-only PASS evidence; its Android result is NOT_RUN. Full 100, 53 manual reviews, vivo X300 Pro and Lenovo Y900 remain incomplete; formal acceptance is NOT_ACCEPTED.

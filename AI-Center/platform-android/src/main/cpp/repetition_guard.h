@@ -3,10 +3,11 @@
 #include <string>
 #include <vector>
 
-// Detect a common small-model degeneration where only the visible list number
-// changes while the substantive body repeats. This is intentionally narrow:
-// three consecutive, sufficiently long, completed numbered items must have the
-// same normalized body. Normal lists with distinct bodies are not stopped.
+// Detect common small-model degeneration where only the visible list number
+// changes while substantive bodies repeat. Keep this deliberately narrow:
+// completed numbered items must form three copies of the same 1-3 item cycle,
+// and every body must be sufficiently long. Both newline lists and compact
+// semicolon-separated lists are supported. Normal lists remain unaffected.
 inline std::string normalized_numbered_body(std::string line) {
     while (!line.empty() && std::isspace(static_cast<unsigned char>(line.front()))) line.erase(0, 1);
     if (line.size() >= 2 && line[0] == '*' && line[1] == '*') line.erase(0, 2);
@@ -38,17 +39,38 @@ inline bool repeated_numbered_body(const std::string &answer) {
     std::vector<std::string> bodies;
     size_t start = 0;
     while (start < answer.size()) {
-        const size_t end = answer.find('\n', start);
-        const std::string body = normalized_numbered_body(answer.substr(
-            start, end == std::string::npos ? std::string::npos : end - start));
+        size_t end = start;
+        size_t separator_bytes = 0;
+        while (end < answer.size()) {
+            const unsigned char value = static_cast<unsigned char>(answer[end]);
+            if (value == '\n' || value == ';') {
+                separator_bytes = 1;
+                break;
+            }
+            if (end + 2 < answer.size() && value == 0xEF &&
+                static_cast<unsigned char>(answer[end + 1]) == 0xBC &&
+                static_cast<unsigned char>(answer[end + 2]) == 0x9B) {
+                separator_bytes = 3; // U+FF1B full-width semicolon
+                break;
+            }
+            end++;
+        }
+        const std::string body = normalized_numbered_body(answer.substr(start, end - start));
         if (!body.empty()) bodies.push_back(body);
         else bodies.clear();
-        if (bodies.size() >= 3) {
-            const size_t n = bodies.size();
-            if (bodies[n - 1] == bodies[n - 2] && bodies[n - 2] == bodies[n - 3]) return true;
+        const size_t n = bodies.size();
+        for (size_t period = 1; period <= 3 && n >= period * 3; period++) {
+            bool repeated = true;
+            for (size_t offset = 0; offset < period * 2; offset++) {
+                if (bodies[n - 1 - offset] != bodies[n - 1 - offset - period]) {
+                    repeated = false;
+                    break;
+                }
+            }
+            if (repeated) return true;
         }
-        if (end == std::string::npos) break;
-        start = end + 1;
+        if (separator_bytes == 0) break;
+        start = end + separator_bytes;
     }
     return false;
 }

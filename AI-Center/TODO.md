@@ -17,3 +17,9 @@
 - [x] Confirm isolated phone/tablet capacity, KVM recovery and 10 production tool-chat UI cases.
 - [ ] Verify numbered-body repetition guard on real Android Q013/Q073; a controlled stop does not make an incorrect answer PASS.
 - [ ] Privately deliver the verified ARM64 application APK and run vivo X300 Pro, then Lenovo Y900.
+# After Run34
+
+- [x] Verify that the original same-body guard controls Q013 resource use on both emulators without changing its FAIL grade.
+- [ ] Verify the bounded 1-3 body cycle guard against Q073 on both emulators; require 10/10 tool UI to remain PASS.
+- [ ] Preserve Q013/Q073 outputs as FAIL unless their content independently satisfies frozen acceptance; a repetition stop is not acceptance.
+- [ ] Do not run the full 100 until the targeted Q073 behavior and regression controls are proven.

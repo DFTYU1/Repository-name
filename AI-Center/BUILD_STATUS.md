@@ -16,3 +16,8 @@ The next batch rechecks KVM ACL for each profile and stages a separately verifie
 Run33 is SUCCESS: both isolated phone and tablet profiles passed all ten production UI tool cases, capacity gates and KVM proof. The verified application metadata is preserved in `Tests/ci-runs/36620165787/summary.json`; binary download remains unavailable because public APK/model upload was skipped.
 
 The next candidate adds a narrowly bounded numbered-body repetition guard and targeted real-Android Q013/Q073 probes. Host regression is PASS; actual model behavior remains NOT_RUN until that workflow completes.
+# Run34 targeted Android result
+
+Run34 (`36634979802`, source `b178f84a6cef79e404d8717c6a21fbf56540311e`) is FAIL/NOT_ACCEPTED. Build, lint, package checks and both profiles' ten production tool-chat UI cases passed. Q013 terminated for repetition at 143 tokens on both profiles but remains content FAIL. Q073 still exhausted 640 tokens because its output is an inline three-body cycle rather than consecutive identical newline bodies.
+
+The next candidate recognizes only complete threefold repeats of 1-3 sufficiently long numbered bodies split by newline or semicolon. Host tests, 34 core, 69 tool fixtures, 11 report tests, project verification and synthetic package verification PASS. Android verification of this candidate is NOT_RUN.

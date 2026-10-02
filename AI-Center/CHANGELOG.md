@@ -42,3 +42,11 @@
 - Stop three consecutive long numbered items only when their normalized bodies are identical despite changing numbers.
 - Preserve the existing exact-token cycle guard and add normal-list/short-list/interruption regression cases.
 - Add Q013/Q073 targeted probes; no frozen question, answer or grading change.
+
+# Run34 cycle repetition follow-up
+
+- Preserve Run34 evidence: both profiles retained 10/10 production tool-chat UI PASS.
+- Confirm Q013 is stopped at 143 tokens but remains FAIL because the answer is incorrect/incomplete.
+- Classify Q073 as an inline three-body cycle separated by full-width semicolons; the previous identical-line guard did not match it.
+- Parse numbered items across newline and ASCII/full-width semicolons, and stop only after three copies of a 1-3 body cycle with long bodies.
+- Add Q073-shaped cycle, normal supplier-change list, two-cycle, short-list and interrupted-sequence regressions. Frozen questions, answers and grading are unchanged.

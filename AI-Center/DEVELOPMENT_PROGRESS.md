@@ -18,3 +18,10 @@
 - Phone and tablet: 10/10 production tool-chat UI PASS with isolated AVDs.
 - ARM64 engine, bundled model, signing and storage metadata verified against the real application APK.
 - Added host-tested numbered-body repetition detection for Q013/Q073-style degeneration; next Android run includes only the targeted probes after the 10-case regression.
+# Run34 evidence and next candidate
+
+- Double-emulator production tool-chat UI remained 10/10 PASS on both profiles.
+- Q013 now stops a repeated numbered body at 143/640 tokens in 40-44 seconds; its incorrect content remains FAIL.
+- Q073 exposed a separate three-body cycle in a semicolon-separated inline list and still exhausted 640 tokens in 112-115 seconds.
+- The candidate parser now supports newline/ASCII-semicolon/full-width-semicolon items and stops only after three complete copies of a 1-3 body cycle. Host regressions include normal lists and two-cycle controls.
+- Next Android gate remains targeted; full 100, physical devices and 53 manual reviews are not complete.

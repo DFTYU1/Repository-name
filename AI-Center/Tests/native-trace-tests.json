@@ -1,6 +1,8 @@
 {
-  "scope": "Host test of production PhaseTrace; Android and actual inference NOT_RUN",
+  "scope": "Host tests of production PhaseTrace and numbered-body guard; Android and actual inference NOT_RUN",
   "compile_exit": 0,
   "test_exit": 0,
-  "output": "PASS cancellation unwinding, request reset, EOG, budget, error phase, stage totals (host only)\n"
+  "guard_compile_exit": 0,
+  "guard_test_exit": 0,
+  "output": "PASS cancellation unwinding, request reset, EOG, budget, error phase, stage totals (host only)\nPASS numbered-body repetition guard\n"
 }

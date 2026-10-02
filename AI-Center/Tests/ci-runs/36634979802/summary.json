@@ -1,0 +1,46 @@
+{
+  "run_id": 36634979802,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/36634979802",
+  "source_sha": "b178f84a6cef79e404d8717c6a21fbf56540311e",
+  "conclusion": "failure",
+  "artifact": {
+    "id": 11064304460,
+    "name": "AI-Center-diagnostics-34",
+    "sha256": "fb29a45331a597e88b5f1a52d72edcb40eef79b31676a74aa1128a1a7a4c884a",
+    "expires_at": "2026-10-13T22:12:12Z"
+  },
+  "application_apk": {
+    "name": "AI-Center-b178f84a6cef-internal.apk",
+    "version_code": "2",
+    "version_name": "0.2.0-offline-dev",
+    "bytes": 1368570457,
+    "sha256": "3d0cd312427655da5b7394db5b6522a3630c45904e7fa4291631cf1268bf56ae",
+    "signed": true,
+    "arm64_libraries": [
+      "lib/arm64-v8a/libaicenter.so",
+      "lib/arm64-v8a/libc++_shared.so"
+    ],
+    "bundled_model_sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+    "recommended_free_bytes": 5923418123,
+    "permissions": ["android.permission.USE_BIOMETRIC"],
+    "download": "NOT_AVAILABLE: public-repository artifact upload intentionally skipped"
+  },
+  "phone": {
+    "tool_chat": {"PASS": 10, "FAIL": 0, "NOT_RUN": 0},
+    "data_available_bytes": 7522377728,
+    "required_bytes": 4642811735,
+    "Q013": {"status": "FAIL", "reason": "repetitive_generation_stopped", "tokens": 143, "elapsed_ms": 40376},
+    "Q073": {"status": "FAIL", "reason": "generation_budget_exhausted", "tokens": 640, "elapsed_ms": 112177}
+  },
+  "tablet": {
+    "tool_chat": {"PASS": 10, "FAIL": 0, "NOT_RUN": 0},
+    "data_available_bytes": 7522119680,
+    "required_bytes": 4642811735,
+    "Q013": {"status": "FAIL", "reason": "repetitive_generation_stopped", "tokens": 143, "elapsed_ms": 44138},
+    "Q073": {"status": "FAIL", "reason": "generation_budget_exhausted", "tokens": 640, "elapsed_ms": 114583}
+  },
+  "raw_model_100": "NOT_RUN",
+  "manual_review": "53 PENDING_MANUAL_REVIEW retained from Run18 baseline",
+  "physical_devices": "NOT_RUN",
+  "formal_acceptance": "NOT_ACCEPTED"
+}

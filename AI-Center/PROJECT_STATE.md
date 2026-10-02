@@ -1,4 +1,14 @@
-# 唯一当前断点 · 2026-09-30 · Run33双端通过、重复检测定向验证
+# 唯一当前断点 · 2026-10-03 · Run34周期3重复漏检修复候选
+
+Run34 https://github.com/DFTYU1/Repository-name/actions/runs/36634979802 在提交`b178f84a6cef79e404d8717c6a21fbf56540311e`上结束FAIL。构建、34核心、69工具夹具、11报告、项目验证、签名APK/测试APK、lint、ARM64/内置模型校验均PASS；手机和平板生产聊天工具UI仍各10 PASS/0 FAIL/0 NOT_RUN，无退化。完整100题NOT_RUN，Run18裸模型基线25 PASS/22 FAIL/53 MANUAL_REVIEW/0 NOT_RUN不变。
+
+Q013双端被新重复保护在143/640 tokens终止，分别40.376/44.138秒，结束原因为`repetitive_generation_stopped`；资源失控已改善，但内容不满足冻结rubric，仍FAIL。Q073双端仍640/640 tokens预算耗尽，分别112.177/114.583秒。真实输出从第11项起按“变更合同签署日期→地点→签署人”周期3重复；旧保护只识别连续相同正文且只按换行切项，因此漏掉同一行中文分号分隔的周期3循环。
+
+本批候选修复把编号正文解析扩展到换行、ASCII分号和中文全角分号；仅在1–3项正文周期完整重复3轮、且每项至少20字节时终止。新增真实Q073形态、正常8项变更通知、仅重复2轮、短值和中断序列回归。主机重复保护、34核心、69工具夹具、11报告、项目验证及内部包合成检查PASS；真实Android结果仍NOT_RUN，不能宣称Q073已修复。
+
+Run34应用APK `0.2.0-offline-dev`（versionCode 2）1368570457字节，SHA256 `3d0cd312427655da5b7394db5b6522a3630c45904e7fa4291631cf1268bf56ae`，签名通过，仅USE_BIOMETRIC、无INTERNET，含ARM64库和已校验内置模型；仍因公开仓库安全规则没有下载链接。Artifact11064304460，ZIP SHA256 `fb29a45331a597e88b5f1a52d72edcb40eef79b31676a74aa1128a1a7a4c884a`，有效至2026-10-13T22:12:12Z。vivo X300 Pro、Lenovo Y900仍NOT_RUN；53人工题仍待审核；正式状态NOT_ACCEPTED，Phase1未完成。
+
+下一步：提交前再次确认远程仍为`b178f84...`且无活跃Run；提交本候选后只跑双端10项及Q013/Q073定向Android验证，不跑完整100题。受控停止仍不得把错误答案改为PASS。
 
 Run33 https://github.com/DFTYU1/Repository-name/actions/runs/36620165787 在提交`c664379e7cb4bfed9761d4311d0b49ecb4731df6`上SUCCESS。手机/平板各自新建8GiB API35 x86_64 AVD，生产聊天工具UI均10 PASS/0 FAIL/0 NOT_RUN；基础离线中英、QE、Excel、工具、取消恢复也PASS。平板KVM权限由启动前不可用变为ACL修复后可用。手机/平板/data可用分别7503470592/7506661376字节，均高于4642565975字节安装门槛。
 

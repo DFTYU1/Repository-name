@@ -40,3 +40,7 @@ Tool-assisted UI evidence remains separate from the raw-model benchmark. An inst
 # Run33 separation
 
 Double-emulator tool-assisted UI: 10/10 PASS per profile. Raw-model 100 cases and Q013/Q073 were NOT_RUN and retain their prior evidence. The new repetition guard is a resource/termination control only; stopped but incomplete or incorrect content remains FAIL under frozen grading.
+
+# Run34 targeted repetition evidence
+
+Both profiles retained 10/10 tool-assisted UI PASS. Raw-model Q013 stopped at 143 tokens with termination=5 and remained FAIL. Q073 repeated a three-item sequence in one full-width-semicolon-separated line and exhausted 640 tokens with termination=2. The next candidate detects only three full repetitions of a 1-3 long-body cycle; frozen scoring is unchanged and full 100 remains NOT_RUN.
