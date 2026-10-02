@@ -175,3 +175,8 @@ Phone and tablet emulator profiles each passed all ten production tool-chat UI c
 # Run34
 
 Phone and tablet again passed all ten production tool-chat UI cases. Q013 ended by repetition protection at 143/640 tokens in 40.376/44.138 seconds; content remains FAIL. Q073 exhausted 640/640 tokens in 112.177/114.583 seconds because it cycles through three long bodies in a single full-width-semicolon-separated numbered list. The candidate cycle guard has host-only PASS evidence; its Android result is NOT_RUN. Full 100, 53 manual reviews, vivo X300 Pro and Lenovo Y900 remain incomplete; formal acceptance is NOT_ACCEPTED.
+## Run35定向Android结果 · 2026-10-03
+
+手机、平板API35 x86_64生产聊天工具UI均10 PASS / 0 FAIL / 0 NOT_RUN。Q013双端143/640 tokens受控停止，Q073双端149/640 tokens受控停止；两题均无超时、无崩溃、未耗尽预算，但内容仍不符合冻结标准，保持FAIL。完整100题NOT_RUN。
+
+Artifact `AI-Center-diagnostics-35` ID `11256570364`，ZIP SHA256 `c76fcf283c461aad123810dff54181c3c305d4dbbe487d181e889adb3da647fc`。应用APK SHA256 `e9b6bfbcf4d4de02930d012de059dd8ae7c48c7ce6eee9da860b0f777054ca73`；测试APK SHA256 `970425ed311939a05dc1ba9c17b19ebb9c3d22b3cd98c8760e8816e979ca743d`。vivo X300 Pro、Lenovo Y900仍NOT_RUN，Phase1未完成。

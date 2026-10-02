@@ -1,5 +1,12 @@
 # 当前开发进度
 
+## Run35 verified
+
+- Both phone and tablet retained 10/10 production tool-chat UI PASS.
+- Q013 stopped at 143/640 tokens on both profiles; Q073 stopped at 149/640 instead of exhausting 640 tokens.
+- Both answers remain FAIL because resource control does not satisfy content acceptance.
+- The next development track is general offline quality-domain retrieval/structured assistance; no unchanged rerun or answer-specific prompt patch.
+
 项目：personal-ai-center-20260909。当前权威断点见PROJECT_STATE.md。
 
 - Run31手机完整10项生产聊天UI全部PASS；平板在安装APK时因模拟器存储不足而NOT_RUN，不是工具用例失败。

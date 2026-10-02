@@ -1,5 +1,9 @@
 # 构建与验证状态
 
+## Run35 final
+
+Run35 (`37071859617`, source `c071495412c8d48d45c443834a05a126be2e8c1f`) is FAIL/NOT_ACCEPTED because Q013 and Q073 remain content failures. Build, lint, signed APKs, ARM64/model verification and both profiles' ten production tool-chat UI cases passed. Q013 stopped at 143/640 tokens and Q073 at 149/640 tokens on both profiles with termination reason `repetitive_generation_stopped`; no timeout, crash or budget exhaustion occurred. Full 100 and physical devices were NOT_RUN.
+
 - 最近完成CI：Run31 `36556762569`，结论FAIL；手机完整10项PASS，平板APK安装因模拟器存储不足而NOT_RUN。
 - PASS：34核心、69工具夹具、11报告、7项目验证、签名应用/测试APK、lint、手机基础离线功能及手机10项工具UI。
 - 平板：`INSTALL_FAILED_INSUFFICIENT_STORAGE`，基础与10项均NOT_RUN。

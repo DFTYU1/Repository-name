@@ -1,0 +1,48 @@
+{
+  "run_id": 37071859617,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/37071859617",
+  "source_sha": "c071495412c8d48d45c443834a05a126be2e8c1f",
+  "conclusion": "failure",
+  "formal_acceptance": "NOT_ACCEPTED",
+  "finished_utc": "2026-10-02T22:57:03.360732+00:00",
+  "artifact": {
+    "id": 11256570364,
+    "name": "AI-Center-diagnostics-35",
+    "bytes": 442596,
+    "sha256": "c76fcf283c461aad123810dff54181c3c305d4dbbe487d181e889adb3da647fc",
+    "expires_at": "2026-10-16T22:57:03Z"
+  },
+  "application_apk": {
+    "version_name": "0.2.0-offline-dev",
+    "version_code": 2,
+    "bytes": 1368570457,
+    "sha256": "e9b6bfbcf4d4de02930d012de059dd8ae7c48c7ce6eee9da860b0f777054ca73",
+    "signed": true,
+    "arm64_verified": true,
+    "internet_permission": false,
+    "public_download": false
+  },
+  "instrumentation_apk": {
+    "bytes": 76484,
+    "sha256": "970425ed311939a05dc1ba9c17b19ebb9c3d22b3cd98c8760e8816e979ca743d",
+    "signed": true
+  },
+  "profiles": {
+    "phone": {
+      "tool_chat_ui": {"pass": 10, "fail": 0, "not_run": 0, "missing_tests": []},
+      "Q013": {"status": "FAIL", "reason": "repetitive_generation_stopped", "generated_tokens": 143, "budget_tokens": 640, "native_total_ms": 59292.721675},
+      "Q073": {"status": "FAIL", "reason": "repetitive_generation_stopped", "generated_tokens": 149, "budget_tokens": 640, "native_total_ms": 58949.330814},
+      "data_available_bytes": 7522897920
+    },
+    "tablet": {
+      "tool_chat_ui": {"pass": 10, "fail": 0, "not_run": 0, "missing_tests": []},
+      "Q013": {"status": "FAIL", "reason": "repetitive_generation_stopped", "generated_tokens": 143, "budget_tokens": 640, "native_total_ms": 62410.471662},
+      "Q073": {"status": "FAIL", "reason": "repetitive_generation_stopped", "generated_tokens": 149, "budget_tokens": 640, "native_total_ms": 62077.187283},
+      "data_available_bytes": 7532609536
+    }
+  },
+  "full_100": "NOT_RUN",
+  "raw_model_baseline": {"run": 18, "pass": 25, "fail": 22, "manual_review": 53, "not_run": 0},
+  "physical_devices": {"vivo_X300_Pro": "NOT_RUN", "Lenovo_Y900": "NOT_RUN"},
+  "interpretation": "The bounded 1-3-body repetition guard is verified on both emulators. It prevents Q073 budget exhaustion but does not make either incorrect answer acceptable."
+}

@@ -1,5 +1,12 @@
 # 当前待办
 
+## After Run35
+
+- [x] Verify bounded 1-3-body cycle termination for Q073 on both real emulators without regressing the 10 production UI cases.
+- [x] Keep Q013 and Q073 FAIL because their stopped outputs do not satisfy frozen content acceptance.
+- [ ] Build a general offline quality-domain retrieval/structured-answer path with provenance and tests using varied wording; do not ingest frozen expected answers as production input.
+- [ ] Keep raw-model and application-assisted scores separate.
+
 1. 下一Run复测双端完整10项；核对平板安装前后存储日志以及10项逐项结果。
 2. 双端完整10项通过后，再用新数值/表述扩展必要的生产聊天验收；失败只修首个共同根因。
 3. 工具应用成绩与冻结裸模型100题分开；不得用工具结果改写Run18的25/22/53/0。

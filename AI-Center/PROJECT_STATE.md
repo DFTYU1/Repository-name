@@ -1,4 +1,16 @@
-# 唯一当前断点 · 2026-10-03 · Run34周期3重复漏检修复候选
+# 唯一当前断点 · 2026-10-03 · Run35周期重复资源控制已验证
+
+Run35 https://github.com/DFTYU1/Repository-name/actions/runs/37071859617 在提交`c071495412c8d48d45c443834a05a126be2e8c1f`上结束FAIL/NOT_ACCEPTED。构建、34核心、69工具夹具、11报告、项目验证、签名APK/测试APK、lint、ARM64与内置模型校验PASS；手机和平板生产聊天工具UI继续各10 PASS/0 FAIL/0 NOT_RUN。
+
+Q013双端均在143/640 tokens因`repetitive_generation_stopped`结束，分别59.293/62.410秒；Q073双端均在149/640 tokens因同一原因结束，分别58.949/62.077秒。Run34的Q073曾耗尽640 tokens并用112–115秒，因此周期3、中文分号列表的资源失控已被修复。两题输出内容仍不符合冻结标准，继续FAIL；受控终止不是答案验收。完整100题本轮NOT_RUN，Run18裸模型基线25 PASS/22 FAIL/53 MANUAL_REVIEW/0 NOT_RUN不变。
+
+Run35应用APK 1368570457字节，SHA256 `e9b6bfbcf4d4de02930d012de059dd8ae7c48c7ce6eee9da860b0f777054ca73`；测试APK 76484字节，SHA256 `970425ed311939a05dc1ba9c17b19ebb9c3d22b3cd98c8760e8816e979ca743d`，均签名。Artifact `AI-Center-diagnostics-35` ID11256570364，ZIP SHA256 `c76fcf283c461aad123810dff54181c3c305d4dbbe487d181e889adb3da647fc`，有效至2026-10-16T22:57:03Z。
+
+下一步不再原样重跑或堆叠提示词。把Q013/Q073记录为当前2B裸模型内容能力失败，继续推进可泛化的离线知识检索/结构化质量知识能力；任何工具辅助结果与裸模型成绩分开。vivo X300 Pro、Lenovo Y900仍NOT_RUN，53人工题待审，Phase1未完成。
+
+---
+
+## Run34与修复背景
 
 Run34 https://github.com/DFTYU1/Repository-name/actions/runs/36634979802 在提交`b178f84a6cef79e404d8717c6a21fbf56540311e`上结束FAIL。构建、34核心、69工具夹具、11报告、项目验证、签名APK/测试APK、lint、ARM64/内置模型校验均PASS；手机和平板生产聊天工具UI仍各10 PASS/0 FAIL/0 NOT_RUN，无退化。完整100题NOT_RUN，Run18裸模型基线25 PASS/22 FAIL/53 MANUAL_REVIEW/0 NOT_RUN不变。
 

@@ -44,3 +44,6 @@ Double-emulator tool-assisted UI: 10/10 PASS per profile. Raw-model 100 cases an
 # Run34 targeted repetition evidence
 
 Both profiles retained 10/10 tool-assisted UI PASS. Raw-model Q013 stopped at 143 tokens with termination=5 and remained FAIL. Q073 repeated a three-item sequence in one full-width-semicolon-separated line and exhausted 640 tokens with termination=2. The next candidate detects only three full repetitions of a 1-3 long-body cycle; frozen scoring is unchanged and full 100 remains NOT_RUN.
+# Run35 raw-model repetition evidence
+
+Q013 and Q073 are raw-model probes, not tool-assisted scores. Both terminated for repetition on phone and tablet without timeout or budget exhaustion, but both remain FAIL on content. This evidence must not be counted as a tool-chat PASS or used to overwrite the Run18 raw-model baseline.

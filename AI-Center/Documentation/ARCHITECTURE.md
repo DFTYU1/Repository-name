@@ -175,3 +175,6 @@ The immutable professional suite completed on both API-35 emulator profiles. Com
 # Repetition termination boundary
 
 The native decoder retains exact token-cycle detection and adds a separate narrow numbered-body guard. Run34 proved that three identical newline bodies stop Q013, while Q073 repeats a three-body inline cycle separated by full-width semicolons. The guard therefore splits only on newline or ASCII/full-width semicolon, strips a leading decimal marker, normalizes whitespace, and requires three complete copies of a 1-3 body cycle with every body at least 20 bytes. It reports the existing repetition stop reason; it does not grade content or turn stopped output into acceptance.
+# Run35 repetition-control boundary
+
+The native guard may stop repeated generation to bound time and tokens, but it does not validate answer correctness. Run35 proves period-3 numbered bodies separated by full-width semicolons are stopped on both emulator profiles. Content acceptance remains exclusively in the frozen evaluator. Future domain assistance must use a general, provenance-bearing offline retrieval/structured path and must report its application-assisted result separately from the raw-model benchmark.
