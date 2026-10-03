@@ -1,0 +1,142 @@
+{
+  "run_id": 37097980917,
+  "run_number": 38,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/37097980917",
+  "source_sha": "dc9b1857fe452bf31a9f92cc1c41a6ca9c42c7bc",
+  "status": "SUCCESS",
+  "profiles": {
+    "phone": {
+      "status": "PASS",
+      "tool_tests": [
+        {
+          "test": "tool_chat_ui_percentage",
+          "status": "PASS",
+          "detail": "elapsed_ms=166"
+        },
+        {
+          "test": "tool_chat_ui_missing",
+          "status": "PASS",
+          "detail": "elapsed_ms=240"
+        },
+        {
+          "test": "tool_chat_ui_mean",
+          "status": "PASS",
+          "detail": "elapsed_ms=189"
+        },
+        {
+          "test": "tool_chat_ui_decimal",
+          "status": "PASS",
+          "detail": "elapsed_ms=180"
+        },
+        {
+          "test": "tool_chat_ui_followup",
+          "status": "PASS",
+          "detail": "elapsed_ms=167"
+        },
+        {
+          "test": "tool_chat_ui_zero",
+          "status": "PASS",
+          "detail": "elapsed_ms=246"
+        },
+        {
+          "test": "tool_chat_ui_ambiguous",
+          "status": "PASS",
+          "detail": "elapsed_ms=203"
+        },
+        {
+          "test": "tool_chat_ui_units",
+          "status": "PASS",
+          "detail": "elapsed_ms=246"
+        },
+        {
+          "test": "tool_chat_ui_formula",
+          "status": "PASS",
+          "detail": "elapsed_ms=254"
+        },
+        {
+          "test": "tool_chat_ui_invalid_range",
+          "status": "PASS",
+          "detail": "elapsed_ms=300"
+        }
+      ],
+      "missing_tests": [],
+      "professional_status": "NOT_RUN",
+      "timeout_probe_status": "NOT_RUN"
+    },
+    "tablet": {
+      "status": "PASS",
+      "tool_tests": [
+        {
+          "test": "tool_chat_ui_percentage",
+          "status": "PASS",
+          "detail": "elapsed_ms=130"
+        },
+        {
+          "test": "tool_chat_ui_missing",
+          "status": "PASS",
+          "detail": "elapsed_ms=137"
+        },
+        {
+          "test": "tool_chat_ui_mean",
+          "status": "PASS",
+          "detail": "elapsed_ms=439"
+        },
+        {
+          "test": "tool_chat_ui_decimal",
+          "status": "PASS",
+          "detail": "elapsed_ms=350"
+        },
+        {
+          "test": "tool_chat_ui_followup",
+          "status": "PASS",
+          "detail": "elapsed_ms=234"
+        },
+        {
+          "test": "tool_chat_ui_zero",
+          "status": "PASS",
+          "detail": "elapsed_ms=200"
+        },
+        {
+          "test": "tool_chat_ui_ambiguous",
+          "status": "PASS",
+          "detail": "elapsed_ms=231"
+        },
+        {
+          "test": "tool_chat_ui_units",
+          "status": "PASS",
+          "detail": "elapsed_ms=287"
+        },
+        {
+          "test": "tool_chat_ui_formula",
+          "status": "PASS",
+          "detail": "elapsed_ms=289"
+        },
+        {
+          "test": "tool_chat_ui_invalid_range",
+          "status": "PASS",
+          "detail": "elapsed_ms=258"
+        }
+      ],
+      "missing_tests": [],
+      "professional_status": "NOT_RUN",
+      "timeout_probe_status": "NOT_RUN"
+    }
+  },
+  "apk": {
+    "path": "app/build/outputs/apk/debug/app-debug.apk",
+    "bytes": 1368570457,
+    "sha256": "442dcd9d44ece934036339ed0a5260297e1b1f016c12e8529fabb100ce056062",
+    "signed": true
+  },
+  "instrumentation_apk": {
+    "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+    "bytes": 76840,
+    "sha256": "5cea34fd4a86da57ada5242e809ed3189a428032d77eb425fb3522a33a170297",
+    "signed": true
+  },
+  "artifact": {
+    "id": 11265716899,
+    "sha256": "565c0e801007dffef1084b189d303dea8b9f342107132d5d7a0d74623eb37025"
+  },
+  "formal_acceptance": "NOT_ACCEPTED"
+}

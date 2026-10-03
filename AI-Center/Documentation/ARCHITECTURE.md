@@ -1,3 +1,7 @@
+## Run38已验证 · 2026-10-03
+
+双端10项生产UI各10 PASS，无缺失或退化；快速校验全部小于0.30秒。专业探针与完整100题确实NOT_RUN。Run37误触发的Q013/Q073保留实际FAIL，不以范围声明覆盖实际结果。当前源码dc9b1857，正式Phase1仍未验收。
+
 ## 定向验收与专业验收状态隔离 · 2026-10-03
 
 生产工具聊天定向门禁只汇总其声明的UI范围；原始模型专业探针仅在`AI_CENTER_PROFESSIONAL_BENCHMARK=true`时可执行。历史baseline路径不能隐式启用探针或覆盖定向profile状态。`professional_status=NOT_RUN`与`formal_acceptance=NOT_ACCEPTED`保留，分别表示本轮未执行专业基准以及Phase1尚未验收，并不使已通过的定向工具门禁变成FAIL。
