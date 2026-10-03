@@ -1,3 +1,9 @@
+# 当前唯一交付断点 · 2026-10-03 · 已授权Drive，大小与登录阻塞
+用户20:22明确授权将同一明文APK上传到其Google Drive并保持私有，无需重复询问该上传授权。原会话临时APK链接下载失败且本地文件已不存在；现已从交付Run37121238589的48份未过期密文产物恢复同一APK，认证解密PASS，1368603225字节，SHA256742f212a14d233aa9ab84ef6a817fbb19aa69a7b4da2a0a7d87adad4b5ed2b82。
+Google Drive上传实际报错：1368603225 bytes exceeds the limit of 536870912 bytes。此次是接口512MiB硬限制，不是授权拒绝；未创建Drive文件或下载链接。浏览器备用渠道已检查，目前Google登录页，无已登录会话。不能把连接器授权当作网页登录，不能索要聊天中的密码/OTP。尚未触发用户安全登录请求；下一交互轮通过browserAuth安全登录后网页上传完整APK，路径映射为/home/oai/share/965a90e10fe8/deliverables/AI-Center-594ebd5bd2fd-internal.apk，核对私有权限、字节数和下载链接再交付。不要拆包让用户拼接，不重复恢复现有APK，不公开明文APK/模型/私钥。临时链接不是持久交付，当前APK DELIVERY_BLOCKED。
+远程应用源码594ebd5不变，Run39与独立交付Run均SUCCESS，无活跃构建；本轮没有重建或改变评分。暂停断点续作以避免重复恢复/重试同一接口，待安全网页登录完成后恢复。53人工题待审，Q013/Q073内容KnownLimitation FAIL，vivo/Y900 NOT_RUN，Phase1 NOT_ACCEPTED。
+
+---
 # 当前唯一交付断点 · 2026-10-03 · 已取得内部APK
 应用源码594ebd5bd2fd95af02b8b55a622df53d1a991de1；交付修复43afd4598a26436e8e1ac2c0b7ce8a252a29f748。交付Run https://github.com/DFTYU1/Repository-name/actions/runs/37121238589 SUCCESS，2026-10-03T12:04:01Z结束。签名构建/lint/ARM64/内置模型检查PASS；48份认证传输产物已全部下载，认证解密与整包SHA、本地包内ARM64和模型SHA校验PASS。未重跑模拟器或100题，保留Run39双端10工具+3资料UI PASS。
 普通应用APK0.2.0-offline-dev(code2)，1368603225字节，SHA256 742f212a14d233aa9ab84ef6a817fbb19aa69a7b4da2a0a7d87adad4b5ed2b82。模型Qwen3.5-2B-Q4_K_M 1280835840字节，SHA256 aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223。签名证书SHA256 dc4b06bb2eb8100bfbb10dafc675bd426466abfa8a485721881d1060b1e913ce；实际建议空余5923516427字节，向用户建议7GB。只安装应用APK，不安装测试APK。
