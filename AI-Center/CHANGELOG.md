@@ -1,3 +1,11 @@
+# 唯一当前断点 · Run39已完成 · 2026-10-03
+应用源码594ebd5bd2fd95af02b8b55a622df53d1a991de1；Run39 https://github.com/DFTYU1/Repository-name/actions/runs/37101015237 SUCCESS，于2026-10-03T06:06:03Z结束。双端10工具UI+3资料UI全部PASS，missing_tests=[]；停止后下一次请求、基础Agent、聊天持久化、管理员、沙盒、布局和容量通过。Q013/Q073、完整裸模型100题本次NOT_RUN，历史FAIL保留；53人工题待审核。资料功能目前是可追溯词法摘录，不冒充完整RAG。
+P0已调整为交付可安装、签名ARM64、内置真实模型的内部测试APK。稳定交付与功能开发分离；当前只准备同一源码独立打包和加密私下传输，不重新跑模拟器。APK未实际下载/解密/保存前不得称已交付。用户只需下载、安装、按清单反馈。后续优先QE/QC/六西格玛、Excel、个人知识库，保留高自主本地Agent中枢原目标。模型边界以Known Limitation继续记录，不放宽题库评分。
+Run39应用0.2.0-offline-dev(code2)，1368570457字节，SHA256 687005e15fbafe41257875cd5ff4bff38975e515560b947907ed1e4de26fd7a3；ARM64两库与Qwen3.5-2B-Q4_K_M模型1280835840字节已校验。建议空余5923418123字节，按下载+安装APK+安装临时副本+首次模型解包+512MiB余量计算。交付重建签名不同，最终以交付manifest哈希为准。
+vivo X300 Pro/Lenovo Y900 NOT_RUN；Phase1 NOT_ACCEPTED。不得公开明文APK、模型、凭据或用户数据。传输只有经认证的密文，私钥留本地且不进入提交/诊断。
+
+---
+# 历史状态（保留）
 
 ## 当前断点：Run38后资料查询接线（2026-10-03）
 基线源码386a7d8b214a74312dafb5805fe2cb32b26fcc89；最新完成Android Run38 https://github.com/DFTYU1/Repository-name/actions/runs/37097980917 SUCCESS，双端10项生产工具UI全部PASS。
