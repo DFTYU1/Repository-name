@@ -1,3 +1,8 @@
+# 当前唯一交付断点 · 2026-10-03 · 路径修复复测
+交付修复提交43afd4598a26436e8e1ac2c0b7ce8a252a29f748；当前Run https://github.com/DFTYU1/Repository-name/actions/runs/37121238589 于2026-10-03T11:56:31Z开始，上限90分钟。应用仍固定594ebd5，Run39 SUCCESS证据不变。
+上一交付Run37120856179构建/签名/lint/ARM64/模型检查PASS，但加密输入APK路径FileNotFoundError，APK未上传。已将源码SHA通过shell env显式传入打包脚本，避免默认GITHUB_SHA指向交付工作流提交；本地文件名生成核对PASS，实际传输待新Run。用户已授权加密Actions及私下普通APK交付，私钥不公开。当前仍NOT_DELIVERED；真机NOT_RUN，53人工题待审，Phase1 NOT_ACCEPTED。
+
+---
 # 当前唯一交付断点 · 2026-10-03
 用户已明确授权此前说明的加密Actions传输。交付提交c1dcb7b9d5fad8da9a72e2242ae9cb7f4083bc1e；应用源码固定594ebd5bd2fd95af02b8b55a622df53d1a991de1，Run39 SUCCESS证据保留。
 独立交付Run https://github.com/DFTYU1/Repository-name/actions/runs/37120856179 已于2026-10-03T11:49:07Z开始，硬上限90分钟。正在准备/构建签名ARM64内置模型应用，不重跑模拟器或100题。随后需下载密文、认证解密、核对APK/模型SHA并私下保存普通APK；目前NOT_DELIVERED，不称Android或真机验收完成。
