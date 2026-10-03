@@ -46,6 +46,8 @@ public final class CenterApplication extends Application {
                 register("files",input->db.documentSummary());
                 register("tasks",input->db.taskSummary());
                 register("chat",input->{
+                    String knowledgeQuery=KnowledgeChat.query(input);
+                    if(knowledgeQuery!=null)return KnowledgeChat.answer(knowledgeQuery,db.chunks(activeToken.get()),activeToken.get());
                     if(models==null)throw new IllegalStateException(modelError);
                     String prompt=ConversationPrompt.build(db.recentMessages(),input,12000);
                     String assisted=new ToolChat((request,token)->localModel.generate(request,"",256,token))

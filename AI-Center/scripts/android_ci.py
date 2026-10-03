@@ -100,6 +100,8 @@ def expected_instrumentation_tests(profile, tool_chat_smoke):
     else:
         expected.update({'tool_chat_ui_mean','tool_chat_ui_decimal','tool_chat_ui_followup','tool_chat_ui_zero','tool_chat_ui_ambiguous',
                          'tool_chat_ui_units','tool_chat_ui_formula','tool_chat_ui_invalid_range'})
+    if os.environ.get("AI_CENTER_KNOWLEDGE_CHAT", "false") == "true":
+        expected.update({"knowledge_chat_fixture","knowledge_chat_ui_chinese","knowledge_chat_ui_english","knowledge_chat_ui_no_match"})
     return expected
 
 def professional_benchmark_enabled(environment=None):
@@ -305,7 +307,7 @@ def test():
                 if not re.search(r'^Status: ok$', started, re.M):
                     raise RuntimeError('Activity launch did not report success')
                 output = adb('shell', 'am', 'instrument', '-w', '-r', '-e', 'profile', profile,
-                    '-e','tool_chat','true','-e','tool_chat_smoke',os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE','false'), '-e', 'fixture_password', fixture_password, '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
+                    '-e','knowledge_chat',os.environ.get('AI_CENTER_KNOWLEDGE_CHAT','false'),'-e','tool_chat','true','-e','tool_chat_smoke',os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE','false'), '-e', 'fixture_password', fixture_password, '-e', 'offline_model', 'true', '-e', 'long_lease', 'true' if profile == 'phone' else 'false',
                     TEST_PACKAGE + '/local.aicenter.app.FoundationInstrumentation', timeout=1800)
                 (OUT / (profile + '-instrumentation.log')).write_text(output)
                 profile_result = parse_instrumentation(output, profile)
