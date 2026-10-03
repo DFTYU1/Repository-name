@@ -1,0 +1,34 @@
+{
+  "application_apk": "AI-Center-594ebd5bd2fd-internal.apk",
+  "source_sha": "594ebd5bd2fd95af02b8b55a622df53d1a991de1",
+  "package": "local.aicenter.app.dev",
+  "version_code": "2",
+  "version_name": "0.2.0-offline-dev",
+  "bytes": 1368603225,
+  "sha256": "742f212a14d233aa9ab84ef6a817fbb19aa69a7b4da2a0a7d87adad4b5ed2b82",
+  "arm64_libraries": [
+    "lib/arm64-v8a/libaicenter.so",
+    "lib/arm64-v8a/libc++_shared.so"
+  ],
+  "model": {
+    "id": "Qwen3.5-2B-Q4_K_M",
+    "repository": "unsloth/Qwen3.5-2B-GGUF",
+    "revision": "f6d5376be1edb4d416d56da11e5397a961aca8ae",
+    "filename": "Qwen3.5-2B-Q4_K_M.gguf",
+    "sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+    "bytes": 1280835840,
+    "license": "Apache-2.0",
+    "scope": "Stronger text-only integration candidate; final device choice still requires vivo/Y900 benchmarks"
+  },
+  "signature": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: dc4b06bb2eb8100bfbb10dafc675bd426466abfa8a485721881d1060b1e913ce\nSigner #1 certificate SHA-1 digest: 14e8f5c69e0869077ced5df4f3ab86532f03a60f\nSigner #1 certificate MD5 digest: 4b6ba763cf941ea2109a7a2f10e08d13\n",
+  "recommended_free_bytes": 5923516427,
+  "storage_basis": "download + installed APK + installation staging + extracted model + 512 MiB reserve; vendor overhead may vary",
+  "known_issues": [
+    "Internal debug build; not Phase 1 acceptance",
+    "Q013/Q073 response quality remains unacceptable; repetition controls are under targeted validation",
+    "53 manual reviews pending",
+    "Physical vivo X300 Pro and Lenovo Y900 NOT_RUN",
+    "Runner debug signing certificate may change; never uninstall existing data without backup"
+  ],
+  "instrumentation_apk_included": false
+}

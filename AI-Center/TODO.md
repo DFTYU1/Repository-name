@@ -1,3 +1,10 @@
+# 当前唯一交付断点 · 2026-10-03 · 已取得内部APK
+应用源码594ebd5bd2fd95af02b8b55a622df53d1a991de1；交付修复43afd4598a26436e8e1ac2c0b7ce8a252a29f748。交付Run https://github.com/DFTYU1/Repository-name/actions/runs/37121238589 SUCCESS，2026-10-03T12:04:01Z结束。签名构建/lint/ARM64/内置模型检查PASS；48份认证传输产物已全部下载，认证解密与整包SHA、本地包内ARM64和模型SHA校验PASS。未重跑模拟器或100题，保留Run39双端10工具+3资料UI PASS。
+普通应用APK0.2.0-offline-dev(code2)，1368603225字节，SHA256 742f212a14d233aa9ab84ef6a817fbb19aa69a7b4da2a0a7d87adad4b5ed2b82。模型Qwen3.5-2B-Q4_K_M 1280835840字节，SHA256 aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223。签名证书SHA256 dc4b06bb2eb8100bfbb10dafc675bd426466abfa8a485721881d1060b1e913ce；实际建议空余5923516427字节，向用户建议7GB。只安装应用APK，不安装测试APK。
+当前普通APK在会话deliverables/AI-Center-594ebd5bd2fd-internal.apk；持久保存明确失败：Library helper prepare_uploads failed，未完成保存；Google Drive明文上传被自动审批拒绝，理由为该目的地未明确授权，未绕过。只提供当前会话APK下载，不能称持久APK保存成功。公开仓库仅源码、清单、合成诊断和状态，不含明文APK/模型/私钥/用户数据。
+下一项为vivo X300 Pro先、Y900后真机安装/断网/工具/取消恢复/历史/布局清单；当前两台NOT_RUN，53人工题待审，Q013/Q073内容Known Limitation仍FAIL，Phase1 NOT_ACCEPTED。后续继续QE/QC六西格玛、Excel和知识库产品主线，不为裸模型100分阻塞可用测试包。
+
+---
 # 当前唯一交付断点 · 2026-10-03 · 路径修复复测
 交付修复提交43afd4598a26436e8e1ac2c0b7ce8a252a29f748；当前Run https://github.com/DFTYU1/Repository-name/actions/runs/37121238589 于2026-10-03T11:56:31Z开始，上限90分钟。应用仍固定594ebd5，Run39 SUCCESS证据不变。
 上一交付Run37120856179构建/签名/lint/ARM64/模型检查PASS，但加密输入APK路径FileNotFoundError，APK未上传。已将源码SHA通过shell env显式传入打包脚本，避免默认GITHUB_SHA指向交付工作流提交；本地文件名生成核对PASS，实际传输待新Run。用户已授权加密Actions及私下普通APK交付，私钥不公开。当前仍NOT_DELIVERED；真机NOT_RUN，53人工题待审，Phase1 NOT_ACCEPTED。
