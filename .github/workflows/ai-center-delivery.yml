@@ -45,7 +45,7 @@ jobs:
           python3 scripts/test_core.py
           python3 scripts/verify_project.py
           python3 scripts/build_android.py
-          python3 scripts/package_internal_apk.py
+          env GITHUB_SHA=594ebd5bd2fd95af02b8b55a622df53d1a991de1 python3 scripts/package_internal_apk.py
       - name: Encrypt verified application
         run: |
           python3 transport/delivery/encrypted_delivery.py encrypt --input source/AI-Center/build/internal-delivery/AI-Center-594ebd5bd2fd-internal.apk --metadata source/AI-Center/build/internal-delivery/manifest.json --key transport/delivery/public.pem --output encrypted
