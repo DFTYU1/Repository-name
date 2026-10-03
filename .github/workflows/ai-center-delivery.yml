@@ -1,0 +1,536 @@
+name: AI-Center encrypted internal APK delivery
+on:
+  push:
+    branches: [ai-center-build]
+    paths: ['delivery/**', '.github/workflows/ai-center-delivery.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ai-center-private-delivery
+  cancel-in-progress: false
+jobs:
+  delivery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          path: transport
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 594ebd5bd2fd95af02b8b55a622df53d1a991de1
+          path: source
+          persist-credentials: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@017a9effdb900e5b5b2fddfb590a105619dca3c3
+        with:
+          dependency-graph: disabled
+      - name: Transport authentication tests
+        run: python3 transport/delivery/test_encrypted_delivery.py
+      - name: Prepare pinned Android and native model
+        working-directory: source/AI-Center
+        run: |
+          python3 scripts/android_ci.py prepare
+          python3 scripts/prepare_native.py
+      - name: Build and verify signed ARM64 application
+        working-directory: source/AI-Center
+        env:
+          GITHUB_SHA: 594ebd5bd2fd95af02b8b55a622df53d1a991de1
+        run: |
+          python3 scripts/test_core.py
+          python3 scripts/verify_project.py
+          python3 scripts/build_android.py
+          python3 scripts/package_internal_apk.py
+      - name: Encrypt verified application
+        run: |
+          python3 transport/delivery/encrypted_delivery.py encrypt --input source/AI-Center/build/internal-delivery/AI-Center-594ebd5bd2fd-internal.apk --metadata source/AI-Center/build/internal-delivery/manifest.json --key transport/delivery/public.pem --output encrypted
+          test ! -f encrypted/part-53.bin
+      - name: Save authenticated manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-manifest
+          path: encrypted/manifest.json
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 00
+        if: ${{ hashFiles('encrypted/part-00.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-00
+          path: encrypted/part-00.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 01
+        if: ${{ hashFiles('encrypted/part-01.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-01
+          path: encrypted/part-01.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 02
+        if: ${{ hashFiles('encrypted/part-02.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-02
+          path: encrypted/part-02.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 03
+        if: ${{ hashFiles('encrypted/part-03.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-03
+          path: encrypted/part-03.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 04
+        if: ${{ hashFiles('encrypted/part-04.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-04
+          path: encrypted/part-04.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 05
+        if: ${{ hashFiles('encrypted/part-05.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-05
+          path: encrypted/part-05.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 06
+        if: ${{ hashFiles('encrypted/part-06.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-06
+          path: encrypted/part-06.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 07
+        if: ${{ hashFiles('encrypted/part-07.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-07
+          path: encrypted/part-07.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 08
+        if: ${{ hashFiles('encrypted/part-08.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-08
+          path: encrypted/part-08.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 09
+        if: ${{ hashFiles('encrypted/part-09.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-09
+          path: encrypted/part-09.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 10
+        if: ${{ hashFiles('encrypted/part-10.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-10
+          path: encrypted/part-10.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 11
+        if: ${{ hashFiles('encrypted/part-11.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-11
+          path: encrypted/part-11.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 12
+        if: ${{ hashFiles('encrypted/part-12.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-12
+          path: encrypted/part-12.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 13
+        if: ${{ hashFiles('encrypted/part-13.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-13
+          path: encrypted/part-13.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 14
+        if: ${{ hashFiles('encrypted/part-14.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-14
+          path: encrypted/part-14.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 15
+        if: ${{ hashFiles('encrypted/part-15.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-15
+          path: encrypted/part-15.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 16
+        if: ${{ hashFiles('encrypted/part-16.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-16
+          path: encrypted/part-16.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 17
+        if: ${{ hashFiles('encrypted/part-17.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-17
+          path: encrypted/part-17.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 18
+        if: ${{ hashFiles('encrypted/part-18.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-18
+          path: encrypted/part-18.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 19
+        if: ${{ hashFiles('encrypted/part-19.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-19
+          path: encrypted/part-19.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 20
+        if: ${{ hashFiles('encrypted/part-20.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-20
+          path: encrypted/part-20.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 21
+        if: ${{ hashFiles('encrypted/part-21.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-21
+          path: encrypted/part-21.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 22
+        if: ${{ hashFiles('encrypted/part-22.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-22
+          path: encrypted/part-22.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 23
+        if: ${{ hashFiles('encrypted/part-23.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-23
+          path: encrypted/part-23.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 24
+        if: ${{ hashFiles('encrypted/part-24.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-24
+          path: encrypted/part-24.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 25
+        if: ${{ hashFiles('encrypted/part-25.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-25
+          path: encrypted/part-25.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 26
+        if: ${{ hashFiles('encrypted/part-26.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-26
+          path: encrypted/part-26.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 27
+        if: ${{ hashFiles('encrypted/part-27.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-27
+          path: encrypted/part-27.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 28
+        if: ${{ hashFiles('encrypted/part-28.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-28
+          path: encrypted/part-28.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 29
+        if: ${{ hashFiles('encrypted/part-29.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-29
+          path: encrypted/part-29.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 30
+        if: ${{ hashFiles('encrypted/part-30.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-30
+          path: encrypted/part-30.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 31
+        if: ${{ hashFiles('encrypted/part-31.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-31
+          path: encrypted/part-31.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 32
+        if: ${{ hashFiles('encrypted/part-32.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-32
+          path: encrypted/part-32.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 33
+        if: ${{ hashFiles('encrypted/part-33.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-33
+          path: encrypted/part-33.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 34
+        if: ${{ hashFiles('encrypted/part-34.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-34
+          path: encrypted/part-34.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 35
+        if: ${{ hashFiles('encrypted/part-35.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-35
+          path: encrypted/part-35.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 36
+        if: ${{ hashFiles('encrypted/part-36.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-36
+          path: encrypted/part-36.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 37
+        if: ${{ hashFiles('encrypted/part-37.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-37
+          path: encrypted/part-37.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 38
+        if: ${{ hashFiles('encrypted/part-38.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-38
+          path: encrypted/part-38.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 39
+        if: ${{ hashFiles('encrypted/part-39.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-39
+          path: encrypted/part-39.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 40
+        if: ${{ hashFiles('encrypted/part-40.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-40
+          path: encrypted/part-40.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 41
+        if: ${{ hashFiles('encrypted/part-41.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-41
+          path: encrypted/part-41.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 42
+        if: ${{ hashFiles('encrypted/part-42.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-42
+          path: encrypted/part-42.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 43
+        if: ${{ hashFiles('encrypted/part-43.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-43
+          path: encrypted/part-43.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 44
+        if: ${{ hashFiles('encrypted/part-44.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-44
+          path: encrypted/part-44.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 45
+        if: ${{ hashFiles('encrypted/part-45.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-45
+          path: encrypted/part-45.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 46
+        if: ${{ hashFiles('encrypted/part-46.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-46
+          path: encrypted/part-46.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 47
+        if: ${{ hashFiles('encrypted/part-47.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-47
+          path: encrypted/part-47.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 48
+        if: ${{ hashFiles('encrypted/part-48.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-48
+          path: encrypted/part-48.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 49
+        if: ${{ hashFiles('encrypted/part-49.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-49
+          path: encrypted/part-49.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 50
+        if: ${{ hashFiles('encrypted/part-50.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-50
+          path: encrypted/part-50.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 51
+        if: ${{ hashFiles('encrypted/part-51.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-51
+          path: encrypted/part-51.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+      - name: Save encrypted part 52
+        if: ${{ hashFiles('encrypted/part-52.bin') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: AI-Center-encrypted-part-52
+          path: encrypted/part-52.bin
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
