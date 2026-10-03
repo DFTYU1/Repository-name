@@ -1,3 +1,9 @@
+# 当前唯一交付断点 · 2026-10-03 · Google已登录，恢复交付构建
+用户已完成Google Drive网页登录，页面确认已进入私人Drive。工作区维护已清理临时APK与旧解密私钥；旧加密产物仍未过期但当前无法解密，不能沿用旧SHA声称新包校验成功。
+已生成替代传输密钥并成功持久保存私钥至用户私人文件存储；只提交公钥，私钥不进入仓库或日志。此提交触发现有交付工作流，应用仍固定594ebd5bd2fd95af02b8b55a622df53d1a991de1，只重建打包验证，不重跑双模拟器或100题。
+下一步：取得新交付Run及产物，解密校验，网页上传完整APK至已授权私人Google Drive，验证大小/访问权限后给出链接。新签名和SHA以新manifest为准，不卸载用户数据。Run39证据保留；53人工题待审，Q013/Q073 FAIL Known Limitation，真机NOT_RUN，Phase1 NOT_ACCEPTED。当前APK NOT_DELIVERED。
+
+---
 # 当前唯一交付断点 · 2026-10-03 · 已授权Drive，大小与登录阻塞
 用户20:22明确授权将同一明文APK上传到其Google Drive并保持私有，无需重复询问该上传授权。原会话临时APK链接下载失败且本地文件已不存在；现已从交付Run37121238589的48份未过期密文产物恢复同一APK，认证解密PASS，1368603225字节，SHA256742f212a14d233aa9ab84ef6a817fbb19aa69a7b4da2a0a7d87adad4b5ed2b82。
 Google Drive上传实际报错：1368603225 bytes exceeds the limit of 536870912 bytes。此次是接口512MiB硬限制，不是授权拒绝；未创建Drive文件或下载链接。浏览器备用渠道已检查，目前Google登录页，无已登录会话。不能把连接器授权当作网页登录，不能索要聊天中的密码/OTP。尚未触发用户安全登录请求；下一交互轮通过browserAuth安全登录后网页上传完整APK，路径映射为/home/oai/share/965a90e10fe8/deliverables/AI-Center-594ebd5bd2fd-internal.apk，核对私有权限、字节数和下载链接再交付。不要拆包让用户拼接，不重复恢复现有APK，不公开明文APK/模型/私钥。临时链接不是持久交付，当前APK DELIVERY_BLOCKED。
