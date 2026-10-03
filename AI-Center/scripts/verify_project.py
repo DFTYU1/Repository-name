@@ -73,6 +73,12 @@ def android_ci_scope_contract():
     assert {'tool_chat_ui_percentage_changed','tool_chat_ui_followup'} <= context
     full=module.expected_instrumentation_tests('tablet','false')
     assert {'tool_chat_ui_followup','tool_chat_ui_zero','tool_chat_ui_invalid_range'} <= full
+    assert not module.professional_benchmark_enabled({
+        'AI_CENTER_PROFESSIONAL_BENCHMARK':'false',
+        'AI_CENTER_TIMEOUT_BASELINE':'Tests/ci-runs/36384039111'})
+    assert module.professional_benchmark_enabled({
+        'AI_CENTER_PROFESSIONAL_BENCHMARK':'true',
+        'AI_CENTER_TIMEOUT_BASELINE':'Tests/ci-runs/36384039111'})
 def android_ci_storage_contract():
     source=(ROOT/'scripts/android_ci.py').read_text()
     assert "'-partition-size', '8192'" in source

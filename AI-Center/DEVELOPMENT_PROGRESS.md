@@ -1,5 +1,9 @@
 # 当前开发进度
 
+## Run37 verified / targeted-gate accounting fix
+
+Run37双端10项工具UI均全PASS；5项确定性校验由Run36的76–82秒降至145–348ms，10秒契约真实通过。工作流FAIL不是功能回归，而是`AI_CENTER_PROFESSIONAL_BENCHMARK=false`时仍读取旧timeout baseline并运行Q013/Q073。已把专业探针绑定到显式开关并移除目标工作流的旧baseline，新增项目契约测试。Q013/Q073内容FAIL和Run18裸模型基线保持独立。
+
 ## Run36 evidence and deterministic-validation latency candidate
 
 Run36（`b17a1e3...`）双端10项工具UI仍全PASS，Q013/Q073仍受控终止且内容FAIL；完整100题NOT_RUN。新候选把缺参Cpk、明确除零、明确歧义百分比及单一公式结构检查移到受限本地路径，避免76–82秒无必要模型规划。新增6项变化输入/双语/多公式回归；主机34核心、75工具断言、11报告和项目检查PASS，Android结果待新Run。

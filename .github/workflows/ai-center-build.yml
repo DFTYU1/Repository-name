@@ -71,7 +71,6 @@ jobs:
           AI_CENTER_PROFESSIONAL_BENCHMARK: "false"
           AI_CENTER_VALIDATION_SCOPE: "tool_chat"
           AI_CENTER_TOOL_CHAT_SMOKE: "false"
-          AI_CENTER_TIMEOUT_BASELINE: "Tests/ci-runs/36384039111"
           # Run all ten production chat cases; five deterministic validation
           # cases additionally enforce a 10-second completion contract.
         run: python3 scripts/android_ci.py test

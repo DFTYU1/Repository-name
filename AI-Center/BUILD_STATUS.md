@@ -1,5 +1,9 @@
 # 构建与验证状态
 
+## Run37 final / gate-accounting fix
+
+Run37构建、34核心、75工具/公式、11报告、8项目验证、签名APK/测试APK、lint、ARM64/模型检查PASS。手机/平板生产工具UI各10/10 PASS；5项确定性校验双端145–348ms，满足10秒契约。整体FAIL仅因关闭专业基准后旧timeout baseline仍触发Q013/Q073并污染profile状态。已修复显式开关边界；Q013/Q073及完整100题本轮记为NOT_RUN，不改其既有FAIL证据。Artifact11264110978，ZIP SHA256 `f0ba170a2458841a8905df0f712a1796f6ca74047545e40aeefbe91610529bcb`。
+
 ## Run36 final / next candidate
 
 Run36构建、34核心、69工具夹具、11报告、项目验证、签名APK/测试APK、lint、ARM64/模型检查PASS；双端10项工具UI各10 PASS。Q013/Q073内容FAIL导致整体NOT_ACCEPTED。Artifact11258507146，ZIP SHA256 `4a56f8949894624fd95dbeecbcfc011cceb652fc1f2786686ec55f500bd19891`。候选性能修复的主机验证为34核心、75工具/公式、11报告、8项目验证、原生及内部包检查PASS；真实Android NOT_RUN。

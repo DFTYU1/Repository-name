@@ -1,0 +1,23 @@
+{
+  "run_id": 37093549246,
+  "run_number": 37,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/37093549246",
+  "source_sha": "c076ccf11a259855b60d5860bccb49286e623f7b",
+  "status": "FAIL",
+  "failure_classification": "ci_scope_accounting",
+  "build": {"core_tests": 34, "tool_formula_checks": 75, "professional_report_tests": 11, "project_verification": 8, "signed_apk_lint_arm64_model": "PASS"},
+  "application_apk": {"bytes": 1368570457, "sha256": "dfccd38b3a3ad52c2f04a6b9e00c180e64ad86cf275c5cb9957f828b7b8559a0", "signed": true},
+  "instrumentation_apk": {"bytes": 76840, "sha256": "b9aed8ab54c25b297dd1594b8c95ee9fcad7892dcb875ab526ddb3d3ac521236", "signed": true},
+  "tool_chat": {
+    "phone": {"pass": 10, "fail": 0, "not_run": 0},
+    "tablet": {"pass": 10, "fail": 0, "not_run": 0},
+    "deterministic_latency_ms": {
+      "phone": {"missing_cpk": 311, "zero_division": 274, "ambiguous_fraction": 323, "valid_formula": 305, "invalid_range": 348},
+      "tablet": {"missing_cpk": 145, "zero_division": 249, "ambiguous_fraction": 252, "valid_formula": 326, "invalid_range": 290}
+    },
+    "latency_contract_ms": 10000
+  },
+  "raw_model": {"q013": "NOT_RUN_IN_DECLARED_SCOPE", "q073": "NOT_RUN_IN_DECLARED_SCOPE", "full_100": "NOT_RUN", "baseline": {"pass": 25, "fail": 22, "manual_review": 53, "not_run": 0}},
+  "root_cause": "AI_CENTER_PROFESSIONAL_BENCHMARK=false was set, but a stale AI_CENTER_TIMEOUT_BASELINE still caused Q013/Q073 probes to execute and their known content FAIL values to overwrite the successful targeted tool-chat profile status.",
+  "artifact": {"id": 11264110978, "name": "AI-Center-diagnostics-37", "bytes": 445630, "sha256": "f0ba170a2458841a8905df0f712a1796f6ca74047545e40aeefbe91610529bcb", "expires_at": "2026-10-17T04:02:44Z"}
+}

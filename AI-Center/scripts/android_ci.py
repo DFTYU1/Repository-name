@@ -102,6 +102,15 @@ def expected_instrumentation_tests(profile, tool_chat_smoke):
                          'tool_chat_ui_units','tool_chat_ui_formula','tool_chat_ui_invalid_range'})
     return expected
 
+def professional_benchmark_enabled(environment=None):
+    """Return whether raw-model professional probes are intentionally enabled.
+
+    Targeted production-chat runs must not inherit a stale timeout baseline and
+    accidentally turn known raw-model failures into the targeted gate result.
+    """
+    environment = os.environ if environment is None else environment
+    return environment.get('AI_CENTER_PROFESSIONAL_BENCHMARK', 'true').lower() == 'true'
+
 
 def parse_instrumentation(output, profile):
     match = re.search(r'^INSTRUMENTATION_RESULT: aicenter_results=(.+)$', output, re.M)
@@ -321,7 +330,8 @@ def test():
                     smoke=os.environ.get('AI_CENTER_TOOL_CHAT_SMOKE','false')
                     profile_result['tool_chat_scope']='FOUR_CONTEXT_REGRESSIONS' if smoke in {'true','context'} else ('FOUR_SIMPLE_CALC_REGRESSIONS' if smoke == 'simple' else 'TEN_TOOL_CHAT_CASES')
                     profile_result['timeout_probe_status']='NOT_RUN'
-                    baseline=os.environ.get('AI_CENTER_TIMEOUT_BASELINE')
+                    baseline=(os.environ.get('AI_CENTER_TIMEOUT_BASELINE')
+                              if professional_benchmark_enabled() else None)
                     if baseline:
                         from timeout_probe import select
                         cases=json.loads((ROOT/'app/src/androidTest/assets/professional-100.json').read_text())
@@ -341,7 +351,7 @@ def test():
                             if 'phase_timing' not in result:raise RuntimeError('Missing phase diagnostics')
                             profile_result['timeout_probe'][qid]={'status':result['status'],'recovery':result.get('post_timeout_recovery',{'status':'NOT_NEEDED'})}
                             if result['status']=='FAIL' or result.get('post_timeout_recovery',{}).get('status')=='FAIL':profile_result['status']='FAIL'
-                elif profile_result['status'] == 'PASS':
+                elif profile_result['status'] == 'PASS' and professional_benchmark_enabled():
                     suite=json.loads((ROOT/'app/src/androidTest/assets/professional-100.json').read_text())
                     manual_indices=[i for i,q in enumerate(suite['cases']) if q['kind']=='manual']
                     representative=[max(manual_indices,key=lambda i: len(suite['cases'][i]['prompt'])+len(suite['cases'][i]['rubric'])),

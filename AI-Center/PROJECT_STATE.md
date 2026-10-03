@@ -1,4 +1,14 @@
-# 唯一当前断点 · 2026-10-03 · Run36复核与确定性校验延迟修复候选
+# 唯一当前断点 · 2026-10-03 · Run37延迟修复已验证，修复定向门禁状态串扰
+
+Run37 https://github.com/DFTYU1/Repository-name/actions/runs/37093549246 在提交`c076ccf11a259855b60d5860bccb49286e623f7b`上结束FAIL，但手机/平板完整10项生产聊天工具UI均10 PASS/0 FAIL/0 NOT_RUN。缺参Cpk、除零、歧义百分比、有效公式、无效范围双端均约145–348ms，全部远低于10秒契约；另外5项也无退化。因此确定性本地校验性能修复已由真实Android验证。
+
+整体FAIL来自CI范围汇总串扰：工作流设置`AI_CENTER_PROFESSIONAL_BENCHMARK=false`，却遗留`AI_CENTER_TIMEOUT_BASELINE`，导致Q013/Q073仍执行并把其已知内容FAIL覆盖到定向工具门禁。两题和完整100题在本轮声明范围应为NOT_RUN。现已使专业探针必须同时显式启用，并移除本工作流的旧baseline；冻结评分和生产逻辑不变。
+
+Run37应用APK 1368570457字节，SHA256 `dfccd38b3a3ad52c2f04a6b9e00c180e64ad86cf275c5cb9957f828b7b8559a0`；测试APK 76840字节，SHA256 `b9aed8ab54c25b297dd1594b8c95ee9fcad7892dcb875ab526ddb3d3ac521236`，均签名。Artifact ID11264110978，ZIP SHA256 `f0ba170a2458841a8905df0f712a1796f6ca74047545e40aeefbe91610529bcb`。53道人工作答、vivo X300 Pro、Lenovo Y900仍未验收，Phase1未完成。
+
+---
+
+# 历史断点 · Run36复核与确定性校验延迟修复候选
 
 Run36 https://github.com/DFTYU1/Repository-name/actions/runs/37078519125 在文档证据提交`b17a1e3ee44b28a630d8032e4e3e30a178dc1235`上结束FAIL/NOT_ACCEPTED。它再次证明双端生产聊天工具UI各10 PASS；Q013为143/640、Q073为149/640，双端均因`repetitive_generation_stopped`受控结束但内容继续FAIL。完整100题NOT_RUN，Run18裸模型25/22/53/0基线不变。Artifact ID11258507146，ZIP SHA256 `4a56f8949894624fd95dbeecbcfc011cceb652fc1f2786686ec55f500bd19891`。
 
