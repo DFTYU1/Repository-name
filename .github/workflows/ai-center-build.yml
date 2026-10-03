@@ -65,12 +65,15 @@ jobs:
 
       - name: Launch fresh emulator and verify phone and tablet layouts
         env:
-          AI_CENTER_PROFESSIONAL_BENCHMARK: "true"
+          # Run36 already reconfirmed Q013/Q073 bounded termination. This batch
+          # is a latency-only production UI gate and must not rerun those raw
+          # probes or the frozen 100-question benchmark.
+          AI_CENTER_PROFESSIONAL_BENCHMARK: "false"
           AI_CENTER_VALIDATION_SCOPE: "tool_chat"
           AI_CENTER_TOOL_CHAT_SMOKE: "false"
           AI_CENTER_TIMEOUT_BASELINE: "Tests/ci-runs/36384039111"
-          # Target the two Run 29 failures plus two established control cases.
-          # Restore all ten only after this real Android gate passes.
+          # Run all ten production chat cases; five deterministic validation
+          # cases additionally enforce a 10-second completion contract.
         run: python3 scripts/android_ci.py test
 
       - name: Print runtime diagnostics on failure

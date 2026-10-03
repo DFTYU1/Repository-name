@@ -1,5 +1,9 @@
 # 当前开发进度
 
+## Run36 evidence and deterministic-validation latency candidate
+
+Run36（`b17a1e3...`）双端10项工具UI仍全PASS，Q013/Q073仍受控终止且内容FAIL；完整100题NOT_RUN。新候选把缺参Cpk、明确除零、明确歧义百分比及单一公式结构检查移到受限本地路径，避免76–82秒无必要模型规划。新增6项变化输入/双语/多公式回归；主机34核心、75工具断言、11报告和项目检查PASS，Android结果待新Run。
+
 ## Run35 verified
 
 - Both phone and tablet retained 10/10 production tool-chat UI PASS.

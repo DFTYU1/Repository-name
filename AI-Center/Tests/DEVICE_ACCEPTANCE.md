@@ -1,3 +1,7 @@
+## Run36与确定性校验候选 · 2026-10-03
+
+Run36双端10项生产工具UI均PASS且无缺失；Q013/Q073受控终止但内容FAIL，完整100题NOT_RUN。五项确定性校验的真实耗时仍为76–82秒。候选代码要求这些用例在真实UI 10秒内完成，并保留双端完整10项回归；当前仅主机测试PASS，Android为NOT_RUN。vivo X300 Pro、Lenovo Y900和53道人工作答仍未验收。
+
 ## Run31手机完整10项与平板安装阻塞 · 2026-09-29
 
 Run31 https://github.com/DFTYU1/Repository-name/actions/runs/36556762569 源提交`b401bfa0e9735127a743d3a063e492a1c3c7e963`。手机API35 x86_64完整10项生产UI全部PASS且无缺失；平板安装应用APK时报`INSTALL_FAILED_INSUFFICIENT_STORAGE`，基础与10项均NOT_RUN。

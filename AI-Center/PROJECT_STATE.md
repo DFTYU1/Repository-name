@@ -1,4 +1,14 @@
-# 唯一当前断点 · 2026-10-03 · Run35周期重复资源控制已验证
+# 唯一当前断点 · 2026-10-03 · Run36复核与确定性校验延迟修复候选
+
+Run36 https://github.com/DFTYU1/Repository-name/actions/runs/37078519125 在文档证据提交`b17a1e3ee44b28a630d8032e4e3e30a178dc1235`上结束FAIL/NOT_ACCEPTED。它再次证明双端生产聊天工具UI各10 PASS；Q013为143/640、Q073为149/640，双端均因`repetitive_generation_stopped`受控结束但内容继续FAIL。完整100题NOT_RUN，Run18裸模型25/22/53/0基线不变。Artifact ID11258507146，ZIP SHA256 `4a56f8949894624fd95dbeecbcfc011cceb652fc1f2786686ec55f500bd19891`。
+
+Run36暴露的当前候选修复是确定性校验延迟：缺参Cpk、除零、歧义百分比、有效/无效公式虽判定正确，但双端均等待本地模型约76–82秒。`ToolChat`现仅对可由当前用户字面输入完全判定的请求直接调用受限本地校验；未知语义仍回退规划器。新增不同数值、英文表述、多公式歧义6项回归，主机34核心、75工具/公式、11报告、8项目验证、原生与内部包检查PASS。真实Android尚NOT_RUN；下一提交需双端10项验证上述5项在10秒契约内且其余5项不退化。
+
+两台真机与53道人工作答仍未验收，Phase1未完成。
+
+---
+
+# 历史断点 · Run35周期重复资源控制已验证
 
 Run35 https://github.com/DFTYU1/Repository-name/actions/runs/37071859617 在提交`c071495412c8d48d45c443834a05a126be2e8c1f`上结束FAIL/NOT_ACCEPTED。构建、34核心、69工具夹具、11报告、项目验证、签名APK/测试APK、lint、ARM64与内置模型校验PASS；手机和平板生产聊天工具UI继续各10 PASS/0 FAIL/0 NOT_RUN。
 

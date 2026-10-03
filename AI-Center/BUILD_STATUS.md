@@ -1,5 +1,9 @@
 # 构建与验证状态
 
+## Run36 final / next candidate
+
+Run36构建、34核心、69工具夹具、11报告、项目验证、签名APK/测试APK、lint、ARM64/模型检查PASS；双端10项工具UI各10 PASS。Q013/Q073内容FAIL导致整体NOT_ACCEPTED。Artifact11258507146，ZIP SHA256 `4a56f8949894624fd95dbeecbcfc011cceb652fc1f2786686ec55f500bd19891`。候选性能修复的主机验证为34核心、75工具/公式、11报告、8项目验证、原生及内部包检查PASS；真实Android NOT_RUN。
+
 ## Run35 final
 
 Run35 (`37071859617`, source `c071495412c8d48d45c443834a05a126be2e8c1f`) is FAIL/NOT_ACCEPTED because Q013 and Q073 remain content failures. Build, lint, signed APKs, ARM64/model verification and both profiles' ten production tool-chat UI cases passed. Q013 stopped at 143/640 tokens and Q073 at 149/640 tokens on both profiles with termination reason `repetitive_generation_stopped`; no timeout, crash or budget exhaustion occurred. Full 100 and physical devices were NOT_RUN.

@@ -1,5 +1,11 @@
 # 当前待办
 
+## After Run36
+
+- 提交确定性校验延迟修复后，双端运行完整10项生产聊天UI；要求缺参Cpk、除零、歧义、有效公式、无效公式各在10秒内结束，另外5项不得退化。
+- Android通过前不得称性能修复完成；Q013/Q073内容FAIL、Run18裸模型基线及53项人工待审保持独立不变。
+- 后续继续通用、带来源的离线质量知识检索/结构化回答，不向生产输入冻结题库答案。
+
 ## After Run35
 
 - [x] Verify bounded 1-3-body cycle termination for Q073 on both real emulators without regressing the 10 production UI cases.

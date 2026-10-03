@@ -156,7 +156,7 @@ public final class FoundationInstrumentation extends Instrumentation {
             if("true".equals(options.getString("tool_chat","false"))){
                 String toolChatSmoke=options.getString("tool_chat_smoke","false");
                 test("tool_chat_ui_percentage",()->chatUi("新问题：检查560件，不良7件，计算不良百分比，请说明计算参数。","(?s).*本地计算结果：1\\.25.*"));
-                test("tool_chat_ui_missing",()->chatUi("新问题：计算Cpk，上限20mm，下限2mm，均值8mm；标准差未知。","(?s).*需要澄清.*"));
+                test("tool_chat_ui_missing",()->chatUiFast("新问题：计算Cpk，上限20mm，下限2mm，均值8mm；标准差未知。","(?s).*需要澄清.*"));
                 if("true".equals(toolChatSmoke)||"context".equals(toolChatSmoke)){
                     test("tool_chat_ui_percentage_changed",()->chatUi("新问题：不良12件，检查800件，计算不良百分比。","(?s).*本地计算结果：1\\.5[（\\s].*"));
                     test("tool_chat_ui_followup",()->chatUi("补充刚才的Cpk：过程稳定，组内标准差为2mm，请计算并说明参数。","(?s).*本地计算结果：1[（\\s].*"));
@@ -169,11 +169,11 @@ public final class FoundationInstrumentation extends Instrumentation {
                 test("tool_chat_ui_mean",()->chatUi("New calculation: find the mean of -4, 8 and 17, all dimensionless. Explain the operation.","(?s).*本地计算结果：7.*"));
                 test("tool_chat_ui_decimal",()->chatUi("新问题：0.1kg加0.2kg，共多少kg？说明参数。","(?s).*本地计算结果：0\\.3.*"));
                 test("tool_chat_ui_followup",()->chatUi("补充刚才的Cpk：过程稳定，组内标准差为2mm，请计算并说明参数。","(?s).*本地计算结果：1[（\\s].*"));
-                test("tool_chat_ui_zero",()->chatUi("新问题：无量纲8除以0等于多少？","(?s).*需要澄清.*"));
-                test("tool_chat_ui_ambiguous",()->chatUi("新问题：总数可能560也可能600，不良7件，计算准确不良率。","(?s).*需要澄清.*"));
+                test("tool_chat_ui_zero",()->chatUiFast("新问题：无量纲8除以0等于多少？","(?s).*需要澄清.*"));
+                test("tool_chat_ui_ambiguous",()->chatUiFast("新问题：总数可能560也可能600，不良7件，计算准确不良率。","(?s).*需要澄清.*"));
                 test("tool_chat_ui_units",()->chatUi("新问题：5mm与5kg相加，给出结果。","(?s).*需要澄清.*"));
-                test("tool_chat_ui_formula",()->chatUi("只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F9)","(?s)STRUCTURE_ONLY:.*未验证.*"));
-                test("tool_chat_ui_invalid_range",()->chatUi("只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F8)","(?s)INVALID:.*"));
+                test("tool_chat_ui_formula",()->chatUiFast("只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F9)","(?s)STRUCTURE_ONLY:.*未验证.*"));
+                test("tool_chat_ui_invalid_range",()->chatUiFast("只检查这个Excel公式的结构：=SUMIF(C3:C9,\"NG\",F3:F8)","(?s)INVALID:.*"));
                 }
             }
             if("true".equals(options.getString("long_lease","false")))test("lease_expires_after_real_five_minutes",()->{
@@ -193,20 +193,28 @@ public final class FoundationInstrumentation extends Instrumentation {
     }
     /** Real visible composer -> MainActivity.submit -> model router -> AgentRuntime -> chat -> ToolChat. */
     private void chatUi(String prompt,String expected)throws Exception{
+        chatUi(prompt,expected,180_000);
+    }
+    private void chatUiFast(String prompt,String expected)throws Exception{
+        chatUi(prompt,expected,10_000);
+    }
+    private void chatUi(String prompt,String expected,long maxElapsedMs)throws Exception{
         long started=SystemClock.elapsedRealtime();
         runOnMainSync(()->{
             List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);
             require(fields.size()==1,"Expected visible chat composer");
             fields.get(0).setText(prompt);findText(screen.getWindow().getDecorView(),"发送").performClick();
         });
-        try{until(()->!app.busy.get(),180_000);}catch(AssertionError e){app.disconnect();throw e;}
+        try{until(()->!app.busy.get(),maxElapsedMs);}catch(AssertionError e){app.disconnect();throw e;}
         waitForIdleSync();String answer="";
         for(String[] message:app.db.recentMessages())if("assistant".equals(message[0]))answer=message[1];
         final String visible=answer;
         require(hasText(visible),"Stored response missing from visible UI");
-        addResult("tool_chat_observation",answer.matches(expected),new JSONObject().put("prompt",prompt).put("output",answer)
-            .put("elapsed_ms",SystemClock.elapsedRealtime()-started).put("scope","production_ui_tool_assisted; separate from raw-model 100").toString());
+        long elapsed=SystemClock.elapsedRealtime()-started;
+        addResult("tool_chat_observation",answer.matches(expected)&&elapsed<=maxElapsedMs,new JSONObject().put("prompt",prompt).put("output",answer)
+            .put("elapsed_ms",elapsed).put("max_elapsed_ms",maxElapsedMs).put("scope","production_ui_tool_assisted; separate from raw-model 100").toString());
         require(answer.matches(expected),"Production chat response did not meet synthetic criterion");
+        require(elapsed<=maxElapsedMs,"Production chat exceeded deterministic latency contract");
     }
     private void infer(String prompt,int budget,String expected)throws Exception{
         String output=app.localModel.generate(prompt,"",budget,app.stop.begin());

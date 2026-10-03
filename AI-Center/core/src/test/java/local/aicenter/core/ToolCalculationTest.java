@@ -73,6 +73,13 @@ public final class ToolCalculationTest {
   checks++;if(!explicitSimple.answer("把1.25kg与2.75kg相加",stop.begin()).contains("本地计算结果：4（kg；操作：sum；参数：1.25,2.75）"))throw new AssertionError("changed kg sum failed");
   checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("把1kg和500g相加",stop.begin()).startsWith("需要澄清"))throw new AssertionError("mixed units accepted by simple path");
   checks++;if(!new ToolChat((p,t)->"CLARIFY").answer("求3和未知值的平均值，均为无量纲",stop.begin()).startsWith("需要澄清"))throw new AssertionError("missing mean operand accepted");
+  ToolChat deterministic=new ToolChat((p,t)->{throw new AssertionError("Deterministic validation should not invoke the planner");});
+  checks++;if(!deterministic.answer("新问题：计算Cpk，上限25mm，下限5mm，均值12mm；标准差未知。",stop.begin()).startsWith("需要澄清"))throw new AssertionError("missing Cpk input not rejected locally");
+  checks++;if(!deterministic.answer("新问题：无量纲19 divided by 0.0 等于多少？",stop.begin()).startsWith("需要澄清"))throw new AssertionError("zero denominator not rejected locally");
+  checks++;if(!deterministic.answer("新问题：总数可能900也可能950，不良11件，计算准确不良率。",stop.begin()).startsWith("需要澄清"))throw new AssertionError("ambiguous percentage not rejected locally");
+  checks++;if(!deterministic.answer("请验证这个公式的结构：=SUMIF(B2:B8,\"NG\",E2:E8)",stop.begin()).startsWith("STRUCTURE_ONLY"))throw new AssertionError("valid formula did not use local validator");
+  checks++;if(!deterministic.answer("Check this formula structure: =SUMIF(B2:B8,\"NG\",E2:E7)",stop.begin()).startsWith("INVALID"))throw new AssertionError("invalid formula did not use local validator");
+  checks++;if(!deterministic.answer("请比较并检查这两个公式：=SUM(A1:A2) 和 =SUM(B1:B2)",stop.begin()).startsWith("需要澄清"))throw new AssertionError("multiple formulas were guessed");
   ToolChat cpk=new ToolChat((p,t)->"CALC|cpk|mm|scalar|explained|2,20,8,2");
   ToolChat noPlannerCpk=new ToolChat((p,t)->{throw new AssertionError("Explicit complete Cpk should use the validated calculator");});
   checks++;if(!noPlannerCpk.answer("过程稳定，规格下限1mm，规格上限13mm，均值7mm，组内标准差为1mm，计算Cpk",stop.begin()).startsWith("本地计算结果：2（"))throw new AssertionError();

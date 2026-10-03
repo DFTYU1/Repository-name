@@ -1,0 +1,62 @@
+{
+  "run_id": 37078519125,
+  "run_number": 36,
+  "url": "https://github.com/DFTYU1/Repository-name/actions/runs/37078519125",
+  "source_sha": "b17a1e3ee44b28a630d8032e4e3e30a178dc1235",
+  "status": "completed",
+  "conclusion": "failure",
+  "formal_acceptance": "NOT_ACCEPTED",
+  "completed_utc": "2026-10-03T00:19:23Z",
+  "scope": "TARGETED_TOOL_CHAT_ONLY plus Q013/Q073 raw-model probes; full 100 NOT_RUN",
+  "build": {
+    "core": "34 PASS",
+    "tool_fixtures": "69 PASS",
+    "professional_report": "11 PASS",
+    "project_verification": "PASS",
+    "signed_apk_and_test_apk": "PASS",
+    "lint": "PASS"
+  },
+  "tool_chat": {
+    "phone": {"PASS": 10, "FAIL": 0, "NOT_RUN": 0, "missing_tests": []},
+    "tablet": {"PASS": 10, "FAIL": 0, "NOT_RUN": 0, "missing_tests": []},
+    "observed_latency_ms": {
+      "phone": {"missing_cpk": 80242, "zero_division": 77087, "ambiguous_fraction": 79215, "valid_formula": 82123, "invalid_formula": 82511},
+      "tablet": {"missing_cpk": 78987, "zero_division": 76551, "ambiguous_fraction": 78208, "valid_formula": 81851, "invalid_formula": 82404}
+    },
+    "finding": "Answers satisfy the contracts, but deterministic validation still waited for the local model; this is the next production latency fix."
+  },
+  "raw_model_probes": {
+    "phone": {
+      "Q013": {"status": "FAIL", "generated_tokens": 143, "budget": 640, "reason": "repetitive_generation_stopped", "native_total_ms": 64714.221158},
+      "Q073": {"status": "FAIL", "generated_tokens": 149, "budget": 640, "reason": "repetitive_generation_stopped"}
+    },
+    "tablet": {
+      "Q013": {"status": "FAIL", "generated_tokens": 143, "budget": 640, "reason": "repetitive_generation_stopped"},
+      "Q073": {"status": "FAIL", "generated_tokens": 149, "budget": 640, "reason": "repetitive_generation_stopped"}
+    },
+    "full_100": "NOT_RUN",
+    "baseline_run18": {"PASS": 25, "FAIL": 22, "MANUAL_REVIEW": 53, "NOT_RUN": 0}
+  },
+  "apk": {
+    "version_name": "0.2.0-offline-dev",
+    "version_code": 2,
+    "bytes": 1368570457,
+    "sha256": "3933b1a8b5a028ed00a5b43d9c53eba99971144e063b999750c7d2fcc789fb14",
+    "signed": true,
+    "arm64": true,
+    "internet_permission": false
+  },
+  "test_apk": {
+    "bytes": 76484,
+    "sha256": "9909b8a61e224d4585479daedb47b6c9c5a8b9526fe27f91101f6a5dc9a9d211",
+    "signed": true
+  },
+  "artifact": {
+    "id": 11258507146,
+    "name": "AI-Center-diagnostics-36",
+    "bytes": 445332,
+    "sha256": "4a56f8949894624fd95dbeecbcfc011cceb652fc1f2786686ec55f500bd19891",
+    "expires_at": "2026-10-17T00:18:39Z"
+  },
+  "physical_devices": {"vivo_X300_Pro": "NOT_RUN", "Lenovo_Y900": "NOT_RUN"}
+}

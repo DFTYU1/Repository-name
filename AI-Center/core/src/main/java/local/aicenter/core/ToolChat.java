@@ -24,6 +24,8 @@ public final class ToolChat {
         if(capability!=null)return capability;
         String simple=validatedSimpleCalculation(request);
         if(simple!=null)return simple;
+        String deterministic=validatedDeterministicRequest(request);
+        if(deterministic!=null)return deterministic;
         String plan=planner.generate(
             "Route the user request. Return exactly one line, without markdown. Never calculate numbers yourself. "
             +"For ordinary conversation return CHAT. For missing, conflicting, ambiguous values/units or unsupported calculation return CLARIFY. "
@@ -60,6 +62,44 @@ public final class ToolChat {
             token.check();String value=LocalCalculation.calculate(p[1],p[2],p[3],operands);token.check();
             return p[4].equals("value")?value:"本地计算结果："+value+"（"+p[3]+"；操作："+p[1]+"；参数："+String.join(",",operands)+"）。请核对参数是否符合你的原意。";
         }catch(IllegalArgumentException|ArithmeticException e){return "需要澄清："+e.getMessage()+"。请提供操作、完整参数及统一单位。";}
+    }
+    /**
+     * Handles requests whose safe outcome is already determined by the
+     * literal user input.  This avoids an expensive model round trip for
+     * validation/refusal while keeping unknown semantics on the planner path.
+     */
+    private static String validatedDeterministicRequest(CalculationRequest request){
+        String current=request.current;
+        String source=request.source;
+
+        // Complete Cpk requests were handled above. Any remaining explicit Cpk
+        // request lacks a required role, a consistent unit, stability, or a
+        // positive within-process sigma and therefore must be clarified.
+        if("cpk".equals(CalculationRequest.family(source)))return clarification();
+
+        // Do not guess which alternative value is intended for a percentage.
+        if("fraction".equals(CalculationRequest.family(source))&&
+            Pattern.compile("(?:可能|或者|或是|二选一|\beither\b|\bmaybe\b|\bor\b)",Pattern.CASE_INSENSITIVE).matcher(current).find())
+            return clarification();
+
+        // An explicit zero denominator is invalid independently of how a
+        // planner would serialize the operation.
+        if(Pattern.compile("(?:除以|÷|/|divided\\s+by)\\s*[+]?0(?:\\.0+)?(?![0-9.])",Pattern.CASE_INSENSITIVE).matcher(current).find())
+            return clarification();
+
+        // A single, explicitly requested formula inspection is a closed local
+        // operation. FormulaCheck states its structure-only boundary itself.
+        if(Pattern.compile("(?:检查|校验|验证|inspect|check|validate)",Pattern.CASE_INSENSITIVE).matcher(current).find()&&
+            Pattern.compile("(?:公式|formula)",Pattern.CASE_INSENSITIVE).matcher(current).find()){
+            Matcher formula=Pattern.compile("=[A-Za-z]+\\([^()\\r\\n]*\\)").matcher(current);
+            String found=null;
+            while(formula.find()){
+                if(found!=null)return clarification();
+                found=formula.group();
+            }
+            if(found!=null)return FormulaCheck.check(found);
+        }
+        return null;
     }
     private static String validatedCapability(CalculationRequest request){
         String source=request.source;
