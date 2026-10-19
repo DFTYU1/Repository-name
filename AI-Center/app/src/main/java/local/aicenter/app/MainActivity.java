@@ -201,7 +201,8 @@ public final class MainActivity extends Activity {
                 }
                 stage="执行任务";answer=app.agent.execute(Collections.singletonList(new AgentRuntime.Step(tool,arg)),token).output;
                 stage="保存结果";token.check();app.db.message("assistant",answer);
-            }catch(StopController.Stopped e){answer="任务已停止，已有内容保留。";}
+            }catch(IllegalArgumentException e){answer="输入无法处理："+e.getMessage();}
+            catch(StopController.Stopped e){answer="任务已停止，已有内容保留。";}
             catch(Exception e){answer="“"+stage+"”这一步未完成。请检查管理员是否已解锁及存储空间；已有文件保留。";}
             finally{app.revokeCloudRequest(token);app.busy.set(false);}
             final String result=answer;runOnUiThread(()->{if(token.valid()&&foreground&&conversation==targetConversation&&!isFinishing()&&!isDestroyed())append("assistant",result);});

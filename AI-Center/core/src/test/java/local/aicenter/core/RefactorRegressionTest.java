@@ -31,6 +31,13 @@ public final class RefactorRegressionTest {
   eq(LearningPolicy.target(true,3,Double.NaN),LearningPolicy.target(true,0,0));
   eq(LearningPolicy.accuracy(10,2),80.0);eq(LearningPolicy.accuracy(0,0),0.0);
   boolean rejected=false;try{LearningPolicy.accuracy(1,2);}catch(IllegalArgumentException e){rejected=true;}eq(rejected,true);
+  List<String[]> oldNotes=Arrays.asList(new String[]{"user","old question"},new String[]{"assistant",LearningPolicy.CORRECTION_PREFIX+"private-correction"},new String[]{"assistant","ordinary answer"});
+  String filtered=ConversationPrompt.build(oldNotes,"new question",1000);eq(filtered.contains("private-correction"),false);eq(filtered.contains("ordinary answer"),true);
+  List<String[]> longHistory=Arrays.asList(new String[]{"user","OLD".repeat(100)},new String[]{"assistant","OLDER".repeat(100)},new String[]{"user","recent"});
+  String fitted=ConversationPrompt.fit(longHistory,"CURRENT😀",300,50,x->x.codePointCount(0,x.length()));
+  eq(fitted.contains("CURRENT😀"),true);eq(fitted.contains("OLDER"),false);eq(fitted.codePointCount(0,fitted.length())<=250,true);
+  boolean oversized=false;try{ConversationPrompt.fit(Collections.emptyList(),"超".repeat(500),300,50,String::length);}catch(IllegalArgumentException e){oversized=true;}eq(oversized,true);
+  boolean badCount=false;try{ConversationPrompt.fit(Collections.emptyList(),"x",300,50,x->0);}catch(IllegalStateException e){badCount=true;}eq(badCount,true);
   System.out.println("PASS refactor regressions: "+checks+" assertions (host only; no APK/device claim)");
  }
 }

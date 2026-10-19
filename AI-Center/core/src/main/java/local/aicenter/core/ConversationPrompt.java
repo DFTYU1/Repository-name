@@ -18,6 +18,7 @@ public final class ConversationPrompt {
             for (String[] message : messages) {
                 if (message == null || message.length < 2 || message[0] == null || message[1] == null) continue;
                 String role = message[0].equals("assistant") ? "assistant" : message[0].equals("user") ? "user" : "";
+                if (role.equals("assistant") && message[1].startsWith(LearningPolicy.CORRECTION_PREFIX)) continue;
                 if (!role.isEmpty()) turns.add("[" + role + "]\n" + clean(message[1]) + "\n");
             }
         }
@@ -34,6 +35,21 @@ public final class ConversationPrompt {
         StringBuilder prompt = new StringBuilder(used).append(HEADER).append(OPEN);
         for (String turn : selected) prompt.append(turn);
         return prompt.append(CLOSE).toString();
+    }
+
+    /** Token counts must include the actual native system/template and reserve output space. */
+    public static String fit(List<String[]> messages,String current,int contextTokens,int outputTokens,java.util.function.ToIntFunction<String> counter){
+        if(outputTokens<1||contextTokens<=outputTokens)throw new IllegalArgumentException("无效模型预算");
+        List<String[]> history=new ArrayList<>();if(messages!=null)history.addAll(messages);
+        // Do not silently truncate the current question. Remove complete oldest turns instead.
+        while(true){
+            String prompt=build(history,current,Math.max(12000,current.length()+HEADER.length()+64));
+            int count=counter.applyAsInt(prompt);
+            if(count<=0)throw new IllegalStateException("模型分词失败");
+            if(count<=contextTokens-outputTokens)return prompt;
+            if(history.isEmpty())throw new IllegalArgumentException("当前问题超过本地模型上下文，请缩短问题或分段提交。原聊天保留。");
+            history.remove(0);
+        }
     }
 
     private static String clean(String text) {

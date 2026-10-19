@@ -86,6 +86,18 @@ public final class LocalModelEngine implements ModelEngine {
             }
         }
     }
+    public String conversationPrompt(java.util.List<String[]> history,String current,int outputTokens,StopController.Token token)throws Exception{
+        synchronized(LOCK){
+            token.check();if(!ready())throw new IllegalStateException("Local model is not ready");
+            long request=++sequence;nativePrepare(request);
+            try(AutoCloseable hook=stop.onStop(token,()->nativeCancel(request))){
+                return local.aicenter.core.ConversationPrompt.fit(history,current,2048,outputTokens,prompt->{
+                    token.check();return nativeTokenCount(file.getAbsolutePath().getBytes(StandardCharsets.UTF_8),prompt.getBytes(StandardCharsets.UTF_8));
+                });
+            }
+        }
+    }
+    private static native int nativeTokenCount(byte[] path,byte[] prompt);
     private static native void nativePrepare(long request);
     private static native void nativeCancel(long request);
     private static native byte[] nativeGenerate(byte[] path,byte[] prompt,byte[] grammar,int maxTokens,int threads);

@@ -1,6 +1,7 @@
 package local.aicenter.core;
 /** Deterministic curriculum adaptation; no model training or generated facts. */
 public final class LearningPolicy {
+ public static final String CORRECTION_PREFIX="[你确认的纠错记录；未独立核实]\n";
  private LearningPolicy(){}
  public static String target(boolean chinese,int sessions,double accuracy){
   boolean advance=sessions>=3&&Double.isFinite(accuracy)&&accuracy>=97;

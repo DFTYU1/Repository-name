@@ -49,13 +49,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
     auto result=env->NewByteArray(partial_answer.size());
     env->SetByteArrayRegion(result,0,partial_answer.size(),reinterpret_cast<const jbyte *>(partial_answer.data()));return result;
 }
-extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelEngine_nativeGenerate(
-    JNIEnv *env,jclass,jbyteArray path_bytes,jbyteArray prompt_bytes,jbyteArray grammar_bytes,jint limit,jint threads) {
-    PhaseTrace trace(stats,active_request);
-    try {
-        check(); auto started=std::chrono::steady_clock::now();
-        auto path=bytes(env,path_bytes), prompt=bytes(env,prompt_bytes), grammar=bytes(env,grammar_bytes);
-        if(prompt.size()>64000 || limit<1 || limit>1024) throw std::runtime_error("Input exceeds inference budget");
+static void ensure_model(const std::string &path) {
         if(!model || path!=model_path) {
             model.reset(); llama_log_set([](ggml_log_level,const char *,void *){},nullptr); llama_backend_init();
             auto mp=llama_model_default_params(); mp.n_gpu_layers=0;
@@ -64,7 +58,8 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
             if(!model) throw std::runtime_error("Unable to load verified local GGUF");
             model_path=path;
         }
-        trace.next(5);check(); const auto *vocab=llama_model_get_vocab(model.get());
+}
+static std::string format_prompt(const std::string &prompt) {
         // Fixed ChatML template is the verified text-only, thinking-disabled
         // Qwen3.5 format. No external server, network or shell is involved.
         const std::string system="You are a concise local assistant. Answer accurately in the user's language. If the user requests only a formula, number, code, or other exact format, output only that requested value with no numbering, label, explanation, or extra text. Use numbered items only when the request explicitly asks for multiple distinct points. For such multi-part requests, follow the requested order, use one short sentence or compact semicolon-separated phrases per item, cover every point, and finish below 450 tokens. Do not use a title, introduction, conclusion, nested bullets, repetition, or unrequested examples. 若用户要求仅输出公式、数字、代码或指定格式，只输出所需值，不加编号、标签、解释或其他文字。只有明确的多项请求才按原顺序逐项编号，每项一个短句，总回答少于450个token；不要标题、引言、结论、子项目、重复或未要求的例子。 Never claim to execute a tool unless a tool result is provided.";
@@ -74,6 +69,28 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelE
         std::vector<char> buffer(size+1);
         llama_chat_apply_template("chatml",messages,2,true,buffer.data(),buffer.size());
         std::string formatted(buffer.data(),size); formatted+="<think>\n\n</think>\n\n";
+        return formatted;
+}
+extern "C" JNIEXPORT jint JNICALL Java_local_aicenter_platform_LocalModelEngine_nativeTokenCount(JNIEnv *env,jclass,jbyteArray path_bytes,jbyteArray prompt_bytes) {
+    try {
+        check();auto path=bytes(env,path_bytes),prompt=bytes(env,prompt_bytes);
+        if(prompt.size()>64000)throw std::runtime_error("Input exceeds token counting budget");
+        ensure_model(path);check();auto formatted=format_prompt(prompt);
+        int count=-llama_tokenize(llama_model_get_vocab(model.get()),formatted.data(),formatted.size(),nullptr,0,true,true);
+        check();return count;
+    } catch(const std::exception &e){env->ThrowNew(env->FindClass("java/lang/IllegalStateException"),e.what());return 0;}
+    catch(...){env->ThrowNew(env->FindClass("java/lang/IllegalStateException"),"Token counting failed");return 0;}
+}
+extern "C" JNIEXPORT jbyteArray JNICALL Java_local_aicenter_platform_LocalModelEngine_nativeGenerate(
+    JNIEnv *env,jclass,jbyteArray path_bytes,jbyteArray prompt_bytes,jbyteArray grammar_bytes,jint limit,jint threads) {
+    PhaseTrace trace(stats,active_request);
+    try {
+        check(); auto started=std::chrono::steady_clock::now();
+        auto path=bytes(env,path_bytes), prompt=bytes(env,prompt_bytes), grammar=bytes(env,grammar_bytes);
+        if(prompt.size()>64000 || limit<1 || limit>1024) throw std::runtime_error("Input exceeds inference budget");
+        ensure_model(path);
+        trace.next(5);check(); const auto *vocab=llama_model_get_vocab(model.get());
+        auto formatted=format_prompt(prompt);
         int count=-llama_tokenize(vocab,formatted.data(),formatted.size(),nullptr,0,true,true);
         if(count<=0 || count+limit>2048) throw std::runtime_error("Prompt exceeds local context budget");
         std::vector<llama_token> tokens(count);

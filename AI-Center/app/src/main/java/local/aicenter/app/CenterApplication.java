@@ -55,12 +55,12 @@ public final class CenterApplication extends Application {
                     if(knowledgeQuery!=null)return KnowledgeChat.answer(knowledgeQuery,db.chunks(activeToken.get()),activeToken.get());
                     if(FeatureCatalog.capabilitiesRequested(input))return FeatureCatalog.summary();
                     if(FeatureCatalog.typingRequested(input))return "请打开首页的中英文打字练习入口。";
-                    String prompt=ConversationPrompt.build(db.recentMessages(),input,12000);
                     String assisted=new ToolChat((request,token)->localModel.generate(request,"",256,token))
                         .answer(input,db.recentMessages(),activeToken.get());
                     if(assisted!=null)return assisted;
                     String correction=learning.answer(input);if(correction!=null)return correction;
                     if(models==null)throw new IllegalStateException(modelError);
+                    String prompt=localModel.conversationPrompt(db.recentMessages(),input,384,activeToken.get());
                     return models.answer(prompt,false,false,(provider,paid,privateContent)->false,activeToken.get()).text;
                 });
                 register("cloud_chat",input->{

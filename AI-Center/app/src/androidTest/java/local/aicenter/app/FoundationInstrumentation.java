@@ -186,7 +186,17 @@ public final class FoundationInstrumentation extends Instrumentation {
                     require(getTargetContext().checkSelfPermission("android.permission.INTERNET")==android.content.pm.PackageManager.PERMISSION_GRANTED,"API transport permission missing");
                     require(android.provider.Settings.Global.getInt(getTargetContext().getContentResolver(),"airplane_mode_on",0)==1,"Emulator must be in airplane mode");
                 });
-                test("real_offline_chinese",()->infer("用中文简短说明水为什么会结冰。",160,"[\\s\\S]*[\\u4e00-\\u9fff][\\s\\S]*"));
+                test("native_token_budget_and_correction_isolation",()->{
+                List<String[]> history=new ArrayList<>();
+                for(int i=0;i<20;i++)history.add(new String[]{i%2==0?"user":"assistant","OLD_"+i+"历史".repeat(1500)});
+                history.add(new String[]{"assistant",local.aicenter.core.LearningPolicy.CORRECTION_PREFIX+"MUST_NOT_ENTER_PROMPT"});
+                String prompt=app.localModel.conversationPrompt(history,"保留当前问题：太阳是什么？",128,app.stop.begin());
+                require(prompt.contains("保留当前问题：太阳是什么？"),"Current question was truncated");
+                require(!prompt.contains("MUST_NOT_ENTER_PROMPT")&&!prompt.contains("OLD_0"),"Old correction or oldest turn leaked");
+                boolean rejected=false;try{app.localModel.conversationPrompt(java.util.Collections.emptyList(),"测试".repeat(5000),128,app.stop.begin());}catch(IllegalArgumentException expected){rejected=true;}
+                require(rejected,"Oversized current question was silently truncated or accepted");
+            });
+            test("real_offline_chinese",()->infer("用中文简短说明水为什么会结冰。",160,"[\\s\\S]*[\\u4e00-\\u9fff][\\s\\S]*"));
                 test("real_offline_english",()->infer("What is the opposite of hot? Answer in one English sentence.",64,"(?is).*cold.*"));
                 // All four terms must be correct. Merely mentioning Plan let
                 // the incorrect answer 'C = Control' pass in run #5.
