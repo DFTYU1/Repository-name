@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Official SDK provisioning and isolated Android startup checks on GitHub standard runners."""
+from permission_scope import require_permission_scope
 import argparse
 from datetime import datetime, timezone
 import getpass
@@ -158,8 +159,7 @@ def test():
         permissions = run([sdk / 'build-tools/35.0.0/aapt', 'dump', 'permissions', ROOT / build['apk']['path']])
         (OUT / 'apk-permissions.log').write_text(permissions)
         requested = set(re.findall(r"uses-permission: name='([^']+)'", permissions))
-        if requested != {'android.permission.USE_BIOMETRIC'}:
-            raise RuntimeError('APK permissions differ from this foundation milestone')
+        require_permission_scope(requested)
         if not Path('/dev/kvm').exists():
             raise RuntimeError('Standard runner has no KVM acceleration; no device tests were run')
         if not os.access('/dev/kvm', os.R_OK | os.W_OK):

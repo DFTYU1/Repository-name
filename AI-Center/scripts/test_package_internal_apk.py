@@ -4,9 +4,17 @@ import tempfile
 import unittest
 import zipfile
 from package_internal_apk import inspect_payload
+from permission_scope import require_permission_scope
 
 
 class PayloadTests(unittest.TestCase):
+    def test_permission_contract(self):
+        allowed={'android.permission.INTERNET','android.permission.USE_BIOMETRIC'}
+        require_permission_scope(allowed)
+        for extra in ['android.permission.CAMERA','android.permission.RECORD_AUDIO','android.permission.READ_EXTERNAL_STORAGE']:
+            with self.assertRaises(ValueError):require_permission_scope(allowed|{extra})
+        with self.assertRaises(ValueError):require_permission_scope({'android.permission.USE_BIOMETRIC'})
+
     def test_binary_requirements(self):
         with tempfile.TemporaryDirectory() as folder:
             apk = Path(folder) / 'synthetic.apk'

@@ -6,6 +6,7 @@ Never uploads anything. Distribution access must be authorized separately.
 import hashlib
 import json
 import os
+from permission_scope import require_permission_scope
 from pathlib import Path
 import re
 import shutil
@@ -53,8 +54,7 @@ def main():
     if not package or package[1] != 'local.aicenter.app.dev':
         raise ValueError('Unexpected application package')
     permissions=set(re.findall(r"uses-permission: name='([^']+)'",badging))
-    if permissions != {'android.permission.INTERNET','android.permission.USE_BIOMETRIC'}:
-        raise ValueError('Unexpected permission scope; only explicit API transport and biometrics allowed')
+    require_permission_scope(permissions)
     cert = subprocess.check_output([str(sdk / 'build-tools/35.0.0/apksigner'), 'verify', '--print-certs', str(apk)], text=True)
     source = os.environ.get('GITHUB_SHA') or subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     output = ROOT / 'build/internal-delivery'

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Real SQLite constraints, Android source parsing, and checkpoint round-trip validation."""
+from permission_scope import require_permission_scope
 from pathlib import Path
 from datetime import datetime, timezone
 import json
@@ -49,7 +50,7 @@ def syntax():
 def manifest_scope():
     root=ET.parse(ROOT/'app/src/main/AndroidManifest.xml').getroot();ns='{http://schemas.android.com/apk/res/android}'
     permissions={p.get(ns+'name') for p in root.findall('uses-permission')}
-    assert permissions=={'android.permission.USE_BIOMETRIC','android.permission.INTERNET'}
+    require_permission_scope(permissions)
     application=root.find('application');assert application.get(ns+'allowBackup')=='false'
     assert application.get(ns+'usesCleartextTraffic')=='false'
     assert root.find('.//service') is None
