@@ -135,6 +135,7 @@ public final class MainActivity extends Activity {
             sidebar.addView(button("导入资料",true,this::selectText));
             sidebar.addView(button("中英文打字",false,this::showTyping));
             sidebar.addView(button("学习与纠错",false,this::showLearning));
+            sidebar.addView(button("Cpk学习与计算",false,this::showCourses));
             sidebar.addView(button("功能清单",false,()->showInfo(FeatureCatalog.summary())));
             sidebar.addView(button("本地文件",false,()->submit("查看文件")));
             sidebar.addView(button("任务记录",false,()->submit("查看任务")));
@@ -180,6 +181,7 @@ public final class MainActivity extends Activity {
         if(!app.busy.compareAndSet(false,true)){showInfo("当前任务还在处理，可等待或点击“立即断开AI”。");return;}
         if(FeatureCatalog.typingRequested(text)){app.busy.set(false);showTyping();return;}
         if(FeatureCatalog.learningRequested(text)){app.busy.set(false);showLearning();return;}
+        if(text.matches("(?:打开|进入|开始)?Cpk学习(?:与计算)?[。！!]?")){app.busy.set(false);showCourses();return;}
         StopController.Token token=app.stop.begin();append("user",text);
         final LinearLayout targetConversation=conversation;
         app.worker.execute(()->{
@@ -252,10 +254,42 @@ public final class MainActivity extends Activity {
     }
     private void showFunctions(){
         if(!app.admin.unlocked()){showLogin();return;}
-        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理"},(d,n)->{
+        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算"},(d,n)->{
             if(!app.admin.unlocked()){showLogin();return;}
-            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else showManagement();
+            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else if(n==4)showManagement();else showCourses();
         }).setNegativeButton("关闭",null).show();
+    }
+    private void showCourses(){
+        if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get()){showInfo("请先等待当前任务结束。");return;}
+        protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;
+        LinearLayout root=column();root.setPadding(dp(20),dp(20),dp(20),dp(20));root.addView(label("Cpk学习与计算",26,INK));
+        root.addView(label("3节入门课 · 讲解→例子→计算→测验。不是完整QE/绿带课程。",14,MUTED));
+        for(local.aicenter.core.CapabilityCourse.Lesson lesson:local.aicenter.core.CapabilityCourse.LESSONS){
+            root.addView(button(lesson.title,false,()->showLesson(lesson)));try{root.addView(label(app.learning.courseSummary(lesson.id),14,MUTED));}catch(Exception e){root.addView(label("成绩暂时无法读取，原数据保留。",14,MUTED));}
+        }
+        root.addView(button("打开Cp/Cpk计算器",true,this::showCapabilityCalculator));root.addView(button("返回AI首页",false,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
+    }
+    private void showLesson(local.aicenter.core.CapabilityCourse.Lesson lesson){
+        if(!app.admin.unlocked()){showLogin();return;}
+        protectedScreen=true;LinearLayout root=column();root.setPadding(dp(20),dp(20),dp(20),dp(20));root.addView(label(lesson.title,24,INK));root.addView(label(lesson.body,17,INK));
+        root.addView(label("参考：NIST统计手册\n"+lesson.source+"\n课程与例题为本应用原创整理。",13,MUTED));
+        root.addView(button("查看NIST参考资料（联网）",false,()->{try{startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(lesson.source)));}catch(Exception e){showInfo("浏览器暂时无法打开。课程和测验可继续离线使用。");}}));
+        root.addView(button("打开Cp/Cpk计算器",false,this::showCapabilityCalculator));
+        android.widget.RadioGroup[] groups=new android.widget.RadioGroup[lesson.questions.length];
+        for(int i=0;i<groups.length;i++){local.aicenter.core.CapabilityCourse.Question q=lesson.questions[i];root.addView(label((i+1)+". "+q.text,17,INK));groups[i]=new android.widget.RadioGroup(this);for(String option:q.options){android.widget.RadioButton b=new android.widget.RadioButton(this);b.setId(View.generateViewId());b.setText(option);groups[i].addView(b);}root.addView(groups[i]);}
+        TextView feedback=label("选择答案后提交，错题会显示原因。",16,MUTED);root.addView(feedback);
+        root.addView(button("提交本课测验",true,()->{if(!app.admin.unlocked()){showLogin();return;}try{int[] choices=new int[groups.length];for(int i=0;i<groups.length;i++)choices[i]=groups[i].indexOfChild(groups[i].findViewById(groups[i].getCheckedRadioButtonId()));int correct=local.aicenter.core.CapabilityCourse.grade(lesson,choices);StringBuilder result=new StringBuilder("本次："+correct+"/"+groups.length);for(int i=0;i<choices.length;i++)if(choices[i]!=lesson.questions[i].answer)result.append("\n第").append(i+1).append("题：").append(lesson.questions[i].explanation);app.learning.courseResult(lesson.id,correct,groups.length);result.append(app.learning.enabled()?"\n成绩已加密保存，可重练。":"\n学习已关闭，本次成绩不保存。");feedback.setText(result);}catch(IllegalArgumentException e){feedback.setText(e.getMessage());}catch(Exception e){feedback.setText("成绩保存失败，原记录保留。");}}));
+        root.addView(button("返回课程目录",false,this::showCourses));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
+    }
+    private void showCapabilityCalculator(){
+        if(!app.admin.unlocked()){showLogin();return;}
+        protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;LinearLayout root=column();root.setPadding(dp(20),dp(20),dp(20),dp(20));root.addView(label("Cp/Cpk计算器",26,INK));root.addView(label("双侧规格，所有输入使用同一单位。先确认测量与过程条件；本工具不会自动验证这些条件。",15,MUTED));
+        EditText lower=field("规格下限LSL"),upper=field("规格上限USL"),mean=field("过程均值"),sigma=field("组内标准差σ");for(EditText f:new EditText[]{lower,upper,mean,sigma}){f.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL|InputType.TYPE_NUMBER_FLAG_SIGNED);root.addView(f);}
+        android.widget.Spinner units=new android.widget.Spinner(this);String[] unitNames={"mm","cm","m","g","kg","scalar"};units.setAdapter(new android.widget.ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,unitNames));root.addView(units);
+        android.widget.CheckBox confirmed=new android.widget.CheckBox(this);confirmed.setText("已确认过程稳定、组内σ含义及本次数据模型适用");root.addView(confirmed);TextView result=label("等待参数",17,INK);root.addView(result);
+        root.addView(button("计算Cp和Cpk",true,()->{if(!app.admin.unlocked()){showLogin();return;}try{result.setText(local.aicenter.core.CapabilityCourse.calculate(lower.getText().toString(),upper.getText().toString(),mean.getText().toString(),sigma.getText().toString(),unitNames[units.getSelectedItemPosition()],confirmed.isChecked()));}catch(IllegalArgumentException e){result.setText(e.getMessage());}}));
+        root.addView(button("填入教学示例",false,()->{lower.setText("1");upper.setText("13");mean.setText("10");sigma.setText("1");confirmed.setChecked(false);result.setText("示例参数已填入；请核对条件后计算。");}));
+        root.addView(button("返回课程目录",false,this::showCourses));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
     }
     private void showLearning(){
         if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get()){showInfo("请先等待当前任务结束。");return;}
@@ -267,7 +301,7 @@ public final class MainActivity extends Activity {
         root.addView(button("保存确认答案",true,()->{if(!app.admin.unlocked()){showLogin();return;}try{app.learning.correct(question.getText().toString(),answer.getText().toString());question.setText("");answer.setText("");refresh.run();}catch(Exception e){showInfo(e instanceof IllegalArgumentException?e.getMessage():"保存失败，原记录保留。");}}));
         root.addView(button("查看／修改／删除纠错",false,()->{try{List<String[]> rows=app.learning.corrections();if(rows.isEmpty()){showInfo("还没有纠错记录。");return;}String[] names=new String[rows.size()];for(int i=0;i<names.length;i++)names[i]=rows.get(i)[0];apiDialog=new AlertDialog.Builder(this).setTitle("选择纠错记录").setItems(names,(d,i)->{String[] item=rows.get(i);apiDialog=new AlertDialog.Builder(this).setTitle(item[0]).setMessage(item[1]).setPositiveButton("修改",(dialog,w)->{if(app.admin.unlocked()){question.setText(item[0]);answer.setText(item[1]);}}).setNegativeButton("删除",(dialog,w)->{if(app.admin.unlocked()){try{app.learning.remove(item[0]);refresh.run();}catch(Exception e){showInfo("删除失败，原记录保留。");}}}).setNeutralButton("关闭",null).show();}).show();}catch(Exception e){showInfo("读取失败，原数据保留。");}}));
         root.addView(button("开启／关闭学习",false,()->{if(!app.admin.unlocked()){showLogin();return;}try{app.learning.enabled(!app.learning.enabled());refresh.run();}catch(Exception e){showInfo("设置保存失败。");}}));
-        root.addView(button("清除全部学习记录",false,()->{apiDialog=new AlertDialog.Builder(this).setTitle("清除学习记录？").setMessage("将删除纠错与适配记录，不能撤销；原文件与聊天记录保留。").setPositiveButton("清除",(d,w)->{if(app.admin.unlocked()){try{app.learning.clear();refresh.run();}catch(Exception e){showInfo("清除失败，原数据保留。");}}}).setNegativeButton("取消",null).show();}));
+        root.addView(button("清除全部学习记录",false,()->{apiDialog=new AlertDialog.Builder(this).setTitle("清除学习记录？").setMessage("将删除纠错、练习适配与课程成绩，不能撤销；原文件与聊天记录保留。").setPositiveButton("清除",(d,w)->{if(app.admin.unlocked()){try{app.learning.clear();refresh.run();}catch(Exception e){showInfo("清除失败，原数据保留。");}}}).setNegativeButton("取消",null).show();}));
         root.addView(button("返回AI首页",true,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
     }
     private void selectText(){

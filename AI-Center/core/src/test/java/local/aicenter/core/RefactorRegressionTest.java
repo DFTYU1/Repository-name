@@ -38,6 +38,12 @@ public final class RefactorRegressionTest {
   eq(fitted.contains("CURRENT😀"),true);eq(fitted.contains("OLDER"),false);eq(fitted.codePointCount(0,fitted.length())<=250,true);
   boolean oversized=false;try{ConversationPrompt.fit(Collections.emptyList(),"超".repeat(500),300,50,String::length);}catch(IllegalArgumentException e){oversized=true;}eq(oversized,true);
   boolean badCount=false;try{ConversationPrompt.fit(Collections.emptyList(),"x",300,50,x->0);}catch(IllegalStateException e){badCount=true;}eq(badCount,true);
+  for(CapabilityCourse.Lesson l:CapabilityCourse.LESSONS){int[] correct=new int[l.questions.length],wrong=new int[l.questions.length];for(int i=0;i<correct.length;i++){correct[i]=l.questions[i].answer;wrong[i]=(correct[i]+1)%l.questions[i].options.length;}eq(CapabilityCourse.grade(l,correct),correct.length);eq(CapabilityCourse.grade(l,wrong),0);checks++;if(!l.source.startsWith("https://www.itl.nist.gov/"))throw new AssertionError("Missing primary source");}
+  eq(CapabilityCourse.calculate("1","13","10","1","mm",true).startsWith("Cp≈2；Cpk≈1"),true);
+  eq(CapabilityCourse.calculate("1","13","14","1","mm",true).contains("Cpk≈-0.333333"),true);
+  for(String[] bad:new String[][]{{"1","13","7","0"},{"13","1","7","1"},{"1","13","NaN","1"}}){boolean rejectedInput=false;try{CapabilityCourse.calculate(bad[0],bad[1],bad[2],bad[3],"mm",true);}catch(IllegalArgumentException e){rejectedInput=true;}eq(rejectedInput,true);}
+  boolean unconfirmed=false;try{CapabilityCourse.calculate("1","13","7","1","mm",false);}catch(IllegalArgumentException e){unconfirmed=true;}eq(unconfirmed,true);
+  boolean incomplete=false;try{CapabilityCourse.grade(CapabilityCourse.LESSONS[0],new int[]{-1,1});}catch(IllegalArgumentException e){incomplete=true;}eq(incomplete,true);
   System.out.println("PASS refactor regressions: "+checks+" assertions (host only; no APK/device claim)");
  }
 }

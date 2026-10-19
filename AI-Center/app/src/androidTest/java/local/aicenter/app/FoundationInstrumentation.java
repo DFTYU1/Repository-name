@@ -113,6 +113,21 @@ public final class FoundationInstrumentation extends Instrumentation {
                 require(rejected,"Endpoint change must require key re-entry");
                 app.apiSettings.save("A","","","");require(!app.apiSettings.ready("A"),"API config removal failed");
             });
+            test("capability_course_quiz_and_calculator_ui",()->{
+                runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);fields.get(0).setText("打开Cpk学习");findText(screen.getWindow().getDecorView(),"发送").performClick();});
+                until(()->hasText("Cpk学习与计算"),10_000);
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"1 先判断过程是否稳定").performClick());
+                until(()->hasText("提交本课测验"),10_000);
+                runOnMainSync(()->{List<android.widget.RadioGroup> groups=new ArrayList<>();collectRadioGroups(screen.getWindow().getDecorView(),groups);require(groups.size()==2,"Two quiz questions required");for(android.widget.RadioGroup group:groups)group.check(group.getChildAt(1).getId());findText(screen.getWindow().getDecorView(),"提交本课测验").performClick();});
+                require(hasText("本次：2/2"),"Quiz grading did not appear");
+                local.aicenter.platform.LearningStore reopened=new local.aicenter.platform.LearningStore(app,app.secrets);require(reopened.courseSummary("stability").contains("2/2"),"Quiz result did not persist");
+                runOnMainSync(()->{findText(screen.getWindow().getDecorView(),"打开Cp/Cpk计算器").performClick();findText(screen.getWindow().getDecorView(),"填入教学示例").performClick();findText(screen.getWindow().getDecorView(),"计算Cp和Cpk").performClick();});
+                require(hasText("请先确认过程条件与组内标准差含义"),"Unconfirmed conditions accepted");
+                runOnMainSync(()->{((android.widget.CheckBox)findText(screen.getWindow().getDecorView(),"已确认过程稳定、组内σ含义及本次数据模型适用")).setChecked(true);findText(screen.getWindow().getDecorView(),"计算Cp和Cpk").performClick();});
+                require(hasText("Cp≈2；Cpk≈1"),"Capability calculation wrong");
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回课程目录").performClick());
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());until(()->hasText("个人 AI 中枢"),10_000);app.learning.clear();
+            });
             test("responsive_home_layout",()->{
                 boolean tablet="tablet".equals(options.getString("profile","phone"));
                 require(hasText("立即断开AI"),"Disconnect button is missing");
@@ -339,6 +354,7 @@ public final class FoundationInstrumentation extends Instrumentation {
         }
         return null;
     }
+    private static void collectRadioGroups(View root,List<android.widget.RadioGroup> groups){if(root instanceof android.widget.RadioGroup)groups.add((android.widget.RadioGroup)root);if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++)collectRadioGroups(((ViewGroup)root).getChildAt(i),groups);}
     private static void collectFields(View root,List<EditText> fields){
         if(root instanceof EditText)fields.add((EditText)root);
         if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++)collectFields(((ViewGroup)root).getChildAt(i),fields);

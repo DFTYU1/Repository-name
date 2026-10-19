@@ -23,5 +23,12 @@ public final class LearningStore {
  public synchronized void practice(boolean chinese,int typed,int errors){if(!enabled())return;double accuracy=LearningPolicy.accuracy(typed,errors);try{JSONObject data=load();String key=chinese?"zh":"en";JSONObject stats=data.optJSONObject(key);if(stats==null)stats=new JSONObject();int sessions=stats.optInt("sessions");stats.put("sessions",Math.min(1000000,sessions+1));stats.put("accuracy",accuracy);data.put(key,stats);save(data);}catch(Exception e){throw new IllegalStateException("练习学习记录保存失败",e);}}
  public synchronized String target(boolean chinese){JSONObject stats=enabled()?load().optJSONObject(chinese?"zh":"en"):null;return LearningPolicy.target(chinese,stats==null?0:stats.optInt("sessions"),stats==null?0:stats.optDouble("accuracy"));}
  public synchronized String summary(){JSONObject data=load();StringBuilder s=new StringBuilder(enabled()?"学习已开启":"学习已关闭");for(String key:new String[]{"zh","en"}){JSONObject v=data.optJSONObject(key);s.append("\n").append(key.equals("zh")?"中文":"英文").append("：").append(v==null?0:v.optInt("sessions")).append("次有效练习");}return s.append("\n纠错记录：").append(corrections().size()).append("条；仅精确匹配提问，不作为工具指令执行。\n练习满3次且最近一次过程正确率≥97%时增加句子难度，否则保持基础练习。关闭后不应用纠错或自动记录练习；可显式管理纠错。").toString();}
+ public synchronized void courseResult(String id,int correct,int total){
+  local.aicenter.core.CapabilityCourse.Lesson lesson=local.aicenter.core.CapabilityCourse.lesson(id);
+  if(total!=lesson.questions.length||correct<0||correct>total)throw new IllegalArgumentException("无效课程成绩");
+  if(!enabled())return;
+  try{JSONObject data=load();JSONObject courses=data.optJSONObject("courses");if(courses==null)courses=new JSONObject();JSONObject old=courses.optJSONObject(id);JSONObject row=new JSONObject().put("attempts",Math.min(1000000,old==null?1:old.optInt("attempts")+1)).put("correct",correct).put("total",total).put("updated",System.currentTimeMillis());courses.put(id,row);data.put("courses",courses);save(data);}catch(Exception e){throw new IllegalStateException("课程成绩保存失败",e);}
+ }
+ public synchronized String courseSummary(String id){local.aicenter.core.CapabilityCourse.lesson(id);JSONObject courses=load().optJSONObject("courses"),row=courses==null?null:courses.optJSONObject(id);return row==null?"尚未测验":"已测"+row.optInt("attempts")+"次，最近"+row.optInt("correct")+"/"+row.optInt("total");}
  public synchronized void clear(){if(!prefs.edit().remove("records").commit())throw new IllegalStateException("清除学习记录失败");}
 }
