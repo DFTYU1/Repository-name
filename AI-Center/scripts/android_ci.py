@@ -86,12 +86,12 @@ def prepare():
 
 
 def expected_instrumentation_tests(profile, tool_chat_smoke):
-    expected = {'application_initialization', 'administrator_setup_via_real_ui', 'responsive_home_layout',
+    expected = {'refactor_arithmetic_real_chat','refactor_typing_real_ui','refactor_api_configuration_at_rest','application_initialization', 'administrator_setup_via_real_ui', 'responsive_home_layout',
                 'android_sqlite_and_keystore_message_persistence', 'sandbox_copy_and_traversal_denial',
                 'interrupted_task_journal_recovery', 'disconnect_button_revokes_token_lease_and_close_hook'}
     if profile == 'phone':
         expected.add('lease_expires_after_real_five_minutes')
-    expected.update({'real_model_verified_and_network_permission_absent','real_offline_chinese','real_offline_english','real_offline_qe','real_offline_excel','real_model_agent_tool_call','real_native_cancel_and_resume'})
+    expected.update({'real_model_verified_with_explicit_api_permission','real_offline_chinese','real_offline_english','real_offline_qe','real_offline_excel','real_model_agent_tool_call','real_native_cancel_and_resume'})
     expected.update({'tool_chat_ui_percentage','tool_chat_ui_missing'})
     if tool_chat_smoke in {'true', 'context'}:
         expected.update({'tool_chat_ui_percentage_changed','tool_chat_ui_followup'})

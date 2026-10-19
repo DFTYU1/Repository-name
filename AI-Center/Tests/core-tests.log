@@ -33,4 +33,9 @@ PASS conversation prompt bounds old history and neutralizes closing delimiter
 PASS generation budget expands long-form answers without changing deterministic cases
 PASS storage budget handles full disk and overflow without deleting user data
 TOTAL 34 PASS
-PASS 69 checks; planner fixtures only, NOT real-model validation
+PASS 75 checks; planner fixtures only, NOT real-model validation
+PASS explicit bilingual routing
+PASS source provenance and literal untrusted text
+PASS absent and empty query
+PASS bounded excerpt and cancellation
+PASS refactor regressions: 238 assertions (host only; no APK/device claim)

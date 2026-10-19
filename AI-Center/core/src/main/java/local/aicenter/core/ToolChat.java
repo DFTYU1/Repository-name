@@ -14,6 +14,8 @@ public final class ToolChat {
     }
     public String answer(String current,List<String[]> history,StopController.Token token)throws Exception{
         token.check();
+        String arithmetic=ArithmeticExpression.answer(current);
+        if(arithmetic!=null)return arithmetic;
         CalculationRequest request=CalculationRequest.from(current,history);
         String context=request.source;
         // A fully explicit count percentage is a verified calculator operation,
@@ -26,6 +28,8 @@ public final class ToolChat {
         if(simple!=null)return simple;
         String deterministic=validatedDeterministicRequest(request);
         if(deterministic!=null)return deterministic;
+        // Ordinary conversation is not a calculator-planning request. Avoid a second inference pass.
+        if(!Pattern.compile("[0-9]|cpk|公式|formula|计算|求和|均值|平均值",Pattern.CASE_INSENSITIVE).matcher(current).find())return null;
         String plan=planner.generate(
             "Route the user request. Return exactly one line, without markdown. Never calculate numbers yourself. "
             +"For ordinary conversation return CHAT. For missing, conflicting, ambiguous values/units or unsupported calculation return CLARIFY. "

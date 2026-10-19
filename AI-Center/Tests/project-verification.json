@@ -1,11 +1,11 @@
 {
-  "time_utc": "2026-10-03T03:30:01.357433+00:00",
+  "time_utc": "2026-10-19T01:41:11.248742+00:00",
   "status": "PASS",
   "passed": [
     "SQLite schema constraints and foreign keys",
     "SQLite indexing rollback preserves imported document",
     "Android Java syntax parsing only",
-    "Android manifest requests no broad access or network",
+    "Android manifest allows API internet only, with no broad file access",
     "100 fixed professional questions and execution kinds",
     "Android CI validates only tests selected by each smoke scope",
     "Android CI isolates profile AVDs and proves install capacity",

@@ -62,6 +62,33 @@ public final class FoundationInstrumentation extends Instrumentation {
                 until(()->hasText("个人 AI 中枢"),30_000);
                 require(app.admin.unlocked(),"Administrator did not unlock");
             });
+            test("refactor_arithmetic_real_chat",()->chatUiFast("1+1等于几","2"));
+            test("refactor_typing_real_ui",()->{
+                runOnMainSync(()->{
+                    List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);
+                    fields.get(0).setText("调用打字功能");findText(screen.getWindow().getDecorView(),"发送").performClick();
+                });
+                until(()->hasText("中英文打字练习"),10_000);
+                runOnMainSync(()->{
+                    List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);
+                    require(fields.size()==1,"Typing screen must contain its own input");
+                    fields.get(0).setText("Inspect each part and record the defect.");
+                });
+                until(()->hasText("已完成练习：1次"),10_000);
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
+                until(()->hasText("个人 AI 中枢"),10_000);
+            });
+            test("refactor_api_configuration_at_rest",()->{
+                require(!app.apiSettings.ready("A"),"Fresh app must not have an API configured");
+                String synthetic="synthetic-test-key-never-sent";
+                app.apiSettings.save("A","https://example.invalid/chat/completions","fixture",synthetic);
+                require(app.apiSettings.ready("A")&&app.apiSettings.key("A").equals(synthetic),"API configuration did not round trip");
+                String stored=app.getSharedPreferences("api_settings",android.content.Context.MODE_PRIVATE).getString("A.key","");
+                require(!stored.contains(synthetic)&&stored.startsWith("v1:"),"Key was not encrypted");
+                boolean rejected=false;try{app.apiSettings.save("A","https://different.invalid/chat/completions","fixture","");}catch(IllegalArgumentException expected){rejected=true;}
+                require(rejected,"Endpoint change must require key re-entry");
+                app.apiSettings.save("A","","","");require(!app.apiSettings.ready("A"),"API config removal failed");
+            });
             test("responsive_home_layout",()->{
                 boolean tablet="tablet".equals(options.getString("profile","phone"));
                 require(hasText("立即断开AI"),"Disconnect button is missing");
@@ -123,10 +150,10 @@ public final class FoundationInstrumentation extends Instrumentation {
                 app.stop.resume();require(!token.valid(),"Resume revived an old token");
             });
             if("true".equals(options.getString("offline_model","false"))){
-                test("real_model_verified_and_network_permission_absent",()->{
+                test("real_model_verified_with_explicit_api_permission",()->{
                     require(app.localModel!=null&&app.localModel.ready(),"Verified model unavailable");
                     require(app.localModel.id().equals("Qwen3.5-2B-Q4_K_M"),"Unexpected model");
-                    require(getTargetContext().checkSelfPermission("android.permission.INTERNET")!=android.content.pm.PackageManager.PERMISSION_GRANTED,"Network permission must be absent");
+                    require(getTargetContext().checkSelfPermission("android.permission.INTERNET")==android.content.pm.PackageManager.PERMISSION_GRANTED,"API transport permission missing");
                     require(android.provider.Settings.Global.getInt(getTargetContext().getContentResolver(),"airplane_mode_on",0)==1,"Emulator must be in airplane mode");
                 });
                 test("real_offline_chinese",()->infer("用中文简短说明水为什么会结冰。",160,"[\\s\\S]*[\\u4e00-\\u9fff][\\s\\S]*"));

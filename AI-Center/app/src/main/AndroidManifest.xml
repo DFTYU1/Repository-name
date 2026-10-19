@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- No storage, network, microphone, accessibility or background privileges in this milestone. -->
+    <!-- Network is used only for user-confirmed API calls. No storage, microphone, accessibility or background privileges. -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <application
         android:name=".CenterApplication"

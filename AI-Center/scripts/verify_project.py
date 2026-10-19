@@ -49,7 +49,7 @@ def syntax():
 def manifest_scope():
     root=ET.parse(ROOT/'app/src/main/AndroidManifest.xml').getroot();ns='{http://schemas.android.com/apk/res/android}'
     permissions={p.get(ns+'name') for p in root.findall('uses-permission')}
-    assert permissions=={'android.permission.USE_BIOMETRIC'}
+    assert permissions=={'android.permission.USE_BIOMETRIC','android.permission.INTERNET'}
     application=root.find('application');assert application.get(ns+'allowBackup')=='false'
     assert application.get(ns+'usesCleartextTraffic')=='false'
     assert root.find('.//service') is None
@@ -110,7 +110,7 @@ try:
     test('SQLite schema constraints and foreign keys',schema_constraints)
     test('SQLite indexing rollback preserves imported document',transaction_rollback)
     test('Android Java syntax parsing only',syntax)
-    test('Android manifest requests no broad access or network',manifest_scope)
+    test('Android manifest allows API internet only, with no broad file access',manifest_scope)
     test('100 fixed professional questions and execution kinds',professional_definition)
     test('Android CI validates only tests selected by each smoke scope',android_ci_scope_contract)
     test('Android CI isolates profile AVDs and proves install capacity',android_ci_storage_contract)

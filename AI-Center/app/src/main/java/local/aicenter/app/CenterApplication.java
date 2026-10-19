@@ -16,6 +16,7 @@ public final class CenterApplication extends Application {
     public final ExecutorService worker=Executors.newSingleThreadExecutor();
     public final AtomicBoolean busy=new AtomicBoolean();
     public SecretStore secrets;
+    public ApiSettings apiSettings;
     public AdminStore admin;
     public CenterDatabase db;
     public FileVault vault;
@@ -23,12 +24,15 @@ public final class CenterApplication extends Application {
     public AgentRuntime agent;
     public ModelRouter models;
     public LocalModelEngine localModel;
+    private final java.util.Set<StopController.Token> cloudApprovals=java.util.concurrent.ConcurrentHashMap.newKeySet();
+    public void authorizeCloudRequest(StopController.Token token){admin.require();token.check();cloudApprovals.add(token);}
+    public void revokeCloudRequest(StopController.Token token){cloudApprovals.remove(token);}
     public volatile String modelError;
     public volatile boolean initialized;
     public volatile String startupError;
     @Override public void onCreate(){
         super.onCreate();
-        secrets=new SecretStore();admin=new AdminStore(this,secrets);db=new CenterDatabase(this,secrets);
+        secrets=new SecretStore();apiSettings=new ApiSettings(this,secrets);admin=new AdminStore(this,secrets);db=new CenterDatabase(this,secrets);
         worker.execute(()->{
             try{
                 vault=new FileVault(new File(getFilesDir(),"vault").toPath());
@@ -48,12 +52,26 @@ public final class CenterApplication extends Application {
                 register("chat",input->{
                     String knowledgeQuery=KnowledgeChat.query(input);
                     if(knowledgeQuery!=null)return KnowledgeChat.answer(knowledgeQuery,db.chunks(activeToken.get()),activeToken.get());
-                    if(models==null)throw new IllegalStateException(modelError);
+                    if(FeatureCatalog.capabilitiesRequested(input))return FeatureCatalog.summary();
+                    if(FeatureCatalog.typingRequested(input))return "请打开首页的中英文打字练习入口。";
                     String prompt=ConversationPrompt.build(db.recentMessages(),input,12000);
                     String assisted=new ToolChat((request,token)->localModel.generate(request,"",256,token))
                         .answer(input,db.recentMessages(),activeToken.get());
                     if(assisted!=null)return assisted;
+                    if(models==null)throw new IllegalStateException(modelError);
                     return models.answer(prompt,false,false,(provider,paid,privateContent)->false,activeToken.get()).text;
+                });
+                register("cloud_chat",input->{
+                    StopController.Token token=activeToken.get();
+                    if(!cloudApprovals.remove(token))throw new SecurityException("本次API请求未经明确授权");
+                    String arithmetic=ArithmeticExpression.answer(input);if(arithmetic!=null)return arithmetic;
+                    if(FeatureCatalog.capabilitiesRequested(input))return FeatureCatalog.summary();
+                    java.util.List<ModelEngine> engines=new java.util.ArrayList<>();
+                    engines.add(new HttpModelEngine(apiSettings,"A",stop));engines.add(new HttpModelEngine(apiSettings,"B",stop));
+                    if(localModel!=null&&localModel.ready())engines.add(localModel);
+                    // This tool is selected only after a per-request UI confirmation naming both slots.
+                    ModelRouter.Answer answer=new ModelRouter(engines).answer(input,true,false,(provider,paid,privateContent)->true,token);
+                    return "["+answer.provider+(answer.failedProviders.isEmpty()?"":"；已回退")+"]\n"+answer.text;
                 });
                 register("search",input->{
                     StopController.Token token=activeToken.get();
@@ -91,5 +109,5 @@ public final class CenterApplication extends Application {
         if(!agent.availableTools().contains(selected))throw new IllegalStateException("Invalid model tool selection");
         return selected;
     }
-    public void disconnect(){stop.stop();leases.revokeAll();}
+    public void disconnect(){stop.stop();cloudApprovals.clear();leases.revokeAll();}
 }

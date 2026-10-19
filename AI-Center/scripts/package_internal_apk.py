@@ -52,8 +52,9 @@ def main():
     package = re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'", badging)
     if not package or package[1] != 'local.aicenter.app.dev':
         raise ValueError('Unexpected application package')
-    if 'android.permission.INTERNET' in badging:
-        raise ValueError('Offline application unexpectedly requests INTERNET')
+    permissions=set(re.findall(r"uses-permission: name='([^']+)'",badging))
+    if permissions != {'android.permission.INTERNET','android.permission.USE_BIOMETRIC'}:
+        raise ValueError('Unexpected permission scope; only explicit API transport and biometrics allowed')
     cert = subprocess.check_output([str(sdk / 'build-tools/35.0.0/apksigner'), 'verify', '--print-certs', str(apk)], text=True)
     source = os.environ.get('GITHUB_SHA') or subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     output = ROOT / 'build/internal-delivery'
