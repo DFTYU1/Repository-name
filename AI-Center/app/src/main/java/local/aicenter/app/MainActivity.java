@@ -149,8 +149,15 @@ public final class MainActivity extends Activity {
         input=field("输入目标，或“查找：扭矩”");input.setMaxLines(4);input.setText(draft);draft="";
         composer.addView(input,new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1));
         composer.addView(button("发送",true,()->{String text=input.getText().toString().trim();if(!text.isEmpty()){input.setText("");submit(text);}}));center.addView(composer);
-        center.addView(button("本次使用API增强",false,this::confirmCloud));
-        if(!wide){center.addView(button("学习与纠错",false,this::showLearning));LinearLayout modules=row();modules.addView(button("中英文打字",false,this::showTyping));modules.addView(button("功能清单",false,()->showInfo(FeatureCatalog.summary())));center.addView(modules);LinearLayout actions=row();actions.addView(button("导入资料",false,this::selectText));actions.addView(button("本地文件",false,()->submit("查看文件")));actions.addView(button("管理",false,this::showManagement));center.addView(actions);}
+        if(wide)center.addView(button("本次使用API增强",false,this::confirmCloud));
+        else {
+            LinearLayout modules=row();
+            modules.addView(button("中英文打字",false,this::showTyping),new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1));
+            modules.addView(button("学习与纠错",false,this::showLearning),new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1));center.addView(modules);
+            LinearLayout actions=row();
+            actions.addView(button("本次使用API增强",false,this::confirmCloud),new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1));
+            actions.addView(button("更多功能",false,this::showFunctions),new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1));center.addView(actions);
+        }
         body.addView(center,new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.MATCH_PARENT,1));root.addView(body,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,1));setContentView(root);insets(root);
         final LinearLayout historyView=conversation;
         app.worker.execute(()->{
@@ -241,6 +248,13 @@ public final class MainActivity extends Activity {
         root.addView(practice);root.addView(score);root.addView(record);
         root.addView(button("重新练习",false,reset));root.addView(button("返回AI首页",true,this::showHome));
         ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
+    }
+    private void showFunctions(){
+        if(!app.admin.unlocked()){showLogin();return;}
+        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理"},(d,n)->{
+            if(!app.admin.unlocked()){showLogin();return;}
+            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else showManagement();
+        }).setNegativeButton("关闭",null).show();
     }
     private void showLearning(){
         if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get()){showInfo("请先等待当前任务结束。");return;}

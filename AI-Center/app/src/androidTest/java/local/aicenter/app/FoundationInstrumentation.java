@@ -100,7 +100,7 @@ public final class FoundationInstrumentation extends Instrumentation {
                 runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);require(fields.size()==2,"Learning fields missing");fields.get(0).setText("UI fixture");fields.get(1).setText("UI answer");findText(screen.getWindow().getDecorView(),"保存确认答案").performClick();});
                 require(app.learning.answer("UI fixture").contains("UI answer"),"UI save failed");
                 runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
-                until(()->hasText("个人 AI 中枢"),10_000);app.learning.clear();
+                until(()->hasText("个人 AI 中枢"),10_000);chatUiFast("UI fixture","UI answer");app.learning.clear();
             });
             test("refactor_api_configuration_at_rest",()->{
                 require(!app.apiSettings.ready("A"),"Fresh app must not have an API configured");
@@ -118,6 +118,12 @@ public final class FoundationInstrumentation extends Instrumentation {
                 require(hasText("立即断开AI"),"Disconnect button is missing");
                 require(hasText("我的空间")==tablet,"Sidebar does not match requested form factor");
                 require((screen.getResources().getConfiguration().screenWidthDp>=840)==tablet,"Display configuration did not apply");
+                runOnMainSync(()->{
+                    for(String name:tablet?new String[]{"学习与纠错","中英文打字"}:new String[]{"学习与纠错","中英文打字","更多功能","本次使用API增强"}){
+                        View entry=findText(screen.getWindow().getDecorView(),name);android.graphics.Rect visible=new android.graphics.Rect();
+                        require(entry.getGlobalVisibleRect(visible)&&visible.width()>=entry.getWidth()-2&&visible.height()>=entry.getHeight()-2,"Clipped entry: "+name);
+                    }
+                });
                 // Render only the fresh CI fixture's real View tree; keep FLAG_SECURE.
                 // This code is packaged solely in the instrumentation APK.
                 waitForIdleSync();
