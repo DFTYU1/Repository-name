@@ -100,7 +100,7 @@ public final class FoundationInstrumentation extends Instrumentation {
                 runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);require(fields.size()==2,"Learning fields missing");fields.get(0).setText("UI fixture");fields.get(1).setText("UI answer");findText(screen.getWindow().getDecorView(),"保存确认答案").performClick();});
                 require(app.learning.answer("UI fixture").contains("UI answer"),"UI save failed");
                 runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
-                until(()->hasText("个人 AI 中枢"),10_000);chatUiFast("UI fixture","UI answer");app.learning.clear();
+                until(()->hasText("个人 AI 中枢"),10_000);chatUiFast("UI fixture",java.util.regex.Pattern.quote("[你确认的纠错记录；未独立核实]\nUI answer"));app.learning.clear();
             });
             test("refactor_api_configuration_at_rest",()->{
                 require(!app.apiSettings.ready("A"),"Fresh app must not have an API configured");
