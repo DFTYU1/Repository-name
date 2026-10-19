@@ -134,6 +134,7 @@ public final class MainActivity extends Activity {
             sidebar.addView(label("我的空间",15,MUTED));
             sidebar.addView(button("导入资料",true,this::selectText));
             sidebar.addView(button("中英文打字",false,this::showTyping));
+            sidebar.addView(button("学习与纠错",false,this::showLearning));
             sidebar.addView(button("功能清单",false,()->showInfo(FeatureCatalog.summary())));
             sidebar.addView(button("本地文件",false,()->submit("查看文件")));
             sidebar.addView(button("任务记录",false,()->submit("查看任务")));
@@ -149,7 +150,7 @@ public final class MainActivity extends Activity {
         composer.addView(input,new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1));
         composer.addView(button("发送",true,()->{String text=input.getText().toString().trim();if(!text.isEmpty()){input.setText("");submit(text);}}));center.addView(composer);
         center.addView(button("本次使用API增强",false,this::confirmCloud));
-        if(!wide){LinearLayout modules=row();modules.addView(button("中英文打字",false,this::showTyping));modules.addView(button("功能清单",false,()->showInfo(FeatureCatalog.summary())));center.addView(modules);LinearLayout actions=row();actions.addView(button("导入资料",false,this::selectText));actions.addView(button("本地文件",false,()->submit("查看文件")));actions.addView(button("管理",false,this::showManagement));center.addView(actions);}
+        if(!wide){center.addView(button("学习与纠错",false,this::showLearning));LinearLayout modules=row();modules.addView(button("中英文打字",false,this::showTyping));modules.addView(button("功能清单",false,()->showInfo(FeatureCatalog.summary())));center.addView(modules);LinearLayout actions=row();actions.addView(button("导入资料",false,this::selectText));actions.addView(button("本地文件",false,()->submit("查看文件")));actions.addView(button("管理",false,this::showManagement));center.addView(actions);}
         body.addView(center,new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.MATCH_PARENT,1));root.addView(body,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,1));setContentView(root);insets(root);
         final LinearLayout historyView=conversation;
         app.worker.execute(()->{
@@ -171,6 +172,7 @@ public final class MainActivity extends Activity {
         }
         if(!app.busy.compareAndSet(false,true)){showInfo("当前任务还在处理，可等待或点击“立即断开AI”。");return;}
         if(FeatureCatalog.typingRequested(text)){app.busy.set(false);showTyping();return;}
+        if(FeatureCatalog.learningRequested(text)){app.busy.set(false);showLearning();return;}
         StopController.Token token=app.stop.begin();append("user",text);
         final LinearLayout targetConversation=conversation;
         app.worker.execute(()->{
@@ -204,8 +206,11 @@ public final class MainActivity extends Activity {
         protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;
         LinearLayout root=column();root.setPadding(dp(20),dp(20),dp(20),dp(20));
         root.addView(label("中英文打字练习",26,INK));
-        root.addView(label("离线练习 · 首次输入开始计时 · 中文按字/分钟，英文按5字符/词统计。",14,MUTED));
-        final String[] target={"Inspect each part and record the defect."};
+        root.addView(label("离线练习 · 首次输入计时 · 中文字/分钟，英文5字符/词。少于1秒完成不计入难度学习；粘贴不能代表真实速度。",14,MUTED));
+        final boolean[] chinesePractice={false};
+        final String[] target={app.learning.target(false)};
+        final int[] typedTotal={0},errorTotal={0};
+        final String[] previous={""};
         final TypingSession[] session={null};final boolean[] saved={false};
         TextView reference=label(target[0],22,INK);root.addView(reference);
         EditText practice=field("在此输入上方文本");practice.setSingleLine(false);practice.setMinLines(3);
@@ -214,25 +219,41 @@ public final class MainActivity extends Activity {
         android.content.SharedPreferences progress=getSharedPreferences("typing_progress",MODE_PRIVATE);
         TextView record=label("已完成练习："+progress.getInt("completed",0)+"次",14,MUTED);
         LinearLayout languages=row();
-        Runnable reset=()->{session[0]=null;saved[0]=false;reference.setText(target[0]);practice.setText("");score.setText("尚未开始");practice.setEnabled(true);};
-        languages.addView(button("英文练习",false,()->{target[0]="Inspect each part and record the defect.";reset.run();}));
-        languages.addView(button("中文练习",false,()->{target[0]="检查每个零件，记录不良并确认改善效果。";reset.run();}));root.addView(languages);
+        Runnable reset=()->{typedTotal[0]=0;errorTotal[0]=0;previous[0]="";target[0]=app.learning.target(chinesePractice[0]);session[0]=null;saved[0]=false;reference.setText(target[0]);practice.setText("");score.setText("尚未开始");practice.setEnabled(true);};
+        languages.addView(button("英文练习",false,()->{chinesePractice[0]=false;reset.run();}));
+        languages.addView(button("中文练习",false,()->{chinesePractice[0]=true;reset.run();}));root.addView(languages);
         practice.addTextChangedListener(new TextWatcher(){
             public void beforeTextChanged(CharSequence s,int start,int count,int after){}
             public void onTextChanged(CharSequence s,int start,int before,int count){}
             public void afterTextChanged(Editable text){
                 if(text.length()==0&&session[0]==null)return;
+                int[] old=previous[0].codePoints().toArray(),now=text.toString().codePoints().toArray(),expected=target[0].codePoints().toArray();
+                int prefix=0;while(prefix<old.length&&prefix<now.length&&old[prefix]==now[prefix])prefix++;
+                for(int i=prefix;i<now.length;i++){typedTotal[0]++;if(i>=expected.length||now[i]!=expected[i])errorTotal[0]++;}previous[0]=text.toString();
                 if(session[0]==null)session[0]=new TypingSession(target[0],SystemClock.elapsedRealtime());
                 TypingSession.Result result=session[0].score(text.toString(),SystemClock.elapsedRealtime());
                 boolean chinese=target[0].codePoints().anyMatch(c->c>127);
                 score.setText(String.format(java.util.Locale.ROOT,"%s · 正确率 %.1f%% · 错误字符 %d · %.1f %s · %d秒",
                     result.complete?"已完成":"练习中",result.accuracy,result.errors,chinese?result.charactersPerMinute:result.wpm,chinese?"字/分钟":"WPM",result.elapsedMs/1000));
-                if(result.complete&&!saved[0]){saved[0]=true;int total=progress.getInt("completed",0)+1;progress.edit().putInt("completed",total).putFloat("last_accuracy",(float)result.accuracy).apply();record.setText("已完成练习："+total+"次");practice.setEnabled(false);}
+                if(result.complete&&!saved[0]){saved[0]=true;try{if(result.elapsedMs>=1000)app.learning.practice(chinesePractice[0],typedTotal[0],errorTotal[0]);}catch(Exception e){showInfo("本次学习记录保存失败，原记录保留。");}int total=progress.getInt("completed",0)+1;progress.edit().putInt("completed",total).putFloat("last_accuracy",(float)result.accuracy).apply();record.setText("已完成练习："+total+"次");practice.setEnabled(false);}
             }
         });
         root.addView(practice);root.addView(score);root.addView(record);
         root.addView(button("重新练习",false,reset));root.addView(button("返回AI首页",true,this::showHome));
         ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
+    }
+    private void showLearning(){
+        if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get()){showInfo("请先等待当前任务结束。");return;}
+        protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;
+        LinearLayout root=column();root.setPadding(dp(20),dp(20),dp(20),dp(20));root.addView(label("学习与纠错",26,INK));
+        TextView status=label("",15,MUTED);root.addView(status);
+        EditText question=field("需要纠正的原问题");EditText answer=field("你确认的正确答案");answer.setSingleLine(false);root.addView(question);root.addView(answer);
+        Runnable refresh=()->{try{status.setText(app.learning.summary());}catch(Exception e){status.setText("学习记录读取失败，原数据保留。");}};refresh.run();
+        root.addView(button("保存确认答案",true,()->{if(!app.admin.unlocked()){showLogin();return;}try{app.learning.correct(question.getText().toString(),answer.getText().toString());question.setText("");answer.setText("");refresh.run();}catch(Exception e){showInfo(e instanceof IllegalArgumentException?e.getMessage():"保存失败，原记录保留。");}}));
+        root.addView(button("查看／修改／删除纠错",false,()->{try{List<String[]> rows=app.learning.corrections();if(rows.isEmpty()){showInfo("还没有纠错记录。");return;}String[] names=new String[rows.size()];for(int i=0;i<names.length;i++)names[i]=rows.get(i)[0];apiDialog=new AlertDialog.Builder(this).setTitle("选择纠错记录").setItems(names,(d,i)->{String[] item=rows.get(i);apiDialog=new AlertDialog.Builder(this).setTitle(item[0]).setMessage(item[1]).setPositiveButton("修改",(dialog,w)->{if(app.admin.unlocked()){question.setText(item[0]);answer.setText(item[1]);}}).setNegativeButton("删除",(dialog,w)->{if(app.admin.unlocked()){try{app.learning.remove(item[0]);refresh.run();}catch(Exception e){showInfo("删除失败，原记录保留。");}}}).setNeutralButton("关闭",null).show();}).show();}catch(Exception e){showInfo("读取失败，原数据保留。");}}));
+        root.addView(button("开启／关闭学习",false,()->{if(!app.admin.unlocked()){showLogin();return;}try{app.learning.enabled(!app.learning.enabled());refresh.run();}catch(Exception e){showInfo("设置保存失败。");}}));
+        root.addView(button("清除全部学习记录",false,()->{apiDialog=new AlertDialog.Builder(this).setTitle("清除学习记录？").setMessage("将删除纠错与适配记录，不能撤销；原文件与聊天记录保留。").setPositiveButton("清除",(d,w)->{if(app.admin.unlocked()){try{app.learning.clear();refresh.run();}catch(Exception e){showInfo("清除失败，原数据保留。");}}}).setNegativeButton("取消",null).show();}));
+        root.addView(button("返回AI首页",true,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
     }
     private void selectText(){
         if(!app.admin.unlocked()){showLogin();return;}

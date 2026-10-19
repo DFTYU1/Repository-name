@@ -17,6 +17,7 @@ public final class CenterApplication extends Application {
     public final AtomicBoolean busy=new AtomicBoolean();
     public SecretStore secrets;
     public ApiSettings apiSettings;
+    public LearningStore learning;
     public AdminStore admin;
     public CenterDatabase db;
     public FileVault vault;
@@ -32,7 +33,7 @@ public final class CenterApplication extends Application {
     public volatile String startupError;
     @Override public void onCreate(){
         super.onCreate();
-        secrets=new SecretStore();apiSettings=new ApiSettings(this,secrets);admin=new AdminStore(this,secrets);db=new CenterDatabase(this,secrets);
+        secrets=new SecretStore();learning=new LearningStore(this,secrets);apiSettings=new ApiSettings(this,secrets);admin=new AdminStore(this,secrets);db=new CenterDatabase(this,secrets);
         worker.execute(()->{
             try{
                 vault=new FileVault(new File(getFilesDir(),"vault").toPath());
@@ -58,6 +59,7 @@ public final class CenterApplication extends Application {
                     String assisted=new ToolChat((request,token)->localModel.generate(request,"",256,token))
                         .answer(input,db.recentMessages(),activeToken.get());
                     if(assisted!=null)return assisted;
+                    String correction=learning.answer(input);if(correction!=null)return correction;
                     if(models==null)throw new IllegalStateException(modelError);
                     return models.answer(prompt,false,false,(provider,paid,privateContent)->false,activeToken.get()).text;
                 });

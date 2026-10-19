@@ -87,7 +87,7 @@ def prepare():
 
 
 def expected_instrumentation_tests(profile, tool_chat_smoke):
-    expected = {'refactor_arithmetic_real_chat','refactor_typing_real_ui','refactor_api_configuration_at_rest','application_initialization', 'administrator_setup_via_real_ui', 'responsive_home_layout',
+    expected = {'learning_local_control_and_adaptation','refactor_arithmetic_real_chat','refactor_typing_real_ui','refactor_api_configuration_at_rest','application_initialization', 'administrator_setup_via_real_ui', 'responsive_home_layout',
                 'android_sqlite_and_keystore_message_persistence', 'sandbox_copy_and_traversal_denial',
                 'interrupted_task_journal_recovery', 'disconnect_button_revokes_token_lease_and_close_hook'}
     if profile == 'phone':

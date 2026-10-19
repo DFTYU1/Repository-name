@@ -78,6 +78,30 @@ public final class FoundationInstrumentation extends Instrumentation {
                 runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
                 until(()->hasText("个人 AI 中枢"),10_000);
             });
+            test("learning_local_control_and_adaptation",()->{
+                app.learning.clear();app.learning.enabled(true);
+                app.learning.correct("fixture question","fixture answer");
+                require(app.learning.answer("fixture question").contains("fixture answer"),"Correction missing");
+                require(app.learning.answer("different question")==null,"Correction must not match unrelated input");
+                String stored=app.getSharedPreferences("learning",android.content.Context.MODE_PRIVATE).getString("records","");
+                require(stored.startsWith("v1:")&&!stored.contains("fixture answer"),"Learning is not encrypted");
+                local.aicenter.platform.LearningStore reopened=new local.aicenter.platform.LearningStore(app,app.secrets);
+                require(reopened.answer("fixture question").contains("fixture answer"),"Learning did not persist");
+                app.learning.correct("fixture question","revised answer");require(app.learning.corrections().size()==1,"Correction duplicated");
+                require(app.learning.answer("fixture question").contains("revised answer"),"Correction edit failed");
+                String basic=app.learning.target(false);for(int i=0;i<3;i++)app.learning.practice(false,100,0);
+                require(!app.learning.target(false).equals(basic),"Practice did not adapt");
+                app.learning.practice(false,100,20);require(app.learning.target(false).equals(basic),"Errors did not reduce difficulty");
+                app.learning.enabled(false);require(app.learning.answer("fixture question")==null,"Disabled correction still active");
+                String before=app.learning.summary();app.learning.practice(false,100,0);require(before.equals(app.learning.summary()),"Disabled learner stored practice");
+                app.learning.enabled(true);app.learning.remove("fixture question");require(app.learning.answer("fixture question")==null,"Delete failed");
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"学习与纠错").performClick());
+                until(()->hasText("保存确认答案"),10_000);
+                runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);require(fields.size()==2,"Learning fields missing");fields.get(0).setText("UI fixture");fields.get(1).setText("UI answer");findText(screen.getWindow().getDecorView(),"保存确认答案").performClick();});
+                require(app.learning.answer("UI fixture").contains("UI answer"),"UI save failed");
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
+                until(()->hasText("个人 AI 中枢"),10_000);app.learning.clear();
+            });
             test("refactor_api_configuration_at_rest",()->{
                 require(!app.apiSettings.ready("A"),"Fresh app must not have an API configured");
                 String synthetic="synthetic-test-key-never-sent";

@@ -24,6 +24,13 @@ public final class RefactorRegressionTest {
   TypingSession.Result r=typing.score("abcde",61000);eq(r.wpm,1.0);eq(r.accuracy,100.0);eq(r.complete,true);
   r=typing.score("abXde!",61000);eq(r.errors,2);eq(r.complete,false);
   r=new TypingSession("中😀文",0).score("中😀文",60000);eq(r.correct,3);eq(r.charactersPerMinute,3.0);
+  eq(FeatureCatalog.learningRequested("打开自主学习"),true);eq(FeatureCatalog.learningRequested("不要打开自主学习"),false);
+  eq(LearningPolicy.target(false,0,100),LearningPolicy.target(false,2,100));
+  eq(LearningPolicy.target(false,3,96),LearningPolicy.target(false,0,0));
+  checks++;if(LearningPolicy.target(false,3,97).equals(LearningPolicy.target(false,0,0)))throw new AssertionError("No adaptation");
+  eq(LearningPolicy.target(true,3,Double.NaN),LearningPolicy.target(true,0,0));
+  eq(LearningPolicy.accuracy(10,2),80.0);eq(LearningPolicy.accuracy(0,0),0.0);
+  boolean rejected=false;try{LearningPolicy.accuracy(1,2);}catch(IllegalArgumentException e){rejected=true;}eq(rejected,true);
   System.out.println("PASS refactor regressions: "+checks+" assertions (host only; no APK/device claim)");
  }
 }
