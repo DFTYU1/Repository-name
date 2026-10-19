@@ -37,6 +37,10 @@ if compiled.returncode == 0:
     regression = subprocess.run([java,'-ea','-cp',str(build),'local.aicenter.core.RefactorRegressionTest'],capture_output=True,text=True,timeout=120)
     output += regression.stdout+regression.stderr
     if regression.returncode: report['test_exit']=regression.returncode
+if compiled.returncode == 0:
+    xlsx = subprocess.run([java,'-ea','-cp',str(build),'local.aicenter.core.XlsxReaderTest'],capture_output=True,text=True,timeout=120)
+    output += xlsx.stdout+xlsx.stderr
+    if xlsx.returncode: report['test_exit']=xlsx.returncode
 report['status'] = 'PASS'  if report['compile_exit']==0 and report['test_exit']==0 else 'FAIL'
 report['test_output'] = output
 (ROOT/'Tests').mkdir(exist_ok=True)

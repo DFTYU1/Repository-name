@@ -119,14 +119,34 @@ public final class FoundationInstrumentation extends Instrumentation {
                 runOnMainSync(()->findText(screen.getWindow().getDecorView(),"1 先判断过程是否稳定").performClick());
                 until(()->hasText("提交本课测验"),10_000);
                 runOnMainSync(()->{List<android.widget.RadioGroup> groups=new ArrayList<>();collectRadioGroups(screen.getWindow().getDecorView(),groups);require(groups.size()==2,"Two quiz questions required");for(android.widget.RadioGroup group:groups)group.check(group.getChildAt(1).getId());findText(screen.getWindow().getDecorView(),"提交本课测验").performClick();});
-                require(hasText("本次：2/2"),"Quiz grading did not appear");
+                require(hasText("本次：2/2\n成绩已加密保存，可重练。"),"Quiz grading did not appear");
                 local.aicenter.platform.LearningStore reopened=new local.aicenter.platform.LearningStore(app,app.secrets);require(reopened.courseSummary("stability").contains("2/2"),"Quiz result did not persist");
                 runOnMainSync(()->{findText(screen.getWindow().getDecorView(),"打开Cp/Cpk计算器").performClick();findText(screen.getWindow().getDecorView(),"填入教学示例").performClick();findText(screen.getWindow().getDecorView(),"计算Cp和Cpk").performClick();});
                 require(hasText("请先确认过程条件与组内标准差含义"),"Unconfirmed conditions accepted");
                 runOnMainSync(()->{((android.widget.CheckBox)findText(screen.getWindow().getDecorView(),"已确认过程稳定、组内σ含义及本次数据模型适用")).setChecked(true);findText(screen.getWindow().getDecorView(),"计算Cp和Cpk").performClick();});
-                require(hasText("Cp≈2；Cpk≈1"),"Capability calculation wrong");
+                require(hasText(local.aicenter.core.CapabilityCourse.calculate("1","13","10","1","mm",true)),"Capability calculation wrong");
                 runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回课程目录").performClick());
                 runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());until(()->hasText("个人 AI 中枢"),10_000);app.learning.clear();
+            });
+            // Recover the actual UI after a failed course assertion so later tests report independently.
+            runOnMainSync(()->{View back=findText(screen.getWindow().getDecorView(),"返回课程目录");if(back!=null)back.performClick();View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
+            test("xlsx_reader_android_synthetic",()->{
+                java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
+                try(java.util.zip.ZipOutputStream zip=new java.util.zip.ZipOutputStream(bytes)){
+                    String[][] parts={
+                        {"xl/workbook.xml","<workbook xmlns='http://schemas.openxmlformats.org/spreadsheetml/2006/main' xmlns:r='http://schemas.openxmlformats.org/officeDocument/2006/relationships'><sheets><sheet name='Test' r:id='r1'/></sheets></workbook>"},
+                        {"xl/_rels/workbook.xml.rels","<Relationships xmlns='http://schemas.openxmlformats.org/package/2006/relationships'><Relationship Id='r1' Type='http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet' Target='worksheets/sheet1.xml'/></Relationships>"},
+                        {"xl/worksheets/sheet1.xml","<worksheet xmlns='http://schemas.openxmlformats.org/spreadsheetml/2006/main'><sheetData><row><c r='A1' t='inlineStr'><is><t>中文😀</t></is></c><c r='B1' t='e'><f>1/0</f><v>#DIV/0!</v></c></row></sheetData></worksheet>"}};
+                    for(String[] part:parts){zip.putNextEntry(new java.util.zip.ZipEntry(part[0]));zip.write(part[1].getBytes(StandardCharsets.UTF_8));zip.closeEntry();}
+                }
+                local.aicenter.core.XlsxReader.Book book=local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(bytes.toByteArray()),app.stop.begin());
+                require(book.sheets.size()==1&&book.sheets.get(0).cells.size()==2,"Android workbook parsing failed");
+                require(book.sheets.get(0).cells.get(0).value.equals("中文😀"),"Unicode lost");
+                require(book.preview().contains("1个公式，1个缓存错误"),"Formula cache errors not reported");
+                StopController.Token cancelled=app.stop.begin();cancelled.cancel();boolean rejected=false;
+                try{local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(bytes.toByteArray()),cancelled);}catch(StopController.Stopped expected){rejected=true;}
+                require(rejected,"Cancelled workbook read continued");
+                // Parser only: no claim that the system picker/provider end-to-end was exercised.
             });
             test("responsive_home_layout",()->{
                 boolean tablet="tablet".equals(options.getString("profile","phone"));

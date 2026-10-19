@@ -38,7 +38,7 @@ import local.aicenter.platform.StorageManager;
 
 /** Native, adaptive foundation screen. Unimplemented capabilities are described honestly. */
 public final class MainActivity extends Activity {
-    private static final int PICK_TEXT=41;
+    private static final int PICK_TEXT=41, PICK_XLSX=42;
     private static final int BG=0xfff4f6f3, INK=0xff1e302c, MUTED=0xff61716c, ACCENT=0xff246f61;
     private final Handler handler=new Handler(Looper.getMainLooper());
     private CenterApplication app;
@@ -181,6 +181,7 @@ public final class MainActivity extends Activity {
         if(!app.busy.compareAndSet(false,true)){showInfo("当前任务还在处理，可等待或点击“立即断开AI”。");return;}
         if(FeatureCatalog.typingRequested(text)){app.busy.set(false);showTyping();return;}
         if(FeatureCatalog.learningRequested(text)){app.busy.set(false);showLearning();return;}
+        if(text.matches("(?:读取Excel文件|打开Excel预览)[。！!]?")){app.busy.set(false);selectXlsx();return;}
         if(text.matches("(?:打开|进入|开始)?Cpk学习(?:与计算)?[。！!]?")){app.busy.set(false);showCourses();return;}
         StopController.Token token=app.stop.begin();append("user",text);
         final LinearLayout targetConversation=conversation;
@@ -254,9 +255,9 @@ public final class MainActivity extends Activity {
     }
     private void showFunctions(){
         if(!app.admin.unlocked()){showLogin();return;}
-        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算"},(d,n)->{
+        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算","Excel只读预览"},(d,n)->{
             if(!app.admin.unlocked()){showLogin();return;}
-            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else if(n==4)showManagement();else showCourses();
+            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else if(n==4)showManagement();else if(n==5)showCourses();else selectXlsx();
         }).setNegativeButton("关闭",null).show();
     }
     private void showCourses(){
@@ -304,6 +305,27 @@ public final class MainActivity extends Activity {
         root.addView(button("清除全部学习记录",false,()->{apiDialog=new AlertDialog.Builder(this).setTitle("清除学习记录？").setMessage("将删除纠错、练习适配与课程成绩，不能撤销；原文件与聊天记录保留。").setPositiveButton("清除",(d,w)->{if(app.admin.unlocked()){try{app.learning.clear();refresh.run();}catch(Exception e){showInfo("清除失败，原数据保留。");}}}).setNegativeButton("取消",null).show();}));
         root.addView(button("返回AI首页",true,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
     }
+    private void selectXlsx(){
+        if(!app.admin.unlocked()){showLogin();return;}
+        if(app.busy.get()||!app.stop.enabled()){showInfo("请等待当前任务结束，或恢复AI后再读取。");return;}
+        Intent intent=new Intent(Intent.ACTION_OPEN_DOCUMENT);intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);selectingFile=true;
+        try{startActivityForResult(intent,PICK_XLSX);}catch(Exception e){selectingFile=false;showInfo("系统文件选择器暂时不可用。");}
+    }
+    private void readXlsx(Uri uri){
+        if(!app.admin.unlocked()){showLogin();return;}
+        if(!app.stop.enabled()||!app.busy.compareAndSet(false,true))return;
+        StopController.Token token=app.stop.begin();LinearLayout target=conversation;
+        app.worker.execute(()->{
+            String answer;
+            try{app.admin.require();answer=local.aicenter.platform.XlsxPreview.read(getContentResolver(),uri,app.leases,app.stop,token);token.check();}
+            catch(StopController.Stopped e){answer="Excel读取已停止，原文件未修改。";}
+            catch(Exception e){answer="Excel读取未完成：仅支持UTF-8 XML的普通xlsx，文件≤10MB、单项≤2MB、展开≤20MB、≤32表/5000格。不支持加密、宏、嵌入对象及部分特殊结构。原文件未修改。";}
+            finally{app.busy.set(false);}
+            final String reply=answer;runOnUiThread(()->{if(foreground&&!isFinishing()&&!isDestroyed()&&app.admin.unlocked()&&token.valid()&&conversation==target)showInfo(reply);});
+        });
+    }
     private void selectText(){
         if(!app.admin.unlocked()){showLogin();return;}
         if(app.busy.get()){showInfo("请等待当前任务结束，或先断开AI。");return;}
@@ -314,6 +336,7 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onActivityResult(int request,int result,Intent data){
         super.onActivityResult(request,result,data);
+        if(request==PICK_XLSX){selectingFile=false;if(result==RESULT_OK&&data!=null&&data.getData()!=null)readXlsx(data.getData());return;}
         if(request!=PICK_TEXT)return;selectingFile=false;
         if(result!=RESULT_OK||data==null||data.getData()==null)return;
         if(!app.admin.unlocked()){showLogin();return;}
