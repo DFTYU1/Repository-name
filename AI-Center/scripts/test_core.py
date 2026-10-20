@@ -49,6 +49,10 @@ if compiled.returncode == 0:
     imr = subprocess.run([java,'-ea','-cp',str(build),'local.aicenter.core.IndividualsChartTest'],capture_output=True,text=True,timeout=120)
     output += imr.stdout+imr.stderr
     if imr.returncode: report['test_exit']=imr.returncode
+if compiled.returncode == 0:
+    charts = subprocess.run([java,'-ea','-cp',str(build),'local.aicenter.core.ControlChartsTest'],capture_output=True,text=True,timeout=120)
+    output += charts.stdout+charts.stderr
+    if charts.returncode: report['test_exit']=charts.returncode
 report['status'] = 'PASS'  if report['compile_exit']==0 and report['test_exit']==0 else 'FAIL'
 report['test_output'] = output
 (ROOT/'Tests').mkdir(exist_ok=True)
