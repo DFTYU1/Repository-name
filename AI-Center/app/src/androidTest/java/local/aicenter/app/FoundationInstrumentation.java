@@ -195,6 +195,22 @@ public final class FoundationInstrumentation extends Instrumentation {
                 onMainChecked(()->findText(screen.getWindow().getDecorView(),"立即断开AI").performClick());until(()->hasText("个人 AI 中枢"),10_000);require(!app.stop.enabled(),"SPC stop did not revoke work");app.stop.resume();
             });
             onMainChecked(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
+            test("measurement_system_four_modes_real_ui",()->{
+                onMainChecked(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);fields.get(0).setText("打开MSA工具");findText(screen.getWindow().getDecorView(),"发送").performClick();});until(()->hasText("测量系统分析")&&hasText("已切换MSA类型，请核对格式和条件。"),10_000);
+                final android.widget.Spinner[] chooser={null};onMainChecked(()->{List<android.widget.Spinner> list=new ArrayList<>();collectSpinners(screen.getWindow().getDecorView(),list);require(list.size()==1,"MSA mode selector missing");chooser[0]=list.get(0);View stop=findText(screen.getWindow().getDecorView(),"立即断开AI");android.graphics.Rect bounds=new android.graphics.Rect();require(stop.getGlobalVisibleRect(bounds)&&bounds.height()>=stop.getHeight()-2,"MSA stop control clipped");});
+                for(int index=0;index<4;index++){final int mode=index;if(index>0){onMainChecked(()->chooser[0].setSelection(mode));until(()->hasText("已切换MSA类型，请核对格式和条件。"),10_000);}
+                    onMainChecked(()->{findText(screen.getWindow().getDecorView(),"填入MSA示例").performClick();findText(screen.getWindow().getDecorView(),"计算MSA").performClick();});require(hasText("请先确认试验设计、数据顺序、同单位及适用条件"),"Unconfirmed MSA design accepted");
+                    onMainChecked(()->{((android.widget.CheckBox)findText(screen.getWindow().getDecorView(),"已核对MSA设计、参考值、独立性、时间顺序及同单位")).setChecked(true);findText(screen.getWindow().getDecorView(),"计算MSA").performClick();});
+                    if(index==0)require(hasText(local.aicenter.core.MeasurementSystem.crossed(MeasurementScreen.EXAMPLES[index],true,true,100).report()),"GRR report differs from core");
+                    else if(index==1)require(hasText(local.aicenter.core.MeasurementSystem.bias(MeasurementScreen.EXAMPLES[index],10,true).report()),"Bias report differs from core");
+                    else if(index==2)require(hasText(local.aicenter.core.MeasurementSystem.linearity(MeasurementScreen.EXAMPLES[index],true).report()),"Linearity report differs from core");
+                    else require(hasText("稳定性 · 参考标准时间序列"+"\n参考值=10.0；平均偏倚="+(local.aicenter.core.IndividualsChart.calculate(MeasurementScreen.EXAMPLES[index],true).mean-10)+"\n"+local.aicenter.core.IndividualsChart.calculate(MeasurementScreen.EXAMPLES[index],true).report()+"\n未检验趋势与长期漂移，未合并参考标准不确定度。"),"Stability output missing");
+                    if(index!=1){until(()->{AtomicBoolean ready=new AtomicBoolean();onMainChecked(()->{View plot=mode==3?findIndividualsChart(screen.getWindow().getDecorView()):findMeasurementPlot(screen.getWindow().getDecorView());ready.set(plot!=null&&plot.getWidth()>0&&plot.getHeight()>0);});return ready.get();},10_000);onMainChecked(()->{View plot=mode==3?findIndividualsChart(screen.getWindow().getDecorView()):findMeasurementPlot(screen.getWindow().getDecorView());Bitmap bitmap=Bitmap.createBitmap(plot.getWidth(),plot.getHeight(),Bitmap.Config.ARGB_8888);plot.draw(new Canvas(bitmap));boolean drawn=false;for(int y=0;y<bitmap.getHeight()&&!drawn;y++)for(int x=0;x<bitmap.getWidth();x++){int color=bitmap.getPixel(x,y);if(mode==3?color==0xff246f61:color==android.graphics.Color.rgb(30,120,90)||color==android.graphics.Color.BLUE){drawn=true;break;}}bitmap.recycle();require(drawn,"MSA plot values not rendered");});}
+                    addResult("msa_mode_observation",true,MeasurementScreen.MODES[index]);
+                }
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"立即断开AI").performClick());until(()->hasText("个人 AI 中枢"),10_000);require(!app.stop.enabled(),"MSA stop did not revoke work");app.stop.resume();
+            });
+            onMainChecked(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
             test("responsive_home_layout",()->{
                 boolean tablet="tablet".equals(options.getString("profile","phone"));
                 require(hasText("立即断开AI"),"Disconnect button is missing");
@@ -432,6 +448,7 @@ public final class FoundationInstrumentation extends Instrumentation {
         }
         return null;
     }
+    private static View findMeasurementPlot(View root){if(root instanceof MeasurementPlot)return root;if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++){View found=findMeasurementPlot(((ViewGroup)root).getChildAt(i));if(found!=null)return found;}return null;}
     private static View findControlCharts(View root){if(root instanceof ControlChartsView)return root;if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++){View found=findControlCharts(((ViewGroup)root).getChildAt(i));if(found!=null)return found;}return null;}
     private static View findIndividualsChart(View root){if(root instanceof IndividualsChartView)return root;if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++){View found=findIndividualsChart(((ViewGroup)root).getChildAt(i));if(found!=null)return found;}return null;}
     private static void collectSpinners(View root,List<android.widget.Spinner> values){if(root instanceof android.widget.Spinner)values.add((android.widget.Spinner)root);if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++)collectSpinners(((ViewGroup)root).getChildAt(i),values);}

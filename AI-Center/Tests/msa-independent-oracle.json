@@ -1,0 +1,20 @@
+{
+  "scope": "Independent synthetic numerical oracle, not real user/device data",
+  "scipy_version": "1.17.0",
+  "bias": {
+    "bias": 1.0,
+    "se": 0.7071067811865476,
+    "p": 0.2301996410804989,
+    "ci95": [
+      -0.9632431614775572,
+      2.963243161477557
+    ]
+  },
+  "linearity": {
+    "slope": 0.15000000000000002,
+    "intercept": -1.0000000000000004,
+    "slope_se": 0.06614378277661476,
+    "p": 0.0859374999999999
+  },
+  "grr_interaction_p": 0.05991616668036493
+}

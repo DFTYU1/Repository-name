@@ -107,7 +107,7 @@ public final class CenterDatabase extends SQLiteOpenHelper implements AgentRunti
         switch(state){case "PLANNED":return "已安排";case "RUNNING":return "进行中";case "SUCCEEDED":return "已完成";case "CANCELLED":return "已停止";case "INTERRUPTED":return "上次中断";default:return "未完成";}
     }
     private static String toolLabel(String tool){
-        switch(tool){case "spc.charts":return "SPC控制图";case "file.import":return "导入资料";case "files":return "查看文件";case "storage":return "查看存储";case "search":return "资料检索";case "chat":return "AI对话";case "tasks":return "任务记录";default:return "本地任务";}
+        switch(tool){case "msa.analysis":return "测量系统分析";case "spc.charts":return "SPC控制图";case "file.import":return "导入资料";case "files":return "查看文件";case "storage":return "查看存储";case "search":return "资料检索";case "chat":return "AI对话";case "tasks":return "任务记录";default:return "本地任务";}
     }
     private static String codeLabel(String code){
         switch(code){case "created":return "已记录";case "started":case "copy_started":return "正在处理";case "finished":case "indexed":return "结果已保存";case "model_unavailable":return "模型尚未就绪";case "process_restarted":return "应用重启后保留记录";case "stopped":return "已断开";case "approval_required":return "需要授权";default:return "此步骤失败，已有内容保留";}

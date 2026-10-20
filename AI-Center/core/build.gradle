@@ -1,3 +1,27 @@
+import groovy.json.JsonSlurper
+import java.security.MessageDigest
 plugins { id 'java-library' }
 java { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+dependencies { api 'org.apache.commons:commons-statistics-distribution:1.3' }
+tasks.register('verifyStatisticsJars') {
+    inputs.files(configurations.compileClasspath)
+    doLast {
+        def lock = new JsonSlurper().parse(rootProject.file('ci/statistics-lock.json'))
+        def expected = lock.artifacts.collectEntries { [("${it.group}:${it.artifact}:${it.version}".toString()): it.sha256] }
+        def checked = [] as Set
+        configurations.compileClasspath.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+            def module = artifact.moduleVersion.id
+            def id = "${module.group}:${module.name}:${module.version}".toString()
+            if (module.group == 'org.apache.commons' && (module.name.startsWith('commons-statistics-') || module.name.startsWith('commons-numbers-') || module.name.startsWith('commons-rng-'))) {
+                if (!expected.containsKey(id)) throw new GradleException('Unpinned statistical dependency: ' + id)
+                def actual = MessageDigest.getInstance('SHA-256').digest(artifact.file.bytes).encodeHex().toString()
+                if (actual != expected[id]) throw new GradleException('Statistical dependency checksum mismatch: ' + id)
+                checked.add(id)
+            }
+        }
+        if (checked.size() != expected.size()) throw new GradleException('Missing pinned statistical dependencies')
+    }
+}
+tasks.named('compileJava') { dependsOn tasks.named('verifyStatisticsJars') }
