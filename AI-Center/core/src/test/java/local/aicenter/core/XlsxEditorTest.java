@@ -17,6 +17,7 @@ public final class XlsxEditorTest {
   reject(input,"不存在","A1","text","x");reject(input,"中文","Z9","text","x");reject(input,"中文","A1","number","NaN");reject(input,"中文","A1","number","1e2147483647");reject(input,"中文","A1","formula",injection);reject(input,"中文","A1","formula","=SUMIFS(A1:A3,B1:B2,\"NG\")");reject(input,"中文","A1","bad","1");reject(input,"中文","A1","text","x".repeat(2049));
   reject(XlsxReaderTest.zip(XlsxReaderTest.fixture()),"中文","A1","text","x");
   Map<String,String> signed=XlsxReaderTest.fixture();signed.put("_xmlsignatures/sig1.xml","<sig/>");reject(XlsxReaderTest.zip(signed),"中文","A1","text","x");
+  Map<String,String> protectedParts=new LinkedHashMap<>();for(Map.Entry<String,byte[]> e:original.entrySet())protectedParts.put(e.getKey(),new String(e.getValue(),StandardCharsets.UTF_8));protectedParts.put("xl/worksheets/sheet1.xml",protectedParts.get("xl/worksheets/sheet1.xml").replace("</worksheet>","<sheetProtection sheet='1'/></worksheet>"));reject(XlsxReaderTest.zip(protectedParts),"中文","A1","text","x");
   StopController.Token token=new StopController().begin();token.cancel();boolean stopped=false;try{XlsxEditor.edit(input,"中文","A1","text","x",token);}catch(StopController.Stopped e){stopped=true;}eq(stopped,true);
   System.out.println("PASS xlsx copy editor: "+checks+" assertions (host synthetic only; no formula recalculation claim)");
  }

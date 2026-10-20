@@ -168,6 +168,13 @@ public final class FoundationInstrumentation extends Instrumentation {
                 // This is the production editor and local copy UI, not the external picker/export provider.
             });
             runOnMainSync(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
+            test("individuals_chart_real_ui",()->{
+                runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);fields.get(0).setText("打开I-MR控制图");findText(screen.getWindow().getDecorView(),"发送").performClick();});until(()->hasText("I-MR控制图"),10_000);
+                runOnMainSync(()->{findText(screen.getWindow().getDecorView(),"填入I-MR示例").performClick();findText(screen.getWindow().getDecorView(),"计算并绘制I-MR").performClick();});require(hasText("请确认数据按采样时间顺序且单位一致"),"Unconfirmed I-MR data accepted");
+                runOnMainSync(()->{((android.widget.CheckBox)findText(screen.getWindow().getDecorView(),"数据按采样时间顺序且单位一致")).setChecked(true);findText(screen.getWindow().getDecorView(),"计算并绘制I-MR").performClick();});require(hasText(local.aicenter.core.IndividualsChart.calculate("1,1,1,1,100",true).report()),"I-MR output mismatch");waitForIdleSync();
+                runOnMainSync(()->{View chart=findIndividualsChart(screen.getWindow().getDecorView());require(chart!=null&&chart.getWidth()>0&&chart.getHeight()>0,"Chart not laid out");Bitmap bitmap=Bitmap.createBitmap(chart.getWidth(),chart.getHeight(),Bitmap.Config.ARGB_8888);chart.draw(new Canvas(bitmap));boolean red=false;for(int y=0;y<bitmap.getHeight()&&!red;y++)for(int x=0;x<bitmap.getWidth();x++)if(bitmap.getPixel(x,y)==android.graphics.Color.RED){red=true;break;}bitmap.recycle();require(red,"Out-of-limit point not rendered");findText(screen.getWindow().getDecorView(),"返回AI首页").performClick();});until(()->hasText("个人 AI 中枢"),10_000);
+            });
+            runOnMainSync(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
             test("responsive_home_layout",()->{
                 boolean tablet="tablet".equals(options.getString("profile","phone"));
                 require(hasText("立即断开AI"),"Disconnect button is missing");
@@ -394,6 +401,7 @@ public final class FoundationInstrumentation extends Instrumentation {
         }
         return null;
     }
+    private static View findIndividualsChart(View root){if(root instanceof IndividualsChartView)return root;if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++){View found=findIndividualsChart(((ViewGroup)root).getChildAt(i));if(found!=null)return found;}return null;}
     private static void collectSpinners(View root,List<android.widget.Spinner> values){if(root instanceof android.widget.Spinner)values.add((android.widget.Spinner)root);if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++)collectSpinners(((ViewGroup)root).getChildAt(i),values);}
     private static void collectRadioGroups(View root,List<android.widget.RadioGroup> groups){if(root instanceof android.widget.RadioGroup)groups.add((android.widget.RadioGroup)root);if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++)collectRadioGroups(((ViewGroup)root).getChildAt(i),groups);}
     private static void collectFields(View root,List<EditText> fields){

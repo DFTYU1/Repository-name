@@ -29,7 +29,7 @@ public final class XlsxEditor {
   if("formula".equals(kind)&&!FormulaCheck.check(value).startsWith("STRUCTURE_ONLY:"))throw new IllegalArgumentException("暂仅允许结构检查通过的单层公式；不计算结果");
   Map<String,byte[]> parts=XlsxReader.packageParts(new ByteArrayInputStream(original),token);
   for(String path:parts.keySet())if(path.startsWith("_xmlsignatures/")||path.toLowerCase(Locale.ROOT).contains("externallink"))throw new IllegalArgumentException("暂不修改签名或外链工作簿");
-  for(XlsxReader.Sheet s:book.sheets){token.check();Document doc=parse(parts.get(s.partName));NodeList cells=doc.getElementsByTagNameNS(NS,"c");boolean changed=false;
+  for(XlsxReader.Sheet s:book.sheets){token.check();Document doc=parse(parts.get(s.partName));if(s==selected&&direct(doc.getDocumentElement(),"sheetProtection")!=null)throw new IllegalArgumentException("不修改受保护的工作表，请在原应用确认权限后处理");NodeList cells=doc.getElementsByTagNameNS(NS,"c");boolean changed=false;
    for(int i=0;i<cells.getLength();i++){Element cell=(Element)cells.item(i);boolean target=s==selected&&address.equals(cell.getAttribute("r"));boolean formula=direct(cell,"f")!=null;
     if(formula){remove(cell,"v");changed=true;}
     if(target){remove(cell,"v");remove(cell,"f");remove(cell,"is");cell.removeAttribute("t");

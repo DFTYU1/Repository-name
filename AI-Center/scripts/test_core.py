@@ -45,6 +45,10 @@ if compiled.returncode == 0:
     editor = subprocess.run([java,'-ea','-cp',str(build),'local.aicenter.core.XlsxEditorTest'],capture_output=True,text=True,timeout=120)
     output += editor.stdout+editor.stderr
     if editor.returncode: report['test_exit']=editor.returncode
+if compiled.returncode == 0:
+    imr = subprocess.run([java,'-ea','-cp',str(build),'local.aicenter.core.IndividualsChartTest'],capture_output=True,text=True,timeout=120)
+    output += imr.stdout+imr.stderr
+    if imr.returncode: report['test_exit']=imr.returncode
 report['status'] = 'PASS'  if report['compile_exit']==0 and report['test_exit']==0 else 'FAIL'
 report['test_output'] = output
 (ROOT/'Tests').mkdir(exist_ok=True)

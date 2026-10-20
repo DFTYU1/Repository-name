@@ -182,6 +182,7 @@ public final class MainActivity extends Activity {
         if(!app.busy.compareAndSet(false,true)){showInfo("当前任务还在处理，可等待或点击“立即断开AI”。");return;}
         if(FeatureCatalog.typingRequested(text)){app.busy.set(false);showTyping();return;}
         if(FeatureCatalog.learningRequested(text)){app.busy.set(false);showLearning();return;}
+        if(text.matches("(?:打开|计算|进入)?I-MR(?:控制图)?[。！!]?")){app.busy.set(false);showIndividualsChart();return;}
         if(text.matches("(?:读取Excel文件|打开Excel预览)[。！!]?")){app.busy.set(false);selectXlsx();return;}
         if(text.matches("(?:打开|进入|开始)?Cpk学习(?:与计算)?[。！!]?")){app.busy.set(false);showCourses();return;}
         StopController.Token token=app.stop.begin();append("user",text);
@@ -256,10 +257,17 @@ public final class MainActivity extends Activity {
     }
     private void showFunctions(){
         if(!app.admin.unlocked()){showLogin();return;}
-        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算","Excel预览与修改副本"},(d,n)->{
+        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算","Excel预览与修改副本","I-MR控制图"},(d,n)->{
             if(!app.admin.unlocked()){showLogin();return;}
-            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else if(n==4)showManagement();else if(n==5)showCourses();else selectXlsx();
+            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else if(n==4)showManagement();else if(n==5)showCourses();else if(n==6)selectXlsx();else showIndividualsChart();
         }).setNegativeButton("关闭",null).show();
+    }
+    private void showIndividualsChart(){
+        if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get())return;protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;
+        LinearLayout root=column();root.setPadding(dp(20),dp(20),dp(20),dp(20));root.addView(label("I-MR控制图",24,INK));root.addView(label("单值按时间顺序输入，逗号或换行分隔，2至500个观测。不是子组X̄-R图；界限不是规格线。本批估计仅提示单点越界，不能证明稳定。",15,MUTED));EditText data=field("例如：1,2,3");data.setMinLines(4);data.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE);root.addView(data);
+        android.widget.CheckBox confirmed=new android.widget.CheckBox(this);confirmed.setText("数据按采样时间顺序且单位一致");root.addView(confirmed);TextView result=label("等待数据",15,INK);root.addView(result);LinearLayout charts=column();root.addView(charts);
+        root.addView(button("计算并绘制I-MR",true,()->{if(!app.admin.unlocked()){showLogin();return;}try{local.aicenter.core.IndividualsChart.Result values=local.aicenter.core.IndividualsChart.calculate(data.getText().toString(),confirmed.isChecked());result.setText(values.report());charts.removeAllViews();charts.addView(new IndividualsChartView(this,values),new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,dp(420)));}catch(IllegalArgumentException e){result.setText(e.getMessage());charts.removeAllViews();}}));
+        root.addView(button("填入I-MR示例",false,()->{data.setText("1,1,1,1,100");confirmed.setChecked(false);result.setText("示例仅演示越界信号，不作为稳定过程基线。");charts.removeAllViews();}));root.addView(label("公式依据：NIST单值控制图；MR上界常数3.267（跨度2）。\n"+local.aicenter.core.IndividualsChart.SOURCE,13,MUTED));root.addView(button("返回AI首页",false,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
     }
     private void showCourses(){
         if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get()){showInfo("请先等待当前任务结束。");return;}
