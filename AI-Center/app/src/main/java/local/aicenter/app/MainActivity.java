@@ -448,7 +448,7 @@ public final class MainActivity extends Activity {
         card.setBackground(round(role.equals("user")?0xffe2eee8:Color.WHITE,18));card.addView(label(role.equals("user")?"你":"个人AI中枢",12,MUTED));
         TextView message=label(text,16,INK);message.setTextIsSelectable(true);message.setLineSpacing(dp(3),1);card.addView(message);
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);params.setMargins(0,0,0,dp(12));conversation.addView(card,params);
-        if(chatScroll!=null)chatScroll.post(()->chatScroll.fullScroll(View.FOCUS_DOWN));
+        final ScrollView target=chatScroll;if(target!=null)target.post(()->{if(!isFinishing()&&!isDestroyed()&&chatScroll==target&&target.isAttachedToWindow())target.fullScroll(View.FOCUS_DOWN);});
     }
     private void showInfo(String message){if(!isFinishing()&&!isDestroyed())new AlertDialog.Builder(this).setMessage(message).setPositiveButton("知道了",null).show();}
     private LinearLayout column(){LinearLayout view=new LinearLayout(this);view.setOrientation(LinearLayout.VERTICAL);view.setBackgroundColor(BG);return view;}

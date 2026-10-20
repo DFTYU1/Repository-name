@@ -53,7 +53,7 @@ public final class FoundationInstrumentation extends Instrumentation {
             test("administrator_setup_via_real_ui",()->{
                 require(!app.admin.configured(),"CI requires a fresh app; existing admin data will not be changed");
                 until(()->hasText("建立管理员"),10_000);
-                runOnMainSync(()->{
+                onMainChecked(()->{
                     List<EditText> fields=new ArrayList<>(); collectFields(screen.getWindow().getDecorView(),fields);
                     require(fields.size()==2,"Expected two administrator password fields");
                     String password=options.getString("fixture_password",UUID.randomUUID().toString());
@@ -65,18 +65,18 @@ public final class FoundationInstrumentation extends Instrumentation {
             });
             test("refactor_arithmetic_real_chat",()->chatUiFast("1+1等于几","2"));
             test("refactor_typing_real_ui",()->{
-                runOnMainSync(()->{
+                onMainChecked(()->{
                     List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);
                     fields.get(0).setText("调用打字功能");findText(screen.getWindow().getDecorView(),"发送").performClick();
                 });
                 until(()->hasText("中英文打字练习"),10_000);
-                runOnMainSync(()->{
+                onMainChecked(()->{
                     List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);
                     require(fields.size()==1,"Typing screen must contain its own input");
                     fields.get(0).setText("Inspect each part and record the defect.");
                 });
                 until(()->hasText("已完成练习：1次"),10_000);
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
                 until(()->hasText("个人 AI 中枢"),10_000);
             });
             test("learning_local_control_and_adaptation",()->{
@@ -96,11 +96,11 @@ public final class FoundationInstrumentation extends Instrumentation {
                 app.learning.enabled(false);require(app.learning.answer("fixture question")==null,"Disabled correction still active");
                 String before=app.learning.summary();app.learning.practice(false,100,0);require(before.equals(app.learning.summary()),"Disabled learner stored practice");
                 app.learning.enabled(true);app.learning.remove("fixture question");require(app.learning.answer("fixture question")==null,"Delete failed");
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"学习与纠错").performClick());
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"学习与纠错").performClick());
                 until(()->hasText("保存确认答案"),10_000);
-                runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);require(fields.size()==2,"Learning fields missing");fields.get(0).setText("UI fixture");fields.get(1).setText("UI answer");findText(screen.getWindow().getDecorView(),"保存确认答案").performClick();});
+                onMainChecked(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);require(fields.size()==2,"Learning fields missing");fields.get(0).setText("UI fixture");fields.get(1).setText("UI answer");findText(screen.getWindow().getDecorView(),"保存确认答案").performClick();});
                 require(app.learning.answer("UI fixture").contains("UI answer"),"UI save failed");
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());
                 until(()->hasText("个人 AI 中枢"),10_000);chatUiFast("UI fixture",java.util.regex.Pattern.quote("[你确认的纠错记录；未独立核实]\nUI answer"));app.learning.clear();
             });
             test("refactor_api_configuration_at_rest",()->{
@@ -115,22 +115,22 @@ public final class FoundationInstrumentation extends Instrumentation {
                 app.apiSettings.save("A","","","");require(!app.apiSettings.ready("A"),"API config removal failed");
             });
             test("capability_course_quiz_and_calculator_ui",()->{
-                runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);fields.get(0).setText("打开Cpk学习");findText(screen.getWindow().getDecorView(),"发送").performClick();});
+                onMainChecked(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);fields.get(0).setText("打开Cpk学习");findText(screen.getWindow().getDecorView(),"发送").performClick();});
                 until(()->hasText("Cpk学习与计算"),10_000);
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"1 先判断过程是否稳定").performClick());
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"1 先判断过程是否稳定").performClick());
                 until(()->hasText("提交本课测验"),10_000);
-                runOnMainSync(()->{List<android.widget.RadioGroup> groups=new ArrayList<>();collectRadioGroups(screen.getWindow().getDecorView(),groups);require(groups.size()==2,"Two quiz questions required");for(android.widget.RadioGroup group:groups)group.check(group.getChildAt(1).getId());findText(screen.getWindow().getDecorView(),"提交本课测验").performClick();});
+                onMainChecked(()->{List<android.widget.RadioGroup> groups=new ArrayList<>();collectRadioGroups(screen.getWindow().getDecorView(),groups);require(groups.size()==2,"Two quiz questions required");for(android.widget.RadioGroup group:groups)group.check(group.getChildAt(1).getId());findText(screen.getWindow().getDecorView(),"提交本课测验").performClick();});
                 require(hasText("本次：2/2\n成绩已加密保存，可重练。"),"Quiz grading did not appear");
                 local.aicenter.platform.LearningStore reopened=new local.aicenter.platform.LearningStore(app,app.secrets);require(reopened.courseSummary("stability").contains("2/2"),"Quiz result did not persist");
-                runOnMainSync(()->{findText(screen.getWindow().getDecorView(),"打开Cp/Cpk计算器").performClick();findText(screen.getWindow().getDecorView(),"填入教学示例").performClick();findText(screen.getWindow().getDecorView(),"计算Cp和Cpk").performClick();});
+                onMainChecked(()->{findText(screen.getWindow().getDecorView(),"打开Cp/Cpk计算器").performClick();findText(screen.getWindow().getDecorView(),"填入教学示例").performClick();findText(screen.getWindow().getDecorView(),"计算Cp和Cpk").performClick();});
                 require(hasText("请先确认过程条件与组内标准差含义"),"Unconfirmed conditions accepted");
-                runOnMainSync(()->{((android.widget.CheckBox)findText(screen.getWindow().getDecorView(),"已确认过程稳定、组内σ含义及本次数据模型适用")).setChecked(true);findText(screen.getWindow().getDecorView(),"计算Cp和Cpk").performClick();});
+                onMainChecked(()->{((android.widget.CheckBox)findText(screen.getWindow().getDecorView(),"已确认过程稳定、组内σ含义及本次数据模型适用")).setChecked(true);findText(screen.getWindow().getDecorView(),"计算Cp和Cpk").performClick();});
                 require(hasText(local.aicenter.core.CapabilityCourse.calculate("1","13","10","1","mm",true)),"Capability calculation wrong");
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回课程目录").performClick());
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());until(()->hasText("个人 AI 中枢"),10_000);app.learning.clear();
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"返回课程目录").performClick());
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());until(()->hasText("个人 AI 中枢"),10_000);app.learning.clear();
             });
             // Recover the actual UI after a failed course assertion so later tests report independently.
-            runOnMainSync(()->{View back=findText(screen.getWindow().getDecorView(),"返回课程目录");if(back!=null)back.performClick();View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
+            onMainChecked(()->{View back=findText(screen.getWindow().getDecorView(),"返回课程目录");if(back!=null)back.performClick();View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
             test("xlsx_reader_android_synthetic",()->{
                 java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
                 try(java.util.zip.ZipOutputStream zip=new java.util.zip.ZipOutputStream(bytes)){
@@ -156,31 +156,39 @@ public final class FoundationInstrumentation extends Instrumentation {
                 local.aicenter.core.XlsxReader.Book changed=local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(copy),app.stop.begin());
                 require(changed.sheets.get(0).cells.get(0).value.equals("Edited中文")&&changed.sheets.get(0).cells.get(1).value.isEmpty(),"Editor failed or kept stale cache");
                 java.lang.reflect.Method show=MainActivity.class.getDeclaredMethod("showXlsxEditor",byte[].class,StopController.Token.class);show.setAccessible(true);StopController.Token token=app.stop.begin();
-                runOnMainSync(()->{try{show.invoke(screen,xlsxFixture,token);}catch(Exception e){throw new IllegalStateException(e);}});
+                onMainChecked(()->{try{show.invoke(screen,xlsxFixture,token);}catch(Exception e){throw new IllegalStateException(e);}});
                 require(hasText("Excel预览与修改副本"),"Editor UI missing");
-                runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);require(fields.size()==2,"Cell editor fields missing");fields.get(0).setText("A1");fields.get(1).setText("42");List<android.widget.Spinner> spinners=new ArrayList<>();collectSpinners(screen.getWindow().getDecorView(),spinners);require(spinners.size()==2,"Editor selectors missing");spinners.get(1).setSelection(1);});waitForIdleSync();
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"生成并核对修改副本").performClick());until(()->hasText("导出修改副本"),15_000);
+                onMainChecked(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);require(fields.size()==2,"Cell editor fields missing");fields.get(0).setText("A1");fields.get(1).setText("42");List<android.widget.Spinner> spinners=new ArrayList<>();collectSpinners(screen.getWindow().getDecorView(),spinners);require(spinners.size()==2,"Editor selectors missing");spinners.get(1).setSelection(1);});waitForIdleSync();
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"生成并核对修改副本").performClick());until(()->hasText("导出修改副本"),15_000);
                 String stored;try(Cursor c=app.db.getReadableDatabase().rawQuery("SELECT stored_name FROM documents WHERE stored_name LIKE '%.xlsx' ORDER BY added_utc DESC LIMIT 1",null)){require(c.moveToFirst(),"Copy was not catalogued");stored=c.getString(0);}
                 byte[] saved=java.nio.file.Files.readAllBytes(app.vault.resolveExisting(stored));local.aicenter.core.XlsxReader.Book savedBook=local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(saved),app.stop.begin());
                 require(savedBook.sheets.get(0).cells.get(0).value.equals("42")&&savedBook.sheets.get(0).cells.get(0).formula==null,"Saved numeric cell incorrect");
                 require(local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(xlsxFixture),app.stop.begin()).sheets.get(0).cells.get(0).value.equals("中文😀"),"Original mutated");
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"立即断开AI").performClick());until(()->hasText("个人 AI 中枢"),10_000);require(!app.stop.enabled()&&!token.valid(),"Editor disconnect did not revoke task");app.stop.resume();
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"立即断开AI").performClick());until(()->hasText("个人 AI 中枢"),10_000);require(!app.stop.enabled()&&!token.valid(),"Editor disconnect did not revoke task");app.stop.resume();
                 // This is the production editor and local copy UI, not the external picker/export provider.
             });
-            runOnMainSync(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
-            test("individuals_chart_real_ui",()->{
-                runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);fields.get(0).setText("打开I-MR控制图");findText(screen.getWindow().getDecorView(),"发送").performClick();});until(()->hasText("I-MR控制图"),10_000);
-                runOnMainSync(()->{findText(screen.getWindow().getDecorView(),"填入I-MR示例").performClick();findText(screen.getWindow().getDecorView(),"计算并绘制I-MR").performClick();});require(hasText("请确认数据按采样时间顺序且单位一致"),"Unconfirmed I-MR data accepted");
-                runOnMainSync(()->{((android.widget.CheckBox)findText(screen.getWindow().getDecorView(),"数据按采样时间顺序且单位一致")).setChecked(true);findText(screen.getWindow().getDecorView(),"计算并绘制I-MR").performClick();});require(hasText(local.aicenter.core.IndividualsChart.calculate("1,1,1,1,100",true).report()),"I-MR output mismatch");waitForIdleSync();
-                runOnMainSync(()->{View chart=findIndividualsChart(screen.getWindow().getDecorView());require(chart!=null&&chart.getWidth()>0&&chart.getHeight()>0,"Chart not laid out");Bitmap bitmap=Bitmap.createBitmap(chart.getWidth(),chart.getHeight(),Bitmap.Config.ARGB_8888);chart.draw(new Canvas(bitmap));boolean red=false;for(int y=0;y<bitmap.getHeight()&&!red;y++)for(int x=0;x<bitmap.getWidth();x++)if(bitmap.getPixel(x,y)==android.graphics.Color.RED){red=true;break;}bitmap.recycle();require(red,"Out-of-limit point not rendered");findText(screen.getWindow().getDecorView(),"返回AI首页").performClick();});until(()->hasText("个人 AI 中枢"),10_000);
+            onMainChecked(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
+            test("chat_pending_scroll_navigation",()->{
+                java.lang.reflect.Field scroll=MainActivity.class.getDeclaredField("chatScroll");scroll.setAccessible(true);
+                until(()->{AtomicBoolean attached=new AtomicBoolean();onMainChecked(()->{try{View view=(View)scroll.get(screen);attached.set(view!=null&&view.isAttachedToWindow());}catch(Exception e){throw new IllegalStateException(e);}});return attached.get();},10_000);
+                java.lang.reflect.Method append=MainActivity.class.getDeclaredMethod("append",String.class,String.class),navigate=MainActivity.class.getDeclaredMethod("showIndividualsChart");append.setAccessible(true);navigate.setAccessible(true);
+                onMainChecked(()->{try{append.invoke(screen,"assistant","synthetic pending scroll");navigate.invoke(screen);}catch(Exception e){throw new IllegalStateException(e);}});waitForIdleSync();require(hasText("I-MR控制图"),"Navigation did not survive pending scroll");
+                onMainChecked(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());until(()->hasText("个人 AI 中枢"),10_000);
             });
-            runOnMainSync(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
+            test("individuals_chart_real_ui",()->{
+                onMainChecked(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);fields.get(0).setText("打开I-MR控制图");findText(screen.getWindow().getDecorView(),"发送").performClick();});until(()->hasText("I-MR控制图"),10_000);
+                onMainChecked(()->{findText(screen.getWindow().getDecorView(),"填入I-MR示例").performClick();findText(screen.getWindow().getDecorView(),"计算并绘制I-MR").performClick();});require(hasText("请确认数据按采样时间顺序且单位一致"),"Unconfirmed I-MR data accepted");
+                onMainChecked(()->{((android.widget.CheckBox)findText(screen.getWindow().getDecorView(),"数据按采样时间顺序且单位一致")).setChecked(true);findText(screen.getWindow().getDecorView(),"计算并绘制I-MR").performClick();});require(hasText(local.aicenter.core.IndividualsChart.calculate("1,1,1,1,100",true).report()),"I-MR output mismatch");
+                until(()->{AtomicBoolean measured=new AtomicBoolean();onMainChecked(()->{View view=findIndividualsChart(screen.getWindow().getDecorView());measured.set(view!=null&&view.getWidth()>0&&view.getHeight()>0);});return measured.get();},10_000);
+                onMainChecked(()->{View chart=findIndividualsChart(screen.getWindow().getDecorView());require(chart!=null&&chart.getWidth()>0&&chart.getHeight()>0,"Chart not laid out");Bitmap bitmap=Bitmap.createBitmap(chart.getWidth(),chart.getHeight(),Bitmap.Config.ARGB_8888);chart.draw(new Canvas(bitmap));boolean red=false;for(int y=0;y<bitmap.getHeight()&&!red;y++)for(int x=0;x<bitmap.getWidth();x++)if(bitmap.getPixel(x,y)==android.graphics.Color.RED){red=true;break;}bitmap.recycle();require(red,"Out-of-limit point not rendered");findText(screen.getWindow().getDecorView(),"返回AI首页").performClick();});until(()->hasText("个人 AI 中枢"),10_000);
+            });
+            onMainChecked(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
             test("responsive_home_layout",()->{
                 boolean tablet="tablet".equals(options.getString("profile","phone"));
                 require(hasText("立即断开AI"),"Disconnect button is missing");
                 require(hasText("我的空间")==tablet,"Sidebar does not match requested form factor");
                 require((screen.getResources().getConfiguration().screenWidthDp>=840)==tablet,"Display configuration did not apply");
-                runOnMainSync(()->{
+                onMainChecked(()->{
                     for(String name:tablet?new String[]{"学习与纠错","中英文打字"}:new String[]{"学习与纠错","中英文打字","更多功能","本次使用API增强"}){
                         View entry=findText(screen.getWindow().getDecorView(),name);android.graphics.Rect visible=new android.graphics.Rect();
                         require(entry.getGlobalVisibleRect(visible)&&visible.width()>=entry.getWidth()-2&&visible.height()>=entry.getHeight()-2,"Clipped entry: "+name);
@@ -189,7 +197,7 @@ public final class FoundationInstrumentation extends Instrumentation {
                 // Render only the fresh CI fixture's real View tree; keep FLAG_SECURE.
                 // This code is packaged solely in the instrumentation APK.
                 waitForIdleSync();
-                runOnMainSync(()->{
+                onMainChecked(()->{
                     View root=screen.getWindow().getDecorView();
                     Bitmap bitmap=Bitmap.createBitmap(root.getWidth(),root.getHeight(),Bitmap.Config.ARGB_8888);
                     try(FileOutputStream output=new FileOutputStream(new File(getTargetContext().getFilesDir(),"ci-home.png"))){
@@ -234,7 +242,7 @@ public final class FoundationInstrumentation extends Instrumentation {
                 StopController.Token token=app.stop.begin();AtomicBoolean closed=new AtomicBoolean();
                 String uri="content://ci-lease/single-file";String lease=app.leases.grant("ci-stop",uri,token);
                 try(AutoCloseable hook=app.stop.onStop(token,()->closed.set(true))){
-                    runOnMainSync(()->findText(screen.getWindow().getDecorView(),"立即断开AI").performClick());
+                    onMainChecked(()->findText(screen.getWindow().getDecorView(),"立即断开AI").performClick());
                     require(!token.valid()&&closed.get()&&app.leases.count()==0,"Disconnect did not revoke active resources");
                     boolean denied=false;try{app.leases.check(lease,uri);}catch(SecurityException expected){denied=true;}
                     require(denied,"Disconnected lease still works");
@@ -346,7 +354,7 @@ public final class FoundationInstrumentation extends Instrumentation {
     }
     private void chatUi(String prompt,String expected,long maxElapsedMs)throws Exception{
         long started=SystemClock.elapsedRealtime();
-        runOnMainSync(()->{
+        onMainChecked(()->{
             List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);
             require(fields.size()==1,"Expected visible chat composer");
             fields.get(0).setText(prompt);findText(screen.getWindow().getDecorView(),"发送").performClick();
@@ -377,6 +385,12 @@ public final class FoundationInstrumentation extends Instrumentation {
         require(semanticOutput.matches(expected),"Model answer did not meet this smoke-test criterion");
         require(metrics[1]>0&&metrics[2]>0,"No real native generation metrics");
     }
+    private void onMainChecked(Runnable action){
+        if(android.os.Looper.myLooper()==android.os.Looper.getMainLooper()){action.run();return;}
+        java.util.concurrent.atomic.AtomicReference<Throwable> error=new java.util.concurrent.atomic.AtomicReference<>();
+        super.runOnMainSync(()->{try{action.run();}catch(Throwable t){error.set(t);}});
+        if(error.get()!=null)throw new AssertionError("UI action failed: "+error.get().getClass().getSimpleName()+": "+error.get().getMessage(),error.get());
+    }
     private interface Checked { void run()throws Exception; }
     private void test(String name,Checked action) {
         long started=SystemClock.elapsedRealtime();
@@ -397,7 +411,7 @@ public final class FoundationInstrumentation extends Instrumentation {
         while(!ready.getAsBoolean()){require(SystemClock.elapsedRealtime()<deadline,"Timed out waiting for application state");SystemClock.sleep(100);}
     }
     private boolean hasText(String value){
-        AtomicBoolean found=new AtomicBoolean();runOnMainSync(()->found.set(findText(screen.getWindow().getDecorView(),value)!=null));return found.get();
+        AtomicBoolean found=new AtomicBoolean();onMainChecked(()->found.set(findText(screen.getWindow().getDecorView(),value)!=null));return found.get();
     }
     private static View findText(View root,String value){
         if(root instanceof TextView&&value.contentEquals(((TextView)root).getText()))return root;
