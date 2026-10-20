@@ -164,7 +164,7 @@ public final class FoundationInstrumentation extends Instrumentation {
                 byte[] saved=java.nio.file.Files.readAllBytes(app.vault.resolveExisting(stored));local.aicenter.core.XlsxReader.Book savedBook=local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(saved),app.stop.begin());
                 require(savedBook.sheets.get(0).cells.get(0).value.equals("42")&&savedBook.sheets.get(0).cells.get(0).formula==null,"Saved numeric cell incorrect");
                 require(local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(xlsxFixture),app.stop.begin()).sheets.get(0).cells.get(0).value.equals("中文😀"),"Original mutated");
-                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());until(()->hasText("个人 AI 中枢"),10_000);
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"立即断开AI").performClick());until(()->hasText("个人 AI 中枢"),10_000);require(!app.stop.enabled()&&!token.valid(),"Editor disconnect did not revoke task");app.stop.resume();
                 // This is the production editor and local copy UI, not the external picker/export provider.
             });
             runOnMainSync(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
