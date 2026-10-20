@@ -31,6 +31,7 @@ public final class XlsxReader {
     }
     public static final class Sheet {
         public final String name,state;
+        public String partName;
         public final List<Cell> cells=new ArrayList<>();
         Sheet(String n,String s){name=n;state=s;}
     }
@@ -49,13 +50,7 @@ public final class XlsxReader {
     private static String shortText(String text){return text.length()>200?text.substring(0,200)+"…(预览截短)":text;}
     private static IOException invalid(){return new IOException("不支持、损坏或超出读取上限的xlsx文件");}
     public static Book read(InputStream input,StopController.Token token)throws Exception{
-        byte[] compressed=bounded(input,MAX_FILE,token);Map<String,byte[]> parts=new LinkedHashMap<>();int expanded=0,entries=0;
-        try(ZipInputStream zip=new ZipInputStream(new ByteArrayInputStream(compressed))){ZipEntry entry;
-            while((entry=zip.getNextEntry())!=null){token.check();String name=entry.getName();if(++entries>200||!safe(name)||parts.containsKey(name))throw invalid();
-                byte[] bytes=bounded(zip,MAX_XML,token);expanded+=bytes.length;if(expanded>MAX_EXPANDED)throw invalid();parts.put(name,bytes);
-                if(name.endsWith("vbaProject.bin")||name.contains("/embeddings/"))throw invalid();
-            }
-        }
+        Map<String,byte[]> parts=packageParts(input,token);
         Map<String,String> relations=new LinkedHashMap<>();
         parse(required(parts,"xl/_rels/workbook.xml.rels"),"Relationships",new DefaultHandler(){
             @Override public void startElement(String u,String l,String q,Attributes a)throws SAXException{
@@ -79,7 +74,7 @@ public final class XlsxReader {
             }
         },token);
         if(book.sheets.isEmpty())throw invalid();int[] count={0};
-        for(int i=0;i<paths.size();i++){Sheet sheet=book.sheets.get(i);
+        for(int i=0;i<paths.size();i++){Sheet sheet=book.sheets.get(i);sheet.partName=paths.get(i);
             parse(required(parts,paths.get(i)),"worksheet",new DefaultHandler(){
                 String address,type,formulaType;StringBuilder value,formula;String capture="";boolean inCell;final java.util.HashSet<String> seen=new java.util.HashSet<>();
                 @Override public void startElement(String u,String l,String q,Attributes a)throws SAXException{token.check();
@@ -91,6 +86,16 @@ public final class XlsxReader {
             },token);
         }
         token.check();return book;
+    }
+    static Map<String,byte[]> packageParts(InputStream input,StopController.Token token)throws IOException{
+        byte[] compressed=bounded(input,MAX_FILE,token);Map<String,byte[]> parts=new LinkedHashMap<>();int expanded=0,entries=0;
+        try(ZipInputStream zip=new ZipInputStream(new ByteArrayInputStream(compressed))){ZipEntry entry;
+            while((entry=zip.getNextEntry())!=null){token.check();String name=entry.getName();if(++entries>200||!safe(name)||parts.containsKey(name))throw invalid();
+                byte[] bytes=bounded(zip,MAX_XML,token);expanded+=bytes.length;if(expanded>MAX_EXPANDED)throw invalid();parts.put(name,bytes);
+                if(name.endsWith("vbaProject.bin")||name.contains("/embeddings/"))throw invalid();
+            }
+        }
+        return parts;
     }
     private static boolean addressValid(String address){if(address==null||!address.matches("[A-Z]{1,3}[1-9][0-9]{0,6}"))return false;int p=0,col=0;while(p<address.length()&&Character.isLetter(address.charAt(p)))col=col*26+address.charAt(p++)-'A'+1;return col<=16384&&Integer.parseInt(address.substring(p))<=1048576;}
     private static boolean safe(String name){if(name==null||name.isEmpty()||name.startsWith("/")||name.contains("\\")||name.contains(":")||name.contains("%")||name.contains("?")||name.contains("#"))return false;for(String p:name.split("/"))if(p.equals("..")||p.equals("."))return false;return true;}

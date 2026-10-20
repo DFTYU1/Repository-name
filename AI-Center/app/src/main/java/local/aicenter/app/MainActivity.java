@@ -38,7 +38,8 @@ import local.aicenter.platform.StorageManager;
 
 /** Native, adaptive foundation screen. Unimplemented capabilities are described honestly. */
 public final class MainActivity extends Activity {
-    private static final int PICK_TEXT=41, PICK_XLSX=42;
+    private static final int PICK_TEXT=41, PICK_XLSX=42, EXPORT_XLSX=43;
+    private String pendingXlsxExport;
     private static final int BG=0xfff4f6f3, INK=0xff1e302c, MUTED=0xff61716c, ACCENT=0xff246f61;
     private final Handler handler=new Handler(Looper.getMainLooper());
     private CenterApplication app;
@@ -255,7 +256,7 @@ public final class MainActivity extends Activity {
     }
     private void showFunctions(){
         if(!app.admin.unlocked()){showLogin();return;}
-        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算","Excel只读预览"},(d,n)->{
+        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算","Excel预览与修改副本"},(d,n)->{
             if(!app.admin.unlocked()){showLogin();return;}
             if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else if(n==4)showManagement();else if(n==5)showCourses();else selectXlsx();
         }).setNegativeButton("关闭",null).show();
@@ -318,12 +319,46 @@ public final class MainActivity extends Activity {
         if(!app.stop.enabled()||!app.busy.compareAndSet(false,true))return;
         StopController.Token token=app.stop.begin();LinearLayout target=conversation;
         app.worker.execute(()->{
-            String answer;
-            try{app.admin.require();answer=local.aicenter.platform.XlsxPreview.read(getContentResolver(),uri,app.leases,app.stop,token);token.check();}
+            String answer;byte[] loaded=null;
+            try{app.admin.require();loaded=local.aicenter.platform.XlsxPreview.load(getContentResolver(),uri,app.leases,app.stop,token);answer=null;token.check();}
             catch(StopController.Stopped e){answer="Excel读取已停止，原文件未修改。";}
             catch(Exception e){answer="Excel读取未完成：仅支持UTF-8 XML的普通xlsx，文件≤10MB、单项≤2MB、展开≤20MB、≤32表/5000格。不支持加密、宏、嵌入对象及部分特殊结构。原文件未修改。";}
             finally{app.busy.set(false);}
-            final String reply=answer;runOnUiThread(()->{if(foreground&&!isFinishing()&&!isDestroyed()&&app.admin.unlocked()&&token.valid()&&conversation==target)showInfo(reply);});
+            final String reply=answer;final byte[] workbook=loaded;runOnUiThread(()->{if(foreground&&!isFinishing()&&!isDestroyed()&&app.admin.unlocked()&&token.valid()&&conversation==target){if(workbook!=null)showXlsxEditor(workbook,token);else showInfo(reply);}});
+        });
+    }
+    private void showXlsxEditor(byte[] original,StopController.Token token){
+        if(!app.admin.unlocked()||!token.valid())return;
+        final local.aicenter.core.XlsxReader.Book book;try{book=local.aicenter.core.XlsxReader.read(new java.io.ByteArrayInputStream(original),token);}catch(Exception e){showInfo("工作簿读取失败。");return;}
+        final long deadline=SystemClock.elapsedRealtime()+300000;protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;
+        LinearLayout root=column();root.setPadding(dp(20),dp(20),dp(20),dp(20));root.addView(label("Excel预览与修改副本",24,INK));
+        root.addView(label(book.preview(),14,MUTED));root.addView(label("仅修改已存单元格；不覆盖原文件。只支持文本、数值及结构检查通过的单层公式。公式不重算，副本需Excel重算。选中文件5分钟后请重新选择。",15,INK));
+        android.widget.Spinner sheets=new android.widget.Spinner(this);String[] names=new String[book.sheets.size()];for(int i=0;i<names.length;i++)names[i]=book.sheets.get(i).name;sheets.setAdapter(new android.widget.ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,names));root.addView(sheets);
+        EditText address=field("已有单元格地址，例如A1"),value=field("修改后的值或以=开头的公式");root.addView(address);
+        android.widget.Spinner kinds=new android.widget.Spinner(this);kinds.setAdapter(new android.widget.ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,new String[]{"文本","数值","公式"}));root.addView(kinds);root.addView(value);
+        TextView status=label("等待修改；原文件保留",15,MUTED);root.addView(status);
+        root.addView(button("生成并核对修改副本",true,()->{
+            if(!app.admin.unlocked()){showLogin();return;}if(!token.valid()||SystemClock.elapsedRealtime()>=deadline){status.setText("文件访问已失效，请重新选择。");return;}if(!app.busy.compareAndSet(false,true))return;
+            String sheet=names[sheets.getSelectedItemPosition()],cell=address.getText().toString().trim().toUpperCase(java.util.Locale.ROOT),kind=new String[]{"text","number","formula"}[kinds.getSelectedItemPosition()],content=value.getText().toString();
+            app.worker.execute(()->{String message;String stored=null;
+                try{app.admin.require();byte[] result=local.aicenter.core.XlsxEditor.edit(original,sheet,cell,kind,content,token);token.check();local.aicenter.core.FileVault.Imported copy=app.vault.importCopy(new java.io.ByteArrayInputStream(result),"工作簿_AI修改版.xlsx",local.aicenter.core.XlsxReader.MAX_FILE,token);app.db.addDocument("工作簿_AI修改版.xlsx",copy);stored=copy.storedName;message="修改副本已生成并重新读取核对；原文件未修改。公式缓存已清除，需Excel重算。\nSHA256："+copy.sha256;}
+                catch(Exception e){message=e instanceof IllegalArgumentException?e.getMessage():"副本未完成；原文件未修改。请检查文件结构、停止状态及可用空间。";}
+                finally{app.busy.set(false);}final String text=message,file=stored;runOnUiThread(()->{if(foreground&&!isFinishing()&&!isDestroyed()&&app.admin.unlocked()&&token.valid()&&status.isAttachedToWindow()){status.setText(text);if(file!=null)root.addView(button("导出修改副本",true,()->selectXlsxExport(file)));}});
+            });
+        }));root.addView(button("返回AI首页",false,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
+    }
+    private void selectXlsxExport(String stored){
+        if(!app.admin.unlocked()||app.busy.get()||!app.stop.enabled())return;pendingXlsxExport=stored;
+        Intent intent=new Intent(Intent.ACTION_CREATE_DOCUMENT);intent.addCategory(Intent.CATEGORY_OPENABLE);intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");intent.putExtra(Intent.EXTRA_TITLE,"工作簿_AI修改版.xlsx");intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION);selectingFile=true;
+        try{startActivityForResult(intent,EXPORT_XLSX);}catch(Exception e){selectingFile=false;pendingXlsxExport=null;showInfo("导出选择器暂时不可用，本地副本保留。");}
+    }
+    private void exportXlsx(Uri uri,String stored){
+        if(!app.admin.unlocked()||!app.stop.enabled()||!app.busy.compareAndSet(false,true))return;StopController.Token token=app.stop.begin();
+        app.worker.execute(()->{String message;
+            try{app.admin.require();if(!"content".equals(uri.getScheme()))throw new java.io.IOException("Invalid destination");java.nio.file.Path path=app.vault.resolveExisting(stored);byte[] bytes=java.nio.file.Files.readAllBytes(path);if(bytes.length>local.aicenter.core.XlsxReader.MAX_FILE)throw new java.io.IOException("Large file");
+                CancellationSignal signal=new CancellationSignal();try(AutoCloseable cancel=app.stop.onStop(token,signal::cancel)){android.os.ParcelFileDescriptor descriptor=getContentResolver().openFileDescriptor(uri,"w",signal);if(descriptor==null)throw new java.io.IOException("No destination");try(java.io.OutputStream out=new android.os.ParcelFileDescriptor.AutoCloseOutputStream(descriptor);AutoCloseable close=app.stop.onStop(token,()->{try{out.close();}catch(java.io.IOException ignored){}})){for(int offset=0;offset<bytes.length;offset+=8192){token.check();out.write(bytes,offset,Math.min(8192,bytes.length-offset));}out.flush();}}
+                byte[] check=local.aicenter.platform.XlsxPreview.load(getContentResolver(),uri,app.leases,app.stop,token);if(!java.util.Arrays.equals(bytes,check))throw new java.io.IOException("Export mismatch");message="修改副本已导出，重新读取的字节与本地副本一致。原文件未修改。";
+            }catch(Exception e){message="导出未核验成功，目标可能有不完整文件；完整本地副本保留。";}finally{app.busy.set(false);}final String reply=message;runOnUiThread(()->{if(foreground&&!isFinishing()&&!isDestroyed()&&app.admin.unlocked()&&token.valid())showInfo(reply);});
         });
     }
     private void selectText(){
@@ -336,6 +371,7 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onActivityResult(int request,int result,Intent data){
         super.onActivityResult(request,result,data);
+        if(request==EXPORT_XLSX){selectingFile=false;String stored=pendingXlsxExport;pendingXlsxExport=null;if(result==RESULT_OK&&data!=null&&data.getData()!=null&&stored!=null)exportXlsx(data.getData(),stored);return;}
         if(request==PICK_XLSX){selectingFile=false;if(result==RESULT_OK&&data!=null&&data.getData()!=null)readXlsx(data.getData());return;}
         if(request!=PICK_TEXT)return;selectingFile=false;
         if(result!=RESULT_OK||data==null||data.getData()==null)return;

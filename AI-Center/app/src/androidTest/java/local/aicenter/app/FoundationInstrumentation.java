@@ -37,6 +37,7 @@ public final class FoundationInstrumentation extends Instrumentation {
     private Bundle options;
     private final JSONArray results = new JSONArray();
     private int failures;
+    private byte[] xlsxFixture;
     @Override public void onCreate(Bundle arguments) { super.onCreate(arguments); options=arguments==null?new Bundle():arguments; start(); }
     @Override public void onStart() {
         if("true".equals(options.getString("professional_suite","false"))){new ProfessionalBenchmark(this,options).run();return;}
@@ -139,6 +140,7 @@ public final class FoundationInstrumentation extends Instrumentation {
                         {"xl/worksheets/sheet1.xml","<worksheet xmlns='http://schemas.openxmlformats.org/spreadsheetml/2006/main'><sheetData><row><c r='A1' t='inlineStr'><is><t>中文😀</t></is></c><c r='B1' t='e'><f>1/0</f><v>#DIV/0!</v></c></row></sheetData></worksheet>"}};
                     for(String[] part:parts){zip.putNextEntry(new java.util.zip.ZipEntry(part[0]));zip.write(part[1].getBytes(StandardCharsets.UTF_8));zip.closeEntry();}
                 }
+                xlsxFixture=bytes.toByteArray();
                 local.aicenter.core.XlsxReader.Book book=local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(bytes.toByteArray()),app.stop.begin());
                 require(book.sheets.size()==1&&book.sheets.get(0).cells.size()==2,"Android workbook parsing failed");
                 require(book.sheets.get(0).cells.get(0).value.equals("中文😀"),"Unicode lost");
@@ -148,6 +150,24 @@ public final class FoundationInstrumentation extends Instrumentation {
                 require(rejected,"Cancelled workbook read continued");
                 // Parser only: no claim that the system picker/provider end-to-end was exercised.
             });
+            test("xlsx_copy_editor_and_ui",()->{
+                require(xlsxFixture!=null,"Missing synthetic workbook");
+                byte[] copy=local.aicenter.core.XlsxEditor.edit(xlsxFixture,"Test","A1","text","Edited中文",app.stop.begin());
+                local.aicenter.core.XlsxReader.Book changed=local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(copy),app.stop.begin());
+                require(changed.sheets.get(0).cells.get(0).value.equals("Edited中文")&&changed.sheets.get(0).cells.get(1).value.isEmpty(),"Editor failed or kept stale cache");
+                java.lang.reflect.Method show=MainActivity.class.getDeclaredMethod("showXlsxEditor",byte[].class,StopController.Token.class);show.setAccessible(true);StopController.Token token=app.stop.begin();
+                runOnMainSync(()->{try{show.invoke(screen,xlsxFixture,token);}catch(Exception e){throw new IllegalStateException(e);}});
+                require(hasText("Excel预览与修改副本"),"Editor UI missing");
+                runOnMainSync(()->{List<EditText> fields=new ArrayList<>();collectFields(screen.getWindow().getDecorView(),fields);require(fields.size()==2,"Cell editor fields missing");fields.get(0).setText("A1");fields.get(1).setText("42");List<android.widget.Spinner> spinners=new ArrayList<>();collectSpinners(screen.getWindow().getDecorView(),spinners);require(spinners.size()==2,"Editor selectors missing");spinners.get(1).setSelection(1);});waitForIdleSync();
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"生成并核对修改副本").performClick());until(()->hasText("导出修改副本"),15_000);
+                String stored;try(Cursor c=app.db.getReadableDatabase().rawQuery("SELECT stored_name FROM documents WHERE stored_name LIKE '%.xlsx' ORDER BY added_utc DESC LIMIT 1",null)){require(c.moveToFirst(),"Copy was not catalogued");stored=c.getString(0);}
+                byte[] saved=java.nio.file.Files.readAllBytes(app.vault.resolveExisting(stored));local.aicenter.core.XlsxReader.Book savedBook=local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(saved),app.stop.begin());
+                require(savedBook.sheets.get(0).cells.get(0).value.equals("42")&&savedBook.sheets.get(0).cells.get(0).formula==null,"Saved numeric cell incorrect");
+                require(local.aicenter.core.XlsxReader.read(new ByteArrayInputStream(xlsxFixture),app.stop.begin()).sheets.get(0).cells.get(0).value.equals("中文😀"),"Original mutated");
+                runOnMainSync(()->findText(screen.getWindow().getDecorView(),"返回AI首页").performClick());until(()->hasText("个人 AI 中枢"),10_000);
+                // This is the production editor and local copy UI, not the external picker/export provider.
+            });
+            runOnMainSync(()->{View home=findText(screen.getWindow().getDecorView(),"返回AI首页");if(home!=null)home.performClick();});
             test("responsive_home_layout",()->{
                 boolean tablet="tablet".equals(options.getString("profile","phone"));
                 require(hasText("立即断开AI"),"Disconnect button is missing");
@@ -374,6 +394,7 @@ public final class FoundationInstrumentation extends Instrumentation {
         }
         return null;
     }
+    private static void collectSpinners(View root,List<android.widget.Spinner> values){if(root instanceof android.widget.Spinner)values.add((android.widget.Spinner)root);if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++)collectSpinners(((ViewGroup)root).getChildAt(i),values);}
     private static void collectRadioGroups(View root,List<android.widget.RadioGroup> groups){if(root instanceof android.widget.RadioGroup)groups.add((android.widget.RadioGroup)root);if(root instanceof ViewGroup)for(int i=0;i<((ViewGroup)root).getChildCount();i++)collectRadioGroups(((ViewGroup)root).getChildAt(i),groups);}
     private static void collectFields(View root,List<EditText> fields){
         if(root instanceof EditText)fields.add((EditText)root);
