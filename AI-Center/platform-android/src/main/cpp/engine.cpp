@@ -2,6 +2,7 @@
 #include "llama.h"
 #include "inference_trace.h"
 #include "repetition_guard.h"
+#include "prompt_boundary.h"
 #include <atomic>
 #include <algorithm>
 #include <chrono>
@@ -63,7 +64,8 @@ static std::string format_prompt(const std::string &prompt) {
         // Fixed ChatML template is the verified text-only, thinking-disabled
         // Qwen3.5 format. No external server, network or shell is involved.
         const std::string system="You are a concise local assistant. Answer accurately in the user's language. If the user requests only a formula, number, code, or other exact format, output only that requested value with no numbering, label, explanation, or extra text. Use numbered items only when the request explicitly asks for multiple distinct points. For such multi-part requests, follow the requested order, use one short sentence or compact semicolon-separated phrases per item, cover every point, and finish below 450 tokens. Do not use a title, introduction, conclusion, nested bullets, repetition, or unrequested examples. 若用户要求仅输出公式、数字、代码或指定格式，只输出所需值，不加编号、标签、解释或其他文字。只有明确的多项请求才按原顺序逐项编号，每项一个短句，总回答少于450个token；不要标题、引言、结论、子项目、重复或未要求的例子。 Never claim to execute a tool unless a tool result is provided.";
-        llama_chat_message messages[]={{"system",system.c_str()},{"user",prompt.c_str()}};
+        const auto user=escape_chat_special_tokens(prompt);
+        llama_chat_message messages[]={{"system",system.c_str()},{"user",user.c_str()}};
         int size=llama_chat_apply_template("chatml",messages,2,true,nullptr,0);
         if(size<0) throw std::runtime_error("Chat template failed");
         std::vector<char> buffer(size+1);
