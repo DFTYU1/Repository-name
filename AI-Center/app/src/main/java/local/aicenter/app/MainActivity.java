@@ -183,6 +183,7 @@ public final class MainActivity extends Activity {
         if(FeatureCatalog.typingRequested(text)){app.busy.set(false);showTyping();return;}
         if(FeatureCatalog.learningRequested(text)){app.busy.set(false);showLearning();return;}
         if(text.matches("(?:打开|进入)?(?:Cpk复习|错题复习)[。！!]?")){app.busy.set(false);showReviews();return;}
+        if(text.matches("(?:打开|进入)?DOE工具[。！!]?")){app.busy.set(false);showFactorialDesign();return;}
         if(text.matches("(?:打开|进入)?MSA工具[。！!]?")){app.busy.set(false);showMeasurementSystem();return;}
         if(text.matches("(?:打开|进入)?SPC工具[。！!]?")){app.busy.set(false);showControlCharts();return;}
         if(text.matches("(?:打开|计算|进入)?I-MR(?:控制图)?[。！!]?")){app.busy.set(false);showIndividualsChart();return;}
@@ -260,10 +261,13 @@ public final class MainActivity extends Activity {
     }
     private void showFunctions(){
         if(!app.admin.unlocked()){showLogin();return;}
-        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算","Excel预览与修改副本","I-MR控制图","其他六类SPC图","测量系统分析"},(d,n)->{
+        apiDialog=new AlertDialog.Builder(this).setTitle("功能与管理").setItems(new String[]{"功能清单","导入资料","本地文件","任务记录","管理","Cpk学习与计算","Excel预览与修改副本","I-MR控制图","其他六类SPC图","测量系统分析","DOE全因子试验"},(d,n)->{
             if(!app.admin.unlocked()){showLogin();return;}
-            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else if(n==4)showManagement();else if(n==5)showCourses();else if(n==6)selectXlsx();else if(n==7)showIndividualsChart();else if(n==8)showControlCharts();else showMeasurementSystem();
+            if(n==0)showInfo(FeatureCatalog.summary());else if(n==1)selectText();else if(n==2)submit("查看文件");else if(n==3)submit("查看任务");else if(n==4)showManagement();else if(n==5)showCourses();else if(n==6)selectXlsx();else if(n==7)showIndividualsChart();else if(n==8)showControlCharts();else if(n==9)showMeasurementSystem();else showFactorialDesign();
         }).setNegativeButton("关闭",null).show();
+    }
+    private void showFactorialDesign(){
+        if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get())return;protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;FactorialScreen screen=new FactorialScreen(this,app,this::showHome,this::showLogin);setContentView(screen);insets(screen);
     }
     private void showMeasurementSystem(){
         if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get())return;protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;MeasurementScreen screen=new MeasurementScreen(this,app,this::showHome,this::showLogin);setContentView(screen);insets(screen);

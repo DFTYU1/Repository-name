@@ -87,7 +87,7 @@ def prepare():
 
 
 def expected_instrumentation_tests(profile, tool_chat_smoke):
-    expected = {'course_question_review_encrypted_real_ui','measurement_system_four_modes_real_ui','six_spc_chart_types_real_ui','chat_pending_scroll_navigation','native_prompt_boundary','individuals_chart_real_ui','xlsx_copy_editor_and_ui','xlsx_reader_android_synthetic','capability_course_quiz_and_calculator_ui','native_token_budget_and_correction_isolation','learning_local_control_and_adaptation','refactor_arithmetic_real_chat','refactor_typing_real_ui','refactor_api_configuration_at_rest','application_initialization', 'administrator_setup_via_real_ui', 'responsive_home_layout',
+    expected = {'doe_plan_analysis_and_stop_real_ui','course_question_review_encrypted_real_ui','measurement_system_four_modes_real_ui','six_spc_chart_types_real_ui','chat_pending_scroll_navigation','native_prompt_boundary','individuals_chart_real_ui','xlsx_copy_editor_and_ui','xlsx_reader_android_synthetic','capability_course_quiz_and_calculator_ui','native_token_budget_and_correction_isolation','learning_local_control_and_adaptation','refactor_arithmetic_real_chat','refactor_typing_real_ui','refactor_api_configuration_at_rest','application_initialization', 'administrator_setup_via_real_ui', 'responsive_home_layout',
                 'android_sqlite_and_keystore_message_persistence', 'sandbox_copy_and_traversal_denial',
                 'interrupted_task_journal_recovery', 'disconnect_button_revokes_token_lease_and_close_hook'}
     if profile == 'phone':
