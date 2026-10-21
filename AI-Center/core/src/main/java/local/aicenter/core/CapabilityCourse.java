@@ -29,6 +29,9 @@ public final class CapabilityCourse {
  };
  public static Lesson lesson(String id){for(Lesson l:LESSONS)if(l.id.equals(id))return l;throw new IllegalArgumentException("未知课程");}
  public static int grade(Lesson lesson,int[] selections){if(selections==null||selections.length!=lesson.questions.length)throw new IllegalArgumentException("请完成所有题目");int score=0;for(int i=0;i<selections.length;i++){if(selections[i]<0||selections[i]>=lesson.questions[i].options.length)throw new IllegalArgumentException("请完成所有题目");if(selections[i]==lesson.questions[i].answer)score++;}return score;}
+ public static String questionId(Lesson lesson,int index){lesson(lesson.id);if(index<0||index>=lesson.questions.length)throw new IllegalArgumentException("未知题目");return "cpk.v1."+lesson.id+"."+index;}
+ public static Question question(String id){for(Lesson lesson:LESSONS)for(int i=0;i<lesson.questions.length;i++)if(questionId(lesson,i).equals(id))return lesson.questions[i];throw new IllegalArgumentException("未知题目");}
+ public static Lesson questionLesson(String id){question(id);for(Lesson lesson:LESSONS)if(id.startsWith("cpk.v1."+lesson.id+"."))return lesson;throw new IllegalArgumentException("未知题目");}
  public static String calculate(String lower,String upper,String mean,String sigma,String unit,boolean conditions){
   if(!conditions)throw new IllegalArgumentException("请先确认过程条件与组内标准差含义");
   String[] values={lower.trim(),upper.trim(),mean.trim(),sigma.trim()};

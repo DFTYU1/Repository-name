@@ -66,6 +66,10 @@ if compiled.returncode == 0:
     msa = subprocess.run([java,'-ea','-cp',class_path,'local.aicenter.core.MeasurementSystemTest'],capture_output=True,text=True,timeout=120)
     output += msa.stdout+msa.stderr
     if msa.returncode: report['test_exit']=msa.returncode
+if compiled.returncode == 0:
+    review = subprocess.run([java,'-ea','-cp',class_path,'local.aicenter.core.ReviewScheduleTest'],capture_output=True,text=True,timeout=120)
+    output += review.stdout+review.stderr
+    if review.returncode: report['test_exit']=review.returncode
 report['status'] = 'PASS'  if report['compile_exit']==0 and report['test_exit']==0 else 'FAIL'
 report['test_output'] = output
 (ROOT/'Tests').mkdir(exist_ok=True)

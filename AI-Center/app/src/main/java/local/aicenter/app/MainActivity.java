@@ -182,6 +182,7 @@ public final class MainActivity extends Activity {
         if(!app.busy.compareAndSet(false,true)){showInfo("当前任务还在处理，可等待或点击“立即断开AI”。");return;}
         if(FeatureCatalog.typingRequested(text)){app.busy.set(false);showTyping();return;}
         if(FeatureCatalog.learningRequested(text)){app.busy.set(false);showLearning();return;}
+        if(text.matches("(?:打开|进入)?(?:Cpk复习|错题复习)[。！!]?")){app.busy.set(false);showReviews();return;}
         if(text.matches("(?:打开|进入)?MSA工具[。！!]?")){app.busy.set(false);showMeasurementSystem();return;}
         if(text.matches("(?:打开|进入)?SPC工具[。！!]?")){app.busy.set(false);showControlCharts();return;}
         if(text.matches("(?:打开|计算|进入)?I-MR(?:控制图)?[。！!]?")){app.busy.set(false);showIndividualsChart();return;}
@@ -277,6 +278,9 @@ public final class MainActivity extends Activity {
         root.addView(button("计算并绘制I-MR",true,()->{if(!app.admin.unlocked()){showLogin();return;}try{local.aicenter.core.IndividualsChart.Result values=local.aicenter.core.IndividualsChart.calculate(data.getText().toString(),confirmed.isChecked());result.setText(values.report());charts.removeAllViews();charts.addView(new IndividualsChartView(this,values),new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,dp(420)));}catch(IllegalArgumentException e){result.setText(e.getMessage());charts.removeAllViews();}}));
         root.addView(button("填入I-MR示例",false,()->{data.setText("1,1,1,1,100");confirmed.setChecked(false);result.setText("示例仅演示越界信号，不作为稳定过程基线。");charts.removeAllViews();}));root.addView(label("公式依据：NIST单值控制图；MR上界常数3.267（跨度2）。\n"+local.aicenter.core.IndividualsChart.SOURCE,13,MUTED));root.addView(button("返回AI首页",false,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
     }
+    private void showReviews(){
+        if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get())return;protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;ReviewScreen screen=new ReviewScreen(this,app,this::showCourses,this::showHome,this::showLogin);setContentView(screen);insets(screen);
+    }
     private void showCourses(){
         if(!app.admin.unlocked()){showLogin();return;}if(app.busy.get()){showInfo("请先等待当前任务结束。");return;}
         protectedScreen=true;input=null;conversation=null;chatScroll=null;activityStatus=null;
@@ -285,7 +289,7 @@ public final class MainActivity extends Activity {
         for(local.aicenter.core.CapabilityCourse.Lesson lesson:local.aicenter.core.CapabilityCourse.LESSONS){
             root.addView(button(lesson.title,false,()->showLesson(lesson)));try{root.addView(label(app.learning.courseSummary(lesson.id),14,MUTED));}catch(Exception e){root.addView(label("成绩暂时无法读取，原数据保留。",14,MUTED));}
         }
-        root.addView(button("打开Cp/Cpk计算器",true,this::showCapabilityCalculator));root.addView(button("返回AI首页",false,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
+        root.addView(button("错题与到期复习",false,this::showReviews));root.addView(button("打开Cp/Cpk计算器",true,this::showCapabilityCalculator));root.addView(button("返回AI首页",false,this::showHome));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
     }
     private void showLesson(local.aicenter.core.CapabilityCourse.Lesson lesson){
         if(!app.admin.unlocked()){showLogin();return;}
@@ -296,7 +300,7 @@ public final class MainActivity extends Activity {
         android.widget.RadioGroup[] groups=new android.widget.RadioGroup[lesson.questions.length];
         for(int i=0;i<groups.length;i++){local.aicenter.core.CapabilityCourse.Question q=lesson.questions[i];root.addView(label((i+1)+". "+q.text,17,INK));groups[i]=new android.widget.RadioGroup(this);for(String option:q.options){android.widget.RadioButton b=new android.widget.RadioButton(this);b.setId(View.generateViewId());b.setText(option);groups[i].addView(b);}root.addView(groups[i]);}
         TextView feedback=label("选择答案后提交，错题会显示原因。",16,MUTED);root.addView(feedback);
-        root.addView(button("提交本课测验",true,()->{if(!app.admin.unlocked()){showLogin();return;}try{int[] choices=new int[groups.length];for(int i=0;i<groups.length;i++)choices[i]=groups[i].indexOfChild(groups[i].findViewById(groups[i].getCheckedRadioButtonId()));int correct=local.aicenter.core.CapabilityCourse.grade(lesson,choices);StringBuilder result=new StringBuilder("本次："+correct+"/"+groups.length);for(int i=0;i<choices.length;i++)if(choices[i]!=lesson.questions[i].answer)result.append("\n第").append(i+1).append("题：").append(lesson.questions[i].explanation);app.learning.courseResult(lesson.id,correct,groups.length);result.append(app.learning.enabled()?"\n成绩已加密保存，可重练。":"\n学习已关闭，本次成绩不保存。");feedback.setText(result);}catch(IllegalArgumentException e){feedback.setText(e.getMessage());}catch(Exception e){feedback.setText("成绩保存失败，原记录保留。");}}));
+        root.addView(button("提交本课测验",true,()->{if(!app.admin.unlocked()){showLogin();return;}try{int[] choices=new int[groups.length];for(int i=0;i<groups.length;i++)choices[i]=groups[i].indexOfChild(groups[i].findViewById(groups[i].getCheckedRadioButtonId()));int correct=local.aicenter.core.CapabilityCourse.grade(lesson,choices);StringBuilder result=new StringBuilder("本次："+correct+"/"+groups.length);for(int i=0;i<choices.length;i++)if(choices[i]!=lesson.questions[i].answer)result.append("\n第").append(i+1).append("题：").append(lesson.questions[i].explanation);app.learning.courseAnswers(lesson.id,choices);result.append(app.learning.enabled()?"\n成绩已加密保存，可重练。":"\n学习已关闭，本次成绩不保存。");feedback.setText(result);}catch(IllegalArgumentException e){feedback.setText(e.getMessage());}catch(Exception e){feedback.setText("成绩保存失败，原记录保留。");}}));
         root.addView(button("返回课程目录",false,this::showCourses));ScrollView scroll=new ScrollView(this);scroll.addView(root);setContentView(scroll);insets(root);
     }
     private void showCapabilityCalculator(){
